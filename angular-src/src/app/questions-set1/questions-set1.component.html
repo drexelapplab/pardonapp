@@ -1,6 +1,6 @@
 <div class = "container">
 <div class = "back">
-<h1> Form! </h1>
+<h1> Section 1 Form </h1>
 <div>
 	<h2> Personal Information </h2>
 	<form [formGroup]="formPage1" (ngSubmit)="onSubmit()">
@@ -51,6 +51,11 @@
 
 		<nav>
 			<a routerLink="/dashboard" class="button-routing"> Back </a>
+			<router-outlet></router-outlet>
+		</nav>
+
+		<nav>
+			<a routerLink="/dashboard" class="button-routing"> Home </a>
 			<router-outlet></router-outlet>
 		</nav>
 
