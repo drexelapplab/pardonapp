@@ -47,3 +47,22 @@
 .ng-invalid:not(form)  {
   border-left: 5px solid #a94442; /* red */
 }
+
+.back{
+  margin-left: 325px;
+  margin-top: 50px;
+  padding-left: 50px;
+  padding-right:50px;
+  height: 850px;
+  width: 700px;
+  background-color: white;
+  border-style: inset;
+  border-width: 5px;
+}
+
+.container{
+  background-color: #182761;
+  border: 0px;
+  height: 1000px;
+  width:1380px;
+}

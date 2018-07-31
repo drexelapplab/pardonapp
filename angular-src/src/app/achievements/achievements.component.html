@@ -1,7 +1,16 @@
-<h1>Hello {{currentUser.firstName}}!</h1>
-<p> These are your achievements </p>
+<div class = "back">
 
-<div class = "container" >
+<h1 style = "color:white; text-align: center">Hello {{currentUser.firstName}}!</h1>
+<p style = "color:white; text-align: center"> These are your achievements </p>
+    <br>
+
+<div class = "container">
+    <a routerLink="/dashboard" class="button-routing">back</a>
+</div>
+
+    <br>
+
+<div class = "col-sm-3" >
 
   <div class = "achievement-first-incomplete" *ngIf="acompleteOne==false">
       <div class="incomplete-circle">You have not completed Section 1 </div>
@@ -28,7 +37,9 @@
         <div class="complete-circle"> Section 3 Badge! Congrats! </div>
     </div>
 
-    <br>
+</div>
+
+<div class = "col-sm-6">
 
     <div class = "achievement-fourth-incomplete" *ngIf="acompleteFour==false">
         <div class="incomplete-circle">You have not completed Section 4 </div>
@@ -48,7 +59,4 @@
 
 </div>
 
-<br>
-
-<a routerLink="/dashboard" class="button-routing">back</a>
-<router-outlet></router-outlet>
+</div>
