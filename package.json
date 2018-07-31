@@ -1,0 +1,21 @@
+{
+  "name": "pardon-app",
+  "version": "1.0.0",
+  "description": "\"A app that makes the clemency process in Philadelphia easier and more digestible\"",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\"https://github.com/drexelapplab/pardon-app\""
+  },
+  "dependencies": {
+    "express": "~4.16.3",
+    "mongoose": "~5.2.5",
+    "cors": "~2.8.4",
+    "body-parser": "~1.18.2"
+  },
+  "author": "\"Ryan Won\", \"Jules Kho\"",
+  "license": "ISC"
+}
