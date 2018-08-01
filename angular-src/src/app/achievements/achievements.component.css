@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .container{
   margin: 1% auto;
   width: 80%;
@@ -7,6 +8,16 @@
 }
 h1, p {
   text-align: center
+=======
+.back{
+    background-color: #182761;
+    height: 850px;
+    width:1380px;
+}
+
+.container{
+    margin-left: 1250px;
+>>>>>>> origin/master
 }
 .button-routing{
     background-color: #4CAF50;

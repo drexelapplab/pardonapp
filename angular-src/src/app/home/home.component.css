@@ -12,10 +12,30 @@
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
+<<<<<<< HEAD
 .container{
   margin: 1% auto;
   width: 80%;
+=======
+.back{
+  margin-left: 450px;
+  margin-top: 100px;
+  padding-left: 50px;
+  padding-right:50px;
+  height: 500px;
+  width:450px;
+>>>>>>> origin/master
   background-color: white;
   border-style: inset;
   border-width: 5px;
 }
+<<<<<<< HEAD
+=======
+
+.container{
+  background-color: #182761;
+  border: 0px;
+  height: 720px;
+  width:1380px;
+}
+>>>>>>> origin/master

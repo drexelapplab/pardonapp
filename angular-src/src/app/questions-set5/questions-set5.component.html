@@ -1,4 +1,5 @@
 <div class = "container">
+<<<<<<< HEAD
   <div>
     <h1> Form Page 5</h1>
     <h2> Question 5: </h2>
@@ -13,3 +14,29 @@
     <router-outlet></router-outlet>
   </div>
 </div>
+=======
+  <div class = "back">
+    <div>
+      <h2> Question: </h2>
+      <form action="/action_page.php">
+        <textarea name="message" rows="20" cols="70">Type your answer here. Click bottom right to increase text box size.</textarea>
+        <br>
+        <input type="reset" value="Clear Form"><br>
+      </form>
+      <br>
+      <nav>
+        <a routerLink="/questions-set4" class="button-routing"> Back </a>
+        <router-outlet></router-outlet>
+      </nav>
+
+      <nav>
+        <a routerLink="/dashboard" class="button-routing"> Next </a>
+        <router-outlet></router-outlet>
+      </nav>
+
+      <router-outlet></router-outlet>
+
+    </div>
+  </div>
+</div>
+>>>>>>> origin/master

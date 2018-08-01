@@ -17,3 +17,16 @@
   background-color: white;
   height: 96%;
 }
+
+.container{
+  height: 750px;
+  width:630px;
+  background-color: white;
+}
+
+.back{
+  background-color: #182761;
+  border: 0px;
+  height: 720px;
+  width:1380px;
+}

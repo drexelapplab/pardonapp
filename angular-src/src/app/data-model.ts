@@ -15,6 +15,14 @@ export class LawyerInfo {
   lawyer_zip = '';
 }
 
+export class LawyerInfo{
+  lawyer_name = '';
+  lawyer_office = '';
+  lawyer_street = '';
+  lawyer_city = '';
+  lawyer_zip = '';
+}
+
 export const states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'];
 
 export const completeOne = false;
