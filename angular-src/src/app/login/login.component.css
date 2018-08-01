@@ -1,0 +1,10 @@
+.user-login{
+    text-align:center;
+}
+.container{
+  margin: 1% auto;
+  width: 80%;
+  background-color: white;
+  border-style: inset;
+  border-width: 5px;
+}

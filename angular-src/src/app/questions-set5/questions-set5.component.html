@@ -1,10 +1,15 @@
-<p> This a test yo, supposed to be questions 5</p>
-<nav>
-  <a routerLink="/dashboard" class="button-routing"> Back </a>
-  <router-outlet></router-outlet>
-</nav>
-
-<nav>
-  <a routerLink="/dashboard" class="button-routing"> Next </a>
-</nav>
-<router-outlet></router-outlet>
+<div class = "container">
+  <div>
+    <h1> Form Page 5</h1>
+    <h2> Question 5: </h2>
+    <form action="/action_page.php">
+      <textarea name="message" rows="20" cols="70">Type your answer here. Click bottom right to increase text box size.</textarea>
+      <br>
+      <input type="reset" value="Clear Form"><br>
+    </form>
+    <br>
+    <a routerLink="/questions-set4" class="button-routing"> Back </a>
+    <a routerLink="/dashboard" class="button-routing"> Dashboard </a>
+    <router-outlet></router-outlet>
+  </div>
+</div>

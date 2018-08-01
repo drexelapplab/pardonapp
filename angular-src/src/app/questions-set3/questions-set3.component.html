@@ -1,10 +1,59 @@
-<p> This a test yo, supposed to be questions 3</p>
-<nav>
-  <a routerLink="/dashboard" class="button-routing"> Back </a>
-  <router-outlet></router-outlet>
-</nav>
-
-<nav>
+<div class = "container">
+  <h1> Form Page 3</h1>
+  <h2> Question: </h2>
+  <input type="checkbox" [(ngModel)]="caucasian"  data-md-icheck (change)="toggleVisibility($event)"/>
+  <span *ngIf="marked">Caucasian </span><span *ngIf="!marked">Caucasian (false) </span>
+  <span class="checkmark"></span>
+  <br>
+  <input type="checkbox" [(ngModel)]="asian"  data-md-icheck (change)="toggleVisibility($event)"/>
+  <span *ngIf="marked">Asian </span><span *ngIf="!marked">Asian (false) </span>
+  <span class="checkmark"></span>
+  <br>
+  <input type="checkbox" [(ngModel)]="aa"  data-md-icheck (change)="toggleVisibility($event)"/>
+  <span *ngIf="marked">African American </span><span *ngIf="!marked">African American (false) </span>
+  <span class="checkmark"></span>
+  <br>
+  <input type="checkbox" [(ngModel)]="pi"  data-md-icheck (change)="toggleVisibility($event)"/>
+  <span *ngIf="marked">Pacific Islander </span><span *ngIf="!marked"> Pacific Islander (false) </span>
+  <span class="checkmark"></span>
+  <br>
+  <input type="checkbox" [(ngModel)]="na"  data-md-icheck (change)="toggleVisibility($event)"/>
+  <span *ngIf="marked">Native American </span><span *ngIf="!marked">Native American (false) </span>
+  <span class="checkmark"></span>
+  <br>
+  <input type="checkbox" [(ngModel)]="me"  data-md-icheck (change)="toggleVisibility($event)"/>
+  <span *ngIf="marked"> Middle Eastern </span><span *ngIf="!marked"> Middle Eastern (false) </span>
+  <span class="checkmark"></span>
+  <br>
+  <br>
+  <h2> Question 2: </h2>
+  <input type="checkbox" [(ngModel)]="caucasian"  data-md-icheck (change)="toggleVisibility($event)"/>
+  <span *ngIf="marked">Caucasian </span><span *ngIf="!marked">Caucasian (false) </span>
+  <span class="checkmark"></span>
+  <br>
+  <input type="checkbox" [(ngModel)]="asian"  data-md-icheck (change)="toggleVisibility($event)"/>
+  <span *ngIf="marked">Asian </span><span *ngIf="!marked">Asian (false) </span>
+  <span class="checkmark"></span>
+  <br>
+  <input type="checkbox" [(ngModel)]="aa"  data-md-icheck (change)="toggleVisibility($event)"/>
+  <span *ngIf="marked">African American </span><span *ngIf="!marked">African American (false) </span>
+  <span class="checkmark"></span>
+  <br>
+  <input type="checkbox" [(ngModel)]="pi"  data-md-icheck (change)="toggleVisibility($event)"/>
+  <span *ngIf="marked">Pacific Islander </span><span *ngIf="!marked"> Pacific Islander (false) </span>
+  <span class="checkmark"></span>
+  <br>
+  <input type="checkbox" [(ngModel)]="na"  data-md-icheck (change)="toggleVisibility($event)"/>
+  <span *ngIf="marked">Native American </span><span *ngIf="!marked">Native American (false) </span>
+  <span class="checkmark"></span>
+  <br>
+  <input type="checkbox" [(ngModel)]="me"  data-md-icheck (change)="toggleVisibility($event)"/>
+  <span *ngIf="marked"> Middle Eastern </span><span *ngIf="!marked"> Middle Eastern (false) </span>
+  <span class="checkmark"></span>
+  <br>
+  <br>
+  <a routerLink="/questions-set2" class="button-routing"> Back </a>
+  <a routerLink="/dashboard" class="button-routing"> Dashboard </a>
   <a routerLink="/questions-set4" class="button-routing"> Next </a>
-</nav>
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
+</div>

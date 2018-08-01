@@ -1,54 +1,57 @@
-<h1>Hello {{currentUser.firstName}}!</h1>
-<p> These are your achievements </p>
-
-<div class = "container" >
-
-  <div class = "achievement-first-incomplete" *ngIf="acompleteOne==false">
-      <div class="incomplete-circle">You have not completed Section 1 </div>
-  </div>
-  <div class = "achievement-first-complete" *ngIf="acompleteOne">
-      <div class="complete-circle"> Section 1 Badge! Congrats! </div>
-  </div>
-
+<div class = "container">
+  <h1>Hello {{currentUser.firstName}}!</h1>
+  <p> These are your achievements </p>
+  <br>
+  <a routerLink="/dashboard" class="button-routing">back</a>
   <br>
 
+  <div class = "col-sm-3" >
+
+    <div class = "achievement-first-incomplete" *ngIf="acompleteOne==false">
+      <div class="incomplete-circle">You have not completed Section 1 </div>
+    </div>
+    <div class = "achievement-first-complete" *ngIf="acompleteOne">
+      <div class="complete-circle"> Section 1 Badge! Congrats! </div>
+    </div>
+
+    <br>
+
     <div class = "achievement-second-incomplete" *ngIf="acompleteTwo==false">
-        <div class="incomplete-circle">You have not completed Section 2 </div>
+      <div class="incomplete-circle">You have not completed Section 2 </div>
     </div>
     <div class = "achievement-second-complete" *ngIf="acompleteTwo">
-        <div class="complete-circle"> Section 2 Badge! Congrats! </div>
+      <div class="complete-circle"> Section 2 Badge! Congrats! </div>
     </div>
 
     <br>
 
     <div class = "achievement-third-incomplete" *ngIf="acompleteThree==false">
-        <div class="incomplete-circle">You have not completed Section 3 </div>
+      <div class="incomplete-circle">You have not completed Section 3 </div>
     </div>
     <div class = "achievement-third-complete" *ngIf="acompleteThree">
-        <div class="complete-circle"> Section 3 Badge! Congrats! </div>
+      <div class="complete-circle"> Section 3 Badge! Congrats! </div>
     </div>
 
-    <br>
+  </div>
+
+  <div class = "col-sm-6">
 
     <div class = "achievement-fourth-incomplete" *ngIf="acompleteFour==false">
-        <div class="incomplete-circle">You have not completed Section 4 </div>
+      <div class="incomplete-circle">You have not completed Section 4 </div>
     </div>
     <div class = "achievement-fourth-complete" *ngIf="acompleteFour">
-        <div class="complete-circle"> Section 4 Badge! Congrats! </div>
+      <div class="complete-circle"> Section 4 Badge! Congrats! </div>
     </div>
 
     <br>
 
     <div class = "achievement-fifth-incomplete" *ngIf="acompleteFive==false">
-        <div class="incomplete-circle">You have not completed Section 5 </div>
+      <div class="incomplete-circle">You have not completed Section 5 </div>
     </div>
     <div class = "achievement-fifth-complete" *ngIf="acompleteFive">
-        <div class="complete-circle"> Section 5 Badge! Congrats! </div>
+      <div class="complete-circle"> Section 5 Badge! Congrats! </div>
     </div>
 
+  </div>
+
 </div>
-
-<br>
-
-<a routerLink="/dashboard" class="button-routing">back</a>
-<router-outlet></router-outlet>
