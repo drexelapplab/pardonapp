@@ -1,28 +1,10 @@
-.back{
-    margin-left: 50px;
-    margin-top: 50px;
-    padding-left: 50px;
-    padding-right:50px;
-    height: 850px;
-    width: 1250px;
-    background-color: white;
-    border-style: inset;
-    border-width: 5px;
-}
 
 .container{
-<<<<<<< HEAD
   margin: 1% auto;
   width: 80%;
   background-color: white;
   border-style: inset;
   border-width: 5px;
-=======
-    background-color: #182761;
-    border: 0px;
-    height: 1000px;
-    width:1380px;
->>>>>>> origin/master
 }
 
 .button-routing{

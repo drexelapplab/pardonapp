@@ -1,7 +1,6 @@
 <div class = "container">
-<<<<<<< HEAD
   <h1>Hi {{currentUser.firstName}}!</h1>
-  <p>You're logged in with Angular 6!!</p>
+  <p>You've logged in with Angular 6!!</p>
   <h3>All registered users:</h3>
   <ul>
     <li *ngFor="let user of users">
@@ -18,32 +17,4 @@
   <br>
   <p><a [routerLink]="['/login']" class="button-routing">Logout</a></p>
   <router-outlet></router-outlet>
-=======
-    <div class = "back">
-        <br>
-        <h1>Hi {{currentUser.firstName}}!</h1>
-        <p>You're logged in with Angular 6!!</p>
-        <h3>All registered users:</h3>
-        <ul>
-            <li *ngFor="let user of users">
-                {{user.username}} ({{user.firstName}} {{user.lastName}})
-                - <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
-            </li>
-        </ul>
-
-        <div>
-            <h1>Welcome to Forms Pardon App Test.</h1>
-            <p>This is a test page for the Pardons app page. To continue to the actual form please press next.</p>
-        </div>
-        <nav>
-            <a routerLink="/dashboard" class="button-routing">Start Form</a>
-        </nav>
-        <router-outlet></router-outlet>
-
-        <br>
-        <br>
-
-        <p><a [routerLink]="['/login']" class="button-routing">Logout</a></p>
-    </div>
->>>>>>> origin/master
 </div>

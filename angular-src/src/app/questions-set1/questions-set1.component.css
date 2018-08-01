@@ -47,38 +47,16 @@
 .ng-invalid:not(form)  {
   border-left: 5px solid #a94442; /* red */
 }
-
-<<<<<<< HEAD
 h1 {
   text-align: center;
 }
-
 .container{
   margin: 1% auto;
   width: 60%;
-=======
-.back{
-  margin-left: 325px;
-  margin-top: 50px;
-  padding-left: 50px;
-  padding-right:50px;
-  height: 850px;
-  width: 700px;
->>>>>>> origin/master
   background-color: white;
   border-style: inset;
   border-width: 5px;
 }
-<<<<<<< HEAD
 .formbox{
   margin: 1%;
 }
-=======
-
-.container{
-  background-color: #182761;
-  border: 0px;
-  height: 1000px;
-  width:1380px;
-}
->>>>>>> origin/master
