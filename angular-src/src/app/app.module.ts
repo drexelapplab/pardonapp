@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { AlertComponent } from './_directives';
 import { AuthGuard } from './_guards';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
-import { AlertService, AuthenticationService, UserService } from './_services';
+import { AlertService, AuthenticationService, UserService, ListService} from './_services';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
@@ -25,6 +25,7 @@ import { QuestSet5Component } from './questions-set5/questions-set5.component'
 import { DashboardComponent } from './dashboard-page/dashboard.component';
 import { AchievementsComponent } from './achievements/achievements.component'
 import {DataService} from "./_services/completion.service";
+import { DataDisplayComponent } from './data-display/data-display.component';
 
 @NgModule({
     imports: [
@@ -47,6 +48,7 @@ import {DataService} from "./_services/completion.service";
         QuestSet5Component,
         DashboardComponent,
         AchievementsComponent,
+        DataDisplayComponent,
     ],
     providers: [
         AuthGuard,
@@ -54,11 +56,10 @@ import {DataService} from "./_services/completion.service";
         AuthenticationService,
         UserService,
         DataService,
+        ListService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
-        // provider used to create fake backend
-        fakeBackendProvider
     ],
     bootstrap: [AppComponent]
 })

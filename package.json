@@ -11,10 +11,23 @@
     "url": "\"https://github.com/drexelapplab/pardon-app\""
   },
   "dependencies": {
-    "express": "~4.16.3",
-    "mongoose": "~5.2.5",
+    "@angular/common": "^6.0.0",
+    "@angular/compiler": "^6.0.0",
+    "@angular/core": "^6.0.0",
+    "@angular/forms": "^6.0.0",
+    "@angular/platform-browser": "^6.0.0",
+    "@angular/platform-browser-dynamic": "^6.0.0",
+    "@angular/router": "^6.0.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "~1.18.2",
+    "core-js": "^2.5.5",
     "cors": "~2.8.4",
-    "body-parser": "~1.18.2"
+    "express": "~4.16.3",
+    "express-jwt": "^5.3.1",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "~5.2.5",
+    "rxjs": "^6.1.0",
+    "zone.js": "^0.8.26"
   },
   "author": "\"Ryan Won\", \"Jules Kho\"",
   "license": "ISC"

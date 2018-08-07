@@ -7,13 +7,11 @@
   background-color: white;
   opacity: 0.43;
 }
-.svg-container {
-  margin: 1% 30.441%;
-  position: fixed;
-  height: 100%;
-}
+
 .scaling-svg {
-  display: inline-block;
+  display: block;
   background-color: white;
-  height: 96%;
+  margin: 1vh auto;
+  width: 79.5vh;
 }
+
