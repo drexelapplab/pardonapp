@@ -1,6 +1,5 @@
 <div class = "container">
   <h1>Hi {{currentUser.firstName}}!</h1>
-  <p>You've logged in with Angular 6!!</p>
   <h3>All registered users:</h3>
   <ul>
     <li *ngFor="let user of users">
@@ -8,13 +7,28 @@
       - <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
     </li>
   </ul>
-  <div>
-    <h1>Welcome to Forms Pardon App Test.</h1>
-    <p>This is a test page for the Pardons app page. To continue to the actual form please press next.</p>
-  </div>
-  <a routerLink="/dashboard" class="button-routing">Start Form</a>
-  <br>
-  <br>
   <p><a [routerLink]="['/login']" class="button-routing">Logout</a></p>
+  <br>
+  <div>
+    <h1 style = "text-align:center">Welcome to Forms Pardon App Test! </h1>
+    <h4>This website is designed to help you through the process of applying for at pardon in the state of Pennslyvania.
+    <br>
+    <br>
+    We have designed this website to be more interactive in comparison to a typical fill-in-pdf. You will be a character attempting to climb a mountain where your goal is the peak.
+    <br>
+    <br>
+    Throughout the map, there are stops in which you will answer questions that pertain to you, other people, as well as all necessary information to complete the pardon form.
+    <br>
+    <br>
+    We sincerely hope that you enjoy the game and wish you good luck in your application process!
+    </h4>
+  </div>
+  <a routerLink="/dashboard" class="button-routing" style = "display:flex; align-items: center;">Start Form</a>
   <router-outlet></router-outlet>
+  <br>
+  <br>
+  <br>
+  <p>-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</p>
+  <h2> Have any questions? Contact us here!</h2>
+  <p> Drexel Contact Information</p>
 </div>

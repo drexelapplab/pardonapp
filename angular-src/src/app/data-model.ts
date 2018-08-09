@@ -9,7 +9,7 @@ export class BasicInfo {
 }
 export class LawyerInfo {
   lawyer_name = '';
-  lawyer_office ='';
+  lawyer_office = '';
   lawyer_street = '';
   lawyer_city = '';
   lawyer_zip = '';
@@ -22,4 +22,4 @@ export const completeTwo = false;
 export const completeThree = false;
 export const completeFour = false;
 export const completeFive = false;
-
+export const completeSix = false;
