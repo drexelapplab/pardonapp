@@ -1,45 +1,211 @@
 <div class = "container">
+
   <h1>Hello {{currentUser.firstName}}!</h1>
   <p> These are your achievements </p>
   <br>
-  <a routerLink="/dashboard" class="button-routing">back</a>
+  <div class = "backrow">
+    <a routerLink="/dashboard" class="button-routing">back</a>
+  </div>
   <br>
-  <div class = "col-sm-3" >
+  <br>
+  <br>
+
+  <div class = "row" >
     <div class = "achievement-first-incomplete" *ngIf="acompleteOne==false">
-      <div class="incomplete-circle">You have not completed Section 1 </div>
+      <img src="../../assets/images/unchecked.png" height="215" width="380"/>
     </div>
     <div class = "achievement-first-complete" *ngIf="acompleteOne">
-      <div class="complete-circle"> Section 1 Badge! Congrats! </div>
+      <img src="../../assets/images/gold.png" height="215" width="380"/>
     </div>
-    <br>
+
     <div class = "achievement-second-incomplete" *ngIf="acompleteTwo==false">
-      <div class="incomplete-circle">You have not completed Section 2 </div>
+      <img src="../../assets/images/unchecked.png" height="215" width="380"/>
     </div>
     <div class = "achievement-second-complete" *ngIf="acompleteTwo">
-      <div class="complete-circle"> Section 2 Badge! Congrats! </div>
+      <img src="../../assets/images/gold.png" height="215" width="380"/>
     </div>
-    <br>
+
     <div class = "achievement-third-incomplete" *ngIf="acompleteThree==false">
-      <div class="incomplete-circle">You have not completed Section 3 </div>
+      <img src="../../assets/images/unchecked.png" height="215" width="380"/>
     </div>
     <div class = "achievement-third-complete" *ngIf="acompleteThree">
-      <div class="complete-circle"> Section 3 Badge! Congrats! </div>
+      <img src="../../assets/images/gold.png" height="215" width="380"/>
     </div>
   </div>
-  <div class = "col-sm-6">
+
+  <div class = "achievementdescription">
+    <div class = "a1descript">
+      <p> The Section 1 Badge will be recieved after completing the <strong> Personal Information</strong> form </p>
+    </div>
+
+    <div class = "a2descript">
+      <p> The Section 2 Badge will be recieved after completing the <strong> Question Name </strong> question </p>
+    </div>
+
+    <div class = "a3descript">
+      <p> The Section 3 Badge will be recieved after completing the <strong> Checkbox Information </strong></p>
+    </div>
+  </div>
+
+  <div class = "buttonrow">
+    <div class = "more1"> <button type="a1More"(click)="opena1MoreInfo()"> more </button> </div>
+    <div class = "more2"> <button type="a2More"(click)="opena2MoreInfo()"> more </button> </div>
+    <div class = "more3"> <button type="a3More"(click)="opena3MoreInfo()"> more </button> </div>
+  </div>
+
+  <br>
+  <br>
+
+  <div class = "row2">
     <div class = "achievement-fourth-incomplete" *ngIf="acompleteFour==false">
-      <div class="incomplete-circle">You have not completed Section 4 </div>
+      <img src="../../assets/images/unchecked.png" height="215" width="380"/>
     </div>
     <div class = "achievement-fourth-complete" *ngIf="acompleteFour">
-      <div class="complete-circle"> Section 4 Badge! Congrats! </div>
+      <img src="../../assets/images/gold.png" height="215" width="380"/>
     </div>
-    <br>
+
     <div class = "achievement-fifth-incomplete" *ngIf="acompleteFive==false">
-      <div class="incomplete-circle">You have not completed Section 5 </div>
+      <img src="../../assets/images/unchecked.png" height="215" width="380"/>
     </div>
     <div class = "achievement-fifth-complete" *ngIf="acompleteFive">
-      <div class="complete-circle"> Section 5 Badge! Congrats! </div>
+      <img src="../../assets/images/gold.png" height="215" width="380"/>
+    </div>
+
+    <div class = "achievement-sixth-incomplete" *ngIf="acompleteSix==false">
+      <img src="../../assets/images/unchecked.png" height="215" width="380"/>
+    </div>
+    <div class = "achievement-sixth-complete" *ngIf="acompleteSix">
+      <img src="../../assets/images/gold.png" height="215" width="380"/>
     </div>
   </div>
-</div>
 
+  <div class = "achievementdescription2">
+    <div class = "a4descript">
+      <p> The Section 4 Badge will be recieved after completing the <strong> Lawyer Information</strong> form </p>
+    </div>
+
+    <div class = "a5descript">
+      <p> The Section 5 Badge will be recieved after completing the <strong> Question Name </strong> question </p>
+    </div>
+
+    <div class = "a6descript">
+      <p> The Section 6 Badge will be recieved after completing <strong> Whatever </strong></p>
+    </div>
+  </div>
+
+  <div class = "buttonrow2">
+    <div class = "more4"> <button type="a4More"(click)="opena4MoreInfo()"> more </button> </div>
+    <div class = "more5"> <button type="a5More"(click)="opena5MoreInfo()"> more </button> </div>
+    <div class = "more6"> <button type="a6More"(click)="opena6MoreInfo()"> more </button> </div>
+  </div>
+
+
+  <div class="backdrop" [ngStyle]="{'display':backDisplay}"></div>
+  <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayMore1}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" aria-label="Close" (click)="onClosea1MoreInfo()"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"> Section 1 Badge</h4>
+        </div>
+        <div class="modal-body">
+          <p> A description of the badge and it's requirements</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onClosea1MoreInfo()" >Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="backdrop" [ngStyle]="{'display':backDisplay}"></div>
+  <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayMore2}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" aria-label="Close" (click)="onClosea2MoreInfo()"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"> Section 2 Badge</h4>
+        </div>
+        <div class="modal-body">
+          <p> A description of the badge and it's requirements</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onClosea2MoreInfo()" >Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="backdrop" [ngStyle]="{'display':backDisplay}"></div>
+  <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayMore3}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" aria-label="Close" (click)="onClosea3MoreInfo()"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"> Section 3 Badge</h4>
+        </div>
+        <div class="modal-body">
+          <p> A description of the badge and it's requirements</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onClosea3MoreInfo()" >Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="backdrop" [ngStyle]="{'display':backDisplay}"></div>
+  <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayMore4}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" aria-label="Close" (click)="onClosea4MoreInfo()"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"> Section 4 Badge</h4>
+        </div>
+        <div class="modal-body">
+          <p> A description of the badge and it's requirements</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onClosea4MoreInfo()" >Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="backdrop" [ngStyle]="{'display':backDisplay}"></div>
+  <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayMore5}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" aria-label="Close" (click)="onClosea5MoreInfo()"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"> Section 5 Badge</h4>
+        </div>
+        <div class="modal-body">
+          <p> A description of the badge and it's requirements</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onClosea5MoreInfo()" >Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="backdrop" [ngStyle]="{'display':backDisplay}"></div>
+  <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayMore6}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" aria-label="Close" (click)="onClosea6MoreInfo()"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"> Section 6 Badge</h4>
+        </div>
+        <div class="modal-body">
+          <p> A description of the badge and it's requirements</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="onClosea6MoreInfo()" >Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
