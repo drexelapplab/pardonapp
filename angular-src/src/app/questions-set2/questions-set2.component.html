@@ -1,15 +1,17 @@
 <div class = "container">
-<div>
-  <h2> Question 2: </h2>
-  <form action="/action_page.php">
-    <textarea name="message" rows="20" cols="150">Type your answer here. Click bottom right to increase text box size.</textarea>
+  <div>
+    <h2> Question 2: </h2>
+    <form action="/action_page.php">
+      <textarea name="message" rows="20" cols="70">Type your answer here. Click bottom right to increase text box size.</textarea>
+      <br>
+      <input type="reset" value="Clear Form"><br>
+    </form>
     <br>
-    <input type="reset" value="Clear Form"><br>
-	</form>
-  <br>
-  <a routerLink="/questions-set1" class="button-routing"> Back </a>
-  <a routerLink="/dashboard" class="button-routing"> Dashboard </a>
-  <a routerLink="/questions-set3" class="button-routing"> Next </a>
-  <router-outlet></router-outlet>
+    <a routerLink="/questions-set1" class="button-routing"> Back </a>
+    <a routerLink="/dashboard" class="button-routing"> Dashboard </a>
+    <a routerLink="/questions-set3" class="button-routing"> Next </a>
+    <router-outlet></router-outlet>
+  </div>
 </div>
-</div>
+
+

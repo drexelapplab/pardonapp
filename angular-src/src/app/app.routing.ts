@@ -11,9 +11,10 @@ import { QuestSet4Component } from './questions-set4/questions-set4.component'
 import { QuestSet5Component } from './questions-set5/questions-set5.component'
 import { DashboardComponent } from './dashboard-page/dashboard.component'
 import { AchievementsComponent } from './achievements/achievements.component'
+import {DataDisplayComponent} from "./data-display/data-display.component";
 
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: '', component: HomeComponent},
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'questions-set1', component: QuestSet1Component},
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
     { path: 'questions-set5', component: QuestSet5Component},
     { path: 'achievements', component: AchievementsComponent},
     { path: 'dashboard', component: DashboardComponent},
+    { path: 'data-display', component: DataDisplayComponent},
 
     { path: '**', redirectTo: '' }
 ];
