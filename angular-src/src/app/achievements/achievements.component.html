@@ -1,112 +1,108 @@
 <div class = "container">
-
   <h1>Hello {{currentUser.firstName}}!</h1>
-  <p> These are your achievements </p>
+  <p> These are your achievements.</p>
   <br>
   <div class = "backrow">
     <a routerLink="/dashboard" class="button-routing">back</a>
   </div>
-  <br>
-  <br>
-  <br>
-
-  <div class = "row" >
-    <div class = "achievement-first-incomplete" *ngIf="acompleteOne==false">
-      <img src="../../assets/images/unchecked.png" height="215" width="380"/>
+  <br><br>
+  <div class ="row">
+    <div class="col-sm-4">
+      <div class = "achievement-first-incomplete" *ngIf="acompleteOne==false">
+        <svg id="Achieve1_Unchecked" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 388" preserveAspectRatio="xMidYMid meet"><title>Achievement One - Incomplete</title><image width="100%" xlink:href="../../assets/images/unchecked.png"/></svg>
+      </div>
+      <div class = "achievement-first-complete" *ngIf="acompleteOne">
+        <svg id="Achieve1_Checked" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 388"><title>Achievement One - Complete</title><image width="100%" xlink:href="../../assets/images/gold.png"/></svg>
+      </div>
     </div>
-    <div class = "achievement-first-complete" *ngIf="acompleteOne">
-      <img src="../../assets/images/gold.png" height="215" width="380"/>
+    <div class="col-sm-4">
+      <div class = "achievement-second-incomplete" *ngIf="acompleteTwo==false">
+        <svg id="Achieve2_Unchecked" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 388" preserveAspectRatio="xMidYMid meet"><title>Achievement Two - Incomplete</title><image width="100%" xlink:href="../../assets/images/unchecked.png"/></svg>
+      </div>
+      <div class = "achievement-second-complete" *ngIf="acompleteTwo">
+        <svg id="Achieve2_Checked" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 388"><title>Achievement Two - Complete</title><image width="100%" xlink:href="../../assets/images/gold.png"/></svg>
+      </div>
     </div>
-
-    <div class = "achievement-second-incomplete" *ngIf="acompleteTwo==false">
-      <img src="../../assets/images/unchecked.png" height="215" width="380"/>
+    <div class="col-sm-4">
+      <div class = "achievement-third-incomplete" *ngIf="acompleteThree==false">
+        <svg id="Achieve3_Unchecked" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 388" preserveAspectRatio="xMidYMid meet"><title>Achievement Three - Incomplete</title><image width="100%" xlink:href="../../assets/images/unchecked.png"/></svg>
     </div>
-    <div class = "achievement-second-complete" *ngIf="acompleteTwo">
-      <img src="../../assets/images/gold.png" height="215" width="380"/>
-    </div>
-
-    <div class = "achievement-third-incomplete" *ngIf="acompleteThree==false">
-      <img src="../../assets/images/unchecked.png" height="215" width="380"/>
-    </div>
-    <div class = "achievement-third-complete" *ngIf="acompleteThree">
-      <img src="../../assets/images/gold.png" height="215" width="380"/>
+      <div class = "achievement-third-complete" *ngIf="acompleteThree">
+        <svg id="Achieve3_Checked" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 388"><title>Achievement Three - Complete</title><image width="100%" xlink:href="../../assets/images/gold.png"/></svg>
+      </div>
     </div>
   </div>
-
   <div class = "achievementdescription">
     <div class = "a1descript">
-      <p> The Section 1 Badge will be recieved after completing the <strong> Personal Information</strong> form </p>
+      <p> The Section 1 Badge will be received after completing the <strong> Personal Information</strong> form </p>
     </div>
 
     <div class = "a2descript">
-      <p> The Section 2 Badge will be recieved after completing the <strong> Question Name </strong> question </p>
+      <p> The Section 2 Badge will be received after completing the <strong> Question Name </strong> question </p>
     </div>
 
     <div class = "a3descript">
-      <p> The Section 3 Badge will be recieved after completing the <strong> Checkbox Information </strong></p>
+      <p> The Section 3 Badge will be received after completing the <strong> Checkbox Information </strong></p>
     </div>
   </div>
-
   <div class = "buttonrow">
     <div class = "more1"> <button type="a1More"(click)="opena1MoreInfo()"> more </button> </div>
     <div class = "more2"> <button type="a2More"(click)="opena2MoreInfo()"> more </button> </div>
     <div class = "more3"> <button type="a3More"(click)="opena3MoreInfo()"> more </button> </div>
   </div>
-
   <br>
   <br>
-
-  <div class = "row2">
-    <div class = "achievement-fourth-incomplete" *ngIf="acompleteFour==false">
-      <img src="../../assets/images/unchecked.png" height="215" width="380"/>
+  <div class ="row">
+    <div class="col-sm-4">
+      <div class = "achievement-fourth-incomplete" *ngIf="acompleteFour==false">
+        <svg id="Achieve4_Unchecked" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 388" preserveAspectRatio="xMidYMid meet"><title>Achievement Four - Incomplete</title><image width="100%" xlink:href="../../assets/images/unchecked.png"/></svg>
+      </div>
+      <div class = "achievement-fourth-complete" *ngIf="acompleteFour">
+        <svg id="Achieve4_Checked" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 388"><title>Achievement Four - Complete</title><image width="100%" xlink:href="../../assets/images/gold.png"/></svg>
+      </div>
     </div>
-    <div class = "achievement-fourth-complete" *ngIf="acompleteFour">
-      <img src="../../assets/images/gold.png" height="215" width="380"/>
+    <div class="col-sm-4">
+      <div class = "achievement-fifth-incomplete" *ngIf="acompleteFive==false">
+        <svg id="Achieve5_Unchecked" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 388" preserveAspectRatio="xMidYMid meet"><title>Achievement Five - Incomplete</title><image width="100%" xlink:href="../../assets/images/unchecked.png"/></svg>
+      </div>
+      <div class = "achievement-fifth-complete" *ngIf="acompleteFive">
+        <svg id="Achieve5_Checked" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 388"><title>Achievement Five - Complete</title><image width="100%" xlink:href="../../assets/images/gold.png"/></svg>
+      </div>
     </div>
-
-    <div class = "achievement-fifth-incomplete" *ngIf="acompleteFive==false">
-      <img src="../../assets/images/unchecked.png" height="215" width="380"/>
-    </div>
-    <div class = "achievement-fifth-complete" *ngIf="acompleteFive">
-      <img src="../../assets/images/gold.png" height="215" width="380"/>
-    </div>
-
-    <div class = "achievement-sixth-incomplete" *ngIf="acompleteSix==false">
-      <img src="../../assets/images/unchecked.png" height="215" width="380"/>
-    </div>
-    <div class = "achievement-sixth-complete" *ngIf="acompleteSix">
-      <img src="../../assets/images/gold.png" height="215" width="380"/>
+    <div class="col-sm-4">
+      <div class = "achievement-sixth-incomplete" *ngIf="acompleteSix==false">
+        <svg id="Achieve6_Unchecked" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 388" preserveAspectRatio="xMidYMid meet"><title>Achievement Six - Incomplete</title><image width="100%" xlink:href="../../assets/images/unchecked.png"/></svg>
+      </div>
+      <div class = "achievement-sixth-complete" *ngIf="acompleteSix">
+        <svg id="Achieve6_Checked" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 388"><title>Achievement Six - Complete</title><image width="100%" xlink:href="../../assets/images/gold.png"/></svg>
+      </div>
     </div>
   </div>
-
   <div class = "achievementdescription2">
     <div class = "a4descript">
-      <p> The Section 4 Badge will be recieved after completing the <strong> Lawyer Information</strong> form </p>
+      <p> The Section 4 Badge will be received after completing the <strong> Lawyer Information</strong> form </p>
     </div>
 
     <div class = "a5descript">
-      <p> The Section 5 Badge will be recieved after completing the <strong> Question Name </strong> question </p>
+      <p> The Section 5 Badge will be received after completing the <strong> Question Name </strong> question </p>
     </div>
 
     <div class = "a6descript">
       <p> The Section 6 Badge will be recieved after completing <strong> Whatever </strong></p>
     </div>
   </div>
-
   <div class = "buttonrow2">
     <div class = "more4"> <button type="a4More"(click)="opena4MoreInfo()"> more </button> </div>
     <div class = "more5"> <button type="a5More"(click)="opena5MoreInfo()"> more </button> </div>
     <div class = "more6"> <button type="a6More"(click)="opena6MoreInfo()"> more </button> </div>
   </div>
-
-
   <div class="backdrop" [ngStyle]="{'display':backDisplay}"></div>
   <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayMore1}">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" aria-label="Close" (click)="onClosea1MoreInfo()"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title"> Section 1 Badge</h4>
+          <button type="button" class="close" aria-label="Close" (click)="onClosea1MoreInfo()"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <p> A description of the badge and it's requirements</p>
@@ -117,14 +113,12 @@
       </div>
     </div>
   </div>
-
-  <div class="backdrop" [ngStyle]="{'display':backDisplay}"></div>
   <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayMore2}">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" aria-label="Close" (click)="onClosea2MoreInfo()"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title"> Section 2 Badge</h4>
+          <button type="button" class="close" aria-label="Close" (click)="onClosea2MoreInfo()"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <p> A description of the badge and it's requirements</p>
@@ -135,14 +129,12 @@
       </div>
     </div>
   </div>
-
-  <div class="backdrop" [ngStyle]="{'display':backDisplay}"></div>
   <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayMore3}">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" aria-label="Close" (click)="onClosea3MoreInfo()"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title"> Section 3 Badge</h4>
+          <button type="button" class="close" aria-label="Close" (click)="onClosea3MoreInfo()"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <p> A description of the badge and it's requirements</p>
@@ -153,14 +145,12 @@
       </div>
     </div>
   </div>
-
-  <div class="backdrop" [ngStyle]="{'display':backDisplay}"></div>
   <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayMore4}">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" aria-label="Close" (click)="onClosea4MoreInfo()"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title"> Section 4 Badge</h4>
+          <button type="button" class="close" aria-label="Close" (click)="onClosea4MoreInfo()"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <p> A description of the badge and it's requirements</p>
@@ -171,14 +161,12 @@
       </div>
     </div>
   </div>
-
-  <div class="backdrop" [ngStyle]="{'display':backDisplay}"></div>
   <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayMore5}">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" aria-label="Close" (click)="onClosea5MoreInfo()"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title"> Section 5 Badge</h4>
+          <button type="button" class="close" aria-label="Close" (click)="onClosea5MoreInfo()"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <p> A description of the badge and it's requirements</p>
@@ -189,14 +177,12 @@
       </div>
     </div>
   </div>
-
-  <div class="backdrop" [ngStyle]="{'display':backDisplay}"></div>
   <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayMore6}">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" aria-label="Close" (click)="onClosea6MoreInfo()"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title"> Section 6 Badge</h4>
+          <button type="button" class="close" aria-label="Close" (click)="onClosea6MoreInfo()"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
           <p> A description of the badge and it's requirements</p>
@@ -207,5 +193,4 @@
       </div>
     </div>
   </div>
-
 </div>
