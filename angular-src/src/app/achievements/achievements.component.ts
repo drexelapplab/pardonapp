@@ -14,11 +14,11 @@ import { DataService } from "../_services/completion.service";
 export class AchievementsComponent implements OnInit {
   currentUser: User;
   users: User[] = [];
-  acompleteOne = false;
-  acompleteTwo = false;
-  acompleteThree = false;
-  acompleteFour = false;
-  acompleteFive = false;
+  acompleteOne=false;
+  acompleteTwo=false;
+  acompleteThree=false;
+  acompleteFour=false;
+  acompleteFive=false;
   acompleteSix = false;
   backDisplay = 'none';
   displayMore1 = 'none';
@@ -40,7 +40,6 @@ export class AchievementsComponent implements OnInit {
     this.data.currentCompleteThree.subscribe(currentCompleteThree => this.acompleteThree = currentCompleteThree);
     this.data.currentCompleteFour.subscribe(currentCompleteFour => this.acompleteFour = currentCompleteFour);
     this.data.currentCompleteFive.subscribe(currentCompleteFive => this.acompleteFive = currentCompleteFive);
-    this.data.currentCompleteSix.subscribe(currentCompleteSix => this.acompleteSix = currentCompleteSix);
   }
 
   deleteUser(id: number) {
@@ -54,7 +53,6 @@ export class AchievementsComponent implements OnInit {
       this.users = users;
     });
   }
-
   opena1MoreInfo(){
     this.backDisplay = 'block';
     this.displayMore1 = 'block';
@@ -99,7 +97,6 @@ export class AchievementsComponent implements OnInit {
     this.backDisplay = 'none';
     this.displayMore5 = 'none';
   }
-
   opena6MoreInfo() {
     this.backDisplay = 'block';
     this.displayMore6 = 'block';
