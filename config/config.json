@@ -1,4 +1,4 @@
 {
-  "connectionString": "mongodb://localhost/node-mongo-registration-login-api",
+  "connectionString": "mongodb://ryanwon7:maplenets8@ds253831.mlab.com:53831/pardon-app-testing",
   "secret": "4av601vt99rfg7knag2q"
 }
