@@ -5,6 +5,6 @@ mongoose.Promise = global.Promise;
 
 module.exports = {
     User: require('../users/user.model'),
-    database: 'mongodb://localhost:27017/home'
+    //database: 'mongodb://localhost:27017/home'
 }
 
