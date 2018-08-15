@@ -12,9 +12,11 @@ import { QuestSet5Component } from './questions-set5/questions-set5.component'
 import { DashboardComponent } from './dashboard-page/dashboard.component'
 import { AchievementsComponent } from './achievements/achievements.component'
 import {DataDisplayComponent} from "./data-display/data-display.component";
+import { DataDetailDisplayComponent } from "./data-detail-display/data-detail-display.component";
+import { DataAddComponent } from "./data-add/data-add.component";
 
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent},
+    { path: '', component: HomeComponent, canActivate: [AuthGuard]},
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'questions-set1', component: QuestSet1Component},
@@ -25,7 +27,8 @@ const appRoutes: Routes = [
     { path: 'achievements', component: AchievementsComponent},
     { path: 'dashboard', component: DashboardComponent},
     { path: 'data-display', component: DataDisplayComponent},
-
+    { path: 'data-detail-display', component: DataDetailDisplayComponent},
+    { path: 'data-add', component: DataAddComponent},
     { path: '**', redirectTo: '' }
 ];
 

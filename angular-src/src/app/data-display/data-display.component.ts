@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ListService } from "../_services";
-import { UserData } from '../../../../models/userdata'
+import { ApiService } from '../_services';
+import { DataSource } from '@angular/cdk/collections';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'data-display',
@@ -8,22 +9,31 @@ import { UserData } from '../../../../models/userdata'
   styleUrls: ['./data-display.component.css']
 })
 export class DataDisplayComponent implements OnInit {
-
-  private lists: UserData[] = [];
-  constructor(private listServ: ListService) { }
+  formData: any;
+  displayedColumns = ['firstname', 'middlename', 'lastname', 'street', 'city', 'state', 'zipcode'];
+  dataSource = new FormDataSource(this.api);
+  constructor(private api: ApiService) { }
 
   ngOnInit() {
-    this.loadData();
+    this.api.getAllData()
+      .subscribe(res => {
+        console.log(res);
+        this.formData = res;
+      }, err => {
+        console.log(err);
+      });
+  }
+}
+export class FormDataSource extends DataSource<any> {
+  constructor(private api: ApiService) {
+    super()
   }
 
-  public loadData() {
-    this.listServ.getAllLists().subscribe(response => this.lists = response)
+  connect() {
+    return this.api.getAllData();
   }
 
-  public deleteList(list: UserData) {
-    this.listServ.deleteList(list._id).subscribe(
-      response => this.lists = this.lists.filter(lists => lists != list),
-    )
-  }
+  disconnect() {
 
+  }
 }

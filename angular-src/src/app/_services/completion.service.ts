@@ -8,12 +8,14 @@ export class DataService {
   private completeThree = new BehaviorSubject(false)
   private completeFour =  new BehaviorSubject(false)
   private completeFive = new BehaviorSubject(false)
+    private completeSix = new BehaviorSubject(false)
 
   currentCompleteOne = this.completeOne.asObservable()
   currentCompleteTwo = this.completeTwo.asObservable()
   currentCompleteThree = this.completeThree.asObservable()
   currentCompleteFour = this.completeFour.asObservable()
   currentCompleteFive = this.completeFive.asObservable()
+  currentCompleteSix = this.completeSix.asObservable()
 
   constructor () {}
 
@@ -35,5 +37,9 @@ export class DataService {
 
   changeStateFive(newState: boolean) {
     this.completeFive.next(newState)
+  }
+
+  changeStateSix(newState: boolean) {
+    this.completeSix.next(newState)
   }
 }

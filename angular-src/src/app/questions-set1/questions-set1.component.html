@@ -1,54 +1,69 @@
-<div class = "container">
+<div class="container">
+  <!--<div class="button-row">
+    <a mat-raised-button color="primary" routerLink="/data-display"><mat-icon>list</mat-icon></a>
+  </div>-->
   <h1> Section 1 Form </h1>
-  <div class="formbox">
-    <h2> Personal Information </h2>
-    <form [formGroup]="formPage1" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label class="center-block">First Name:
-          <input class="form-control" formControlName="first">
-        </label>
-      </div>
-      <div class="form-group">
-        <label class="center-block">Middle Name:
-          <input class="form-control" formControlName="middle">
-        </label>
-      </div>
-      <div class="form-group">
-        <label class="center-block">Last Name:
-          <input class="form-control" formControlName="last">
-        </label>
-      </div>
-      <h3> Address </h3>
-      <div class="form-group">
-        <label class="center-block">Street:
-          <input class="form-control" formControlName="street">
-        </label>
-      </div>
-      <div class="form-group">
-        <label class="center-block">City:
-          <input class="form-control" formControlName="city">
-        </label>
-      </div>
-      <div class="form-group">
-        <label class="center-block">State:
-          <select class="form-control" formControlName="state">
-            <option *ngFor="let state of states" [value]="state">{{state}}</option>
-          </select>
-        </label>
-      </div>
-      <div class="form-group">
-        <label class="center-block">Zip Code:
-          <input class="form-control" formControlName="zip">
-        </label>
-      </div>
-      <button type="submit" class="button1">Submit</button>
-      <button type="button" (click)="revert()" class="button2">Revert</button>
-      <br>
-      <br>
-      <a routerLink="/dashboard" class="button-routing"> Dashboard </a>
-      <a routerLink="/questions-set2" class="button-routing"> Next </a>
-      <router-outlet></router-outlet>
-    </form>
-    <div style="clear:both"></div>
+  <div class="button-row">
+    <a routerLink="/dashboard" class="button-routing"> Dashboard </a>
+    <a routerLink="/questions-set2" class="button-routing"> Next </a>
+    <router-outlet></router-outlet>
   </div>
+  <br><br>
+  <form [formGroup]="totalForm" (ngSubmit)="onFormSubmit(totalForm.value)">
+    <h2> Personal Information </h2>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="First Name" formControlName="firstname"
+             [errorStateMatcher]="matcher">
+      <mat-error>
+        <span *ngIf="!totalForm.get('firstname').valid && totalForm.get('firstname').touched">Please enter your first name.</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Middle Name" formControlName="middlename"
+             [errorStateMatcher]="matcher">
+      <mat-error>
+        <span *ngIf="!totalForm.get('middlename').valid && totalForm.get('middlename').touched">Please enter your middle name.</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Last Name" formControlName="lastname"
+             [errorStateMatcher]="matcher">
+      <mat-error>
+        <span *ngIf="!totalForm.get('lastname').valid && totalForm.get('lastname').touched">Please enter your last name.</span>
+      </mat-error>
+    </mat-form-field>
+    <h3> Address </h3>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Street" formControlName="street"
+             [errorStateMatcher]="matcher">
+      <mat-error>
+        <span *ngIf="!totalForm.get('street').valid && totalForm.get('street').touched">Please enter your street address.</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="City" formControlName="city"
+             [errorStateMatcher]="matcher">
+      <mat-error>
+        <span *ngIf="!totalForm.get('city').valid && totalForm.get('city').touched">Please enter your city.</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="state" formControlName="state"
+             [errorStateMatcher]="matcher">
+      <mat-error>
+        <span *ngIf="!totalForm.get('state').valid && totalForm.get('state').touched">Please enter State.</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Zipcode" formControlName="zipcode"
+             [errorStateMatcher]="matcher">
+      <mat-error>
+        <span *ngIf="!totalForm.get('zipcode').valid && totalForm.get('zipcode').touched">Please enter your zipcode.</span>
+      </mat-error>
+    </mat-form-field>
+    <div class="button-row">
+      <button type="submit" class="button1" [disabled]="!totalForm.valid" mat-raised-button color="primary">Submit</button>
+    </div>
+  </form>
+  <div style="clear:both"></div>
 </div>
