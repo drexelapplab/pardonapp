@@ -17,11 +17,13 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(jwt());
 
 app.use('/users', require('./users/users.controller'));
 
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use(errorHandler);
 
