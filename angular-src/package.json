@@ -23,6 +23,8 @@
     "bootstrap": "^3.3.7",
     "core-js": "^2.5.4",
     "jquery": "^3.3.1",
+    "ng2-pdf-viewer": "^5.1.1",
+    "pdfjs-dist": "^2.0.489",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },

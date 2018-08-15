@@ -12,6 +12,7 @@ import { QuestSet5Component } from './questions-set5/questions-set5.component'
 import { DashboardComponent } from './dashboard-page/dashboard.component'
 import { AchievementsComponent } from './achievements/achievements.component'
 import {DataDisplayComponent} from "./data-display/data-display.component";
+import { PDFComponent}  from './pdf/pdf.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent},
@@ -25,6 +26,7 @@ const appRoutes: Routes = [
     { path: 'achievements', component: AchievementsComponent},
     { path: 'dashboard', component: DashboardComponent},
     { path: 'data-display', component: DataDisplayComponent},
+    { path: 'pdf', component: PDFComponent},
 
     { path: '**', redirectTo: '' }
 ];

@@ -29,6 +29,7 @@
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.2.8",
     "ng2-pdf-viewer": "^5.1.1",
+    "pdfjs-dist": "^2.0.489",
     "rxjs": "^6.1.0",
     "zone.js": "^0.8.26"
   },

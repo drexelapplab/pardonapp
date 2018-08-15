@@ -23,3 +23,12 @@ export const completeThree = false;
 export const completeFour = false;
 export const completeFive = false;
 
+export class Input {
+    name: string;
+    type: string;
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+    value; any;
+}

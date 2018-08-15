@@ -1,0 +1,11 @@
+.container {
+    margin: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.form-value{
+    position: absolute;
+    left: 1rem;
+    font-size: 1.5rem;
+}

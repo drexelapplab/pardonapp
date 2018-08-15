@@ -9,6 +9,8 @@ import { fakeBackendProvider } from './_helpers';
 import { AppComponent }  from './app.component';
 import { routing }        from './app.routing';
 import { FormsModule } from '@angular/forms';
+import { PdfViewerModule} from "ng2-pdf-viewer";
+import { PDFAnnotationData } from 'pdfjs-dist';
 
 import { AlertComponent } from './_directives';
 import { AuthGuard } from './_guards';
@@ -26,6 +28,7 @@ import { DashboardComponent } from './dashboard-page/dashboard.component';
 import { AchievementsComponent } from './achievements/achievements.component'
 import {DataService} from "./_services/completion.service";
 import { DataDisplayComponent } from './data-display/data-display.component';
+import {PDFComponent} from './pdf/pdf.component'
 
 @NgModule({
     imports: [
@@ -49,6 +52,7 @@ import { DataDisplayComponent } from './data-display/data-display.component';
         DashboardComponent,
         AchievementsComponent,
         DataDisplayComponent,
+        PDFComponent,
     ],
     providers: [
         AuthGuard,
