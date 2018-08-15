@@ -5,7 +5,7 @@
   <h1> Section 1 Form </h1>
   <div class="button-row">
     <a routerLink="/dashboard" class="button-routing"> Dashboard </a>
-    <a routerLink="/questions-set2" class="button-routing"> Next </a>
+    <a routerLink="/questions-set2" class="button-routing right"> Next </a>
     <router-outlet></router-outlet>
   </div>
   <br><br>
@@ -48,7 +48,7 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="state" formControlName="state"
+      <input matInput placeholder="State" formControlName="state"
              [errorStateMatcher]="matcher">
       <mat-error>
         <span *ngIf="!totalForm.get('state').valid && totalForm.get('state').touched">Please enter State.</span>
