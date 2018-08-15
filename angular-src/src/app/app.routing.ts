@@ -11,22 +11,25 @@ import { QuestSet4Component } from './questions-set4/questions-set4.component'
 import { QuestSet5Component } from './questions-set5/questions-set5.component'
 import { DashboardComponent } from './dashboard-page/dashboard.component'
 import { AchievementsComponent } from './achievements/achievements.component'
-import {DataDisplayComponent} from "./data-display/data-display.component";
+import { DataDisplayComponent} from "./data-display/data-display.component";
+import { PdfViewComponent } from "./pdf-view/pdf-view.component";
+import { QuestionsSet1SubmitComponent } from "./questions-set1-submit/questions-set1-submit.component";
 
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent},
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
-    { path: 'questions-set1', component: QuestSet1Component},
-    { path: 'questions-set2', component: QuestSet2Component},
-    { path: 'questions-set3', component: QuestSet3Component},
-    { path: 'questions-set4', component: QuestSet4Component},
-    { path: 'questions-set5', component: QuestSet5Component},
-    { path: 'achievements', component: AchievementsComponent},
-    { path: 'dashboard', component: DashboardComponent},
-    { path: 'data-display', component: DataDisplayComponent},
-
-    { path: '**', redirectTo: '' }
+  { path: '', component: HomeComponent, canActivate: [AuthGuard]},
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'questions-set1', component: QuestSet1Component},
+  { path: 'questions-set2', component: QuestSet2Component},
+  { path: 'questions-set3', component: QuestSet3Component},
+  { path: 'questions-set4', component: QuestSet4Component},
+  { path: 'questions-set5', component: QuestSet5Component},
+  { path: 'achievements', component: AchievementsComponent},
+  { path: 'dashboard', component: DashboardComponent},
+  { path: 'data-display', component: DataDisplayComponent},
+  { path: 'pdf-view', component: PdfViewComponent},
+  { path: 'question-set1-submit', component: QuestionsSet1SubmitComponent},
+  { path: '**', redirectTo: '' }
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

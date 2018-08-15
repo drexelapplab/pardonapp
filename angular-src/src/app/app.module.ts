@@ -1,19 +1,24 @@
 import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule }    from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }    from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
-// used to create fake backend
-import { fakeBackendProvider } from './_helpers';
+import {
+  MatInputModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+  MatSortModule,
+  MatTableModule,
+  MatIconModule,
+  MatButtonModule,
+  MatCardModule,
+  MatFormFieldModule } from "@angular/material";
 
 import { AppComponent }  from './app.component';
 import { routing }        from './app.routing';
-import { FormsModule } from '@angular/forms';
-
 import { AlertComponent } from './_directives';
 import { AuthGuard } from './_guards';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
-import { AlertService, AuthenticationService, UserService, ListService} from './_services';
+import { AlertService, AuthenticationService, UserService, ApiService} from './_services';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
@@ -26,14 +31,32 @@ import { DashboardComponent } from './dashboard-page/dashboard.component';
 import { AchievementsComponent } from './achievements/achievements.component'
 import {DataService} from "./_services/completion.service";
 import { DataDisplayComponent } from './data-display/data-display.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PdfViewComponent } from './pdf-view/pdf-view.component';
+import { QuestionsSet1SubmitComponent } from './questions-set1-submit/questions-set1-submit.component';
 
 @NgModule({
     imports: [
-        BrowserModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        FormsModule,
-        routing
+      BrowserModule,
+      ReactiveFormsModule,
+      HttpClientModule,
+      FormsModule,
+      routing,
+      BrowserAnimationsModule,
+      BrowserModule,
+      FormsModule,
+      ReactiveFormsModule,
+      HttpClientModule,
+      BrowserAnimationsModule,
+      MatInputModule,
+      MatTableModule,
+      MatPaginatorModule,
+      MatSortModule,
+      MatProgressSpinnerModule,
+      MatIconModule,
+      MatButtonModule,
+      MatCardModule,
+      MatFormFieldModule
     ],
     declarations: [
         AppComponent,
@@ -49,6 +72,8 @@ import { DataDisplayComponent } from './data-display/data-display.component';
         DashboardComponent,
         AchievementsComponent,
         DataDisplayComponent,
+        PdfViewComponent,
+        QuestionsSet1SubmitComponent,
     ],
     providers: [
         AuthGuard,
@@ -56,10 +81,9 @@ import { DataDisplayComponent } from './data-display/data-display.component';
         AuthenticationService,
         UserService,
         DataService,
-        ListService,
+        ApiService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        fakeBackendProvider
 
     ],
     bootstrap: [AppComponent]

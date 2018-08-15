@@ -1,5 +1,12 @@
 <div class = "container">
   <h1> Section 4 Form </h1>
+  <div class="button-row">
+    <a routerLink="/questions-set3" class="button-routing left"> Back </a>
+    <a routerLink="/dashboard" class="button-routing center"> Dashboard </a>
+    <a routerLink="/questions-set5" class="button-routing right"> Next </a>
+    <router-outlet></router-outlet>
+  </div>
+  <br><br>
   <div>
     <h2> Lawyer Information </h2>
     <form [formGroup]="formPage1" (ngSubmit)="onSubmit()">
@@ -38,12 +45,6 @@
       </div>
       <button type="submit" class="button1">Submit</button>
       <button type="button" (click)="revert()" class="button2">Revert</button>
-      <br>
-      <br>
-      <a routerLink="/questions-set3" class="button-routing"> Back </a>
-      <a routerLink="/dashboard" class="button-routing"> Dashboard </a>
-      <a routerLink="/questions-set5" class="button-routing"> Next </a>
-      <router-outlet></router-outlet>
     </form>
   </div>
 </div>

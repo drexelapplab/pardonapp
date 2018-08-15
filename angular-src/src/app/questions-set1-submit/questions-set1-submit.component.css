@@ -1,0 +1,32 @@
+.left{
+  float: left;
+}
+.center {
+  display: inline-block;
+}
+.right{
+  float: right;
+}
+.button-row {
+  text-align: center;
+}
+.container{
+  margin: 1% auto;
+  width: 80%;
+  background-color: white;
+}
+h1 {
+  text-align: center;
+}
+.button-routing{
+   background-color: #4CAF50;
+   color: white;
+   padding: 4px 20px;
+   border-radius: 4px;
+   text-align: center;
+   font-size: 16px;
+   border: 2px solid black;
+ }
+.button-routing:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}

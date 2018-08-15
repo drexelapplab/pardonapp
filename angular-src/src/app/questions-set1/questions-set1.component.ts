@@ -1,49 +1,52 @@
-import { Component, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup, Validators, FormControl, NgForm} from '@angular/forms';
 import {states, BasicInfo, completeOne} from '../data-model';
 import { DataService } from "../_services/completion.service";
+import {ApiService} from "../_services";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'questions-set1',
   templateUrl: 'questions-set1.component.html',
   styleUrls: ['questions-set1.component.css']
 })
-export class QuestSet1Component implements OnChanges {
-  formPage1: FormGroup;
+export class QuestSet1Component implements  OnInit {
+  totalForm: FormGroup;
+  firstname:string='';
+  lastname:string='';
+  middlename:string='';
+  street:string='';
+  city:string='';
+  state:string='';
+  zipcode:string='';
   states = states;
   completeOne = false;
 
-  constructor(private fb: FormBuilder,
-              private completionState: DataService) {
-    this.createForm();
-  }
+  constructor(private router: Router, private api: ApiService, private formBuilder: FormBuilder,
+              private completionState: DataService) {}
   getComplete(){
     return this.completeOne;
   }
-  createForm() {
-    this.formPage1 = this.fb.group({
-      first: ['', [Validators.required]],
-      middle: ['', Validators.required],
-      last: ['', Validators.required],
-      street: ['', Validators.required],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      zip: ['', Validators.required]
+  ngOnInit(){
+    this.totalForm = this.formBuilder.group({
+      'firstname': [null, Validators.required],
+      'lastname': [null, Validators.required],
+      'middlename': [null, Validators.required],
+      'street': [null, Validators.required],
+      'city': [null, Validators.required],
+      'state': [null, Validators.required],
+      'zipcode': [null, Validators.required]
     });
   }
-  ngOnChanges() {
-    this.rebuildForm();
-  }
-  rebuildForm() {
-    this.formPage1.reset()
-  }
-  onSubmit() {
-    if (this.formPage1.valid) {
-      this.completionState.changeStateOne(true);
-      this.revert()
-    }
-  }
-  revert() {
-    this.rebuildForm();
+
+  onFormSubmit(form:NgForm) {
+    this.api.postData(form)
+      .subscribe(res => {
+        let id = res['_id'];
+        this.router.navigateByUrl('/question-set1-submit');
+      }, (err) => {
+        console.log(err);
+      });
+    this.completionState.changeStateOne(true);
   }
 }
