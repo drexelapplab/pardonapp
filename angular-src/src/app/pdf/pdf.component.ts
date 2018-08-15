@@ -14,7 +14,7 @@ export class PDFComponent {
     // screen DPI / PDF DPI
     readonly dpiRatio = 96 / 72;
 
-    public pdfSrc = 'src/testpage.pdf';
+    public pdfSrc = './testpage.pdf';
 
     public myForm: FormGroup;
 

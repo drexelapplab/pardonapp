@@ -36,6 +36,7 @@ import {PDFComponent} from './pdf/pdf.component'
         ReactiveFormsModule,
         HttpClientModule,
         FormsModule,
+        PdfViewerModule,
         routing
     ],
     declarations: [

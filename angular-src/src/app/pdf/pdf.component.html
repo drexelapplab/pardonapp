@@ -1,8 +1,5 @@
 <div class="container">
-
-    <pre class="form-value">{{myForm.value | json}}</pre>
-
-    <!-- Little trick to center the inputs to the viewer -->
+    
     <div class="form-container">
         <form id="input-form" [formGroup]="myForm" novalidate>
 
@@ -36,6 +33,5 @@
         </form>
     </div>
 
-    <!-- Bind the zoom variable to the viewer component -->
     <pdf-viewer id="viewer" [src]="pdfSrc" [zoom]="zoom" (after-load-complete)="loadComplete($event)"></pdf-viewer>
 </div>
