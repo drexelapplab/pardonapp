@@ -1,15 +1,16 @@
 <div class = "container">
   <div>
     <h1> Form Page 5</h1>
+    <a routerLink="/questions-set4" class="button-routing left"> Back </a>
+    <a routerLink="/dashboard" class="button-routing right"> Dashboard </a>
+    <router-outlet></router-outlet>
+    <br><br>
     <h2> Question 5: </h2>
     <form action="/action_page.php">
-      <textarea name="message" rows="20" cols="150">Type your answer here. Click bottom right to increase text box size.</textarea>
+      <textarea class="resize" name="message" rows="20">Type your answer here. Click bottom right to increase text box size.</textarea>
       <br>
       <input type="reset" value="Clear Form"><br>
     </form>
     <br>
-    <a routerLink="/questions-set4" class="button-routing"> Back </a>
-    <a routerLink="/dashboard" class="button-routing"> Dashboard </a>
-    <router-outlet></router-outlet>
   </div>
 </div>
