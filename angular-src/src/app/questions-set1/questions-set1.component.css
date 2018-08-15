@@ -29,7 +29,9 @@
   opacity: 1;
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
-
+h2, h3 {
+  font-size: 25px;
+}
 .button-routing{
   background-color: #4CAF50;
   color: white;
@@ -44,9 +46,7 @@
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
-.ng-invalid:not(form)  {
-  border-left: 5px solid #a94442; /* red */
-}
+
 h1 {
   text-align: center;
 }
@@ -59,4 +59,21 @@ h1 {
 }
 .formbox{
   margin: 1%;
+}
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.container {
+  background-color: white;
+}
+
+.button-row {
+  margin: 10px 0;
 }

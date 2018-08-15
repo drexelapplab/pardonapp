@@ -6256,6 +6256,7 @@ var FakeBackendInterceptor = /** @class */ (function () {
             // pass through any requests not handled above
             return next.handle(request);
         }))
+            // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
             .pipe(operators_1.materialize())
             .pipe(operators_1.delay(500))
             .pipe(operators_1.dematerialize());
@@ -6405,6 +6406,89 @@ exports.AlertService = AlertService;
 
 /***/ }),
 
+/***/ "./src/app/_services/api.service.ts":
+/*!******************************************!*\
+  !*** ./src/app/_services/api.service.ts ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var rxjs_1 = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+var http_1 = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var operators_1 = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+var httpOptions = {
+    headers: new http_1.HttpHeaders({ 'Content-Type': 'application/json' })
+};
+var apiUrl = "./api";
+var ApiService = /** @class */ (function () {
+    function ApiService(http) {
+        this.http = http;
+    }
+    ApiService.prototype.handleError = function (error) {
+        if (error.error instanceof ErrorEvent) {
+            // A client-side or network error occurred. Handle it accordingly.
+            console.error('An error occurred:', error.error.message);
+        }
+        else {
+            // The backend returned an unsuccessful response code.
+            // The response body may contain clues as to what went wrong,
+            console.error("Backend returned code " + error.status + ", " +
+                ("body was: " + error.error));
+        }
+        // return an observable with a user-facing error message
+        return rxjs_1.throwError('Something bad happened; please try again later.');
+    };
+    ;
+    ApiService.prototype.extractData = function (res) {
+        var body = res;
+        return body || {};
+    };
+    ApiService.prototype.getAllData = function () {
+        return this.http.get(apiUrl, httpOptions).pipe(operators_1.map(this.extractData), operators_1.catchError(this.handleError));
+    };
+    ApiService.prototype.getData = function (id) {
+        var url = apiUrl + "/" + id;
+        return this.http.get(url, httpOptions).pipe(operators_1.map(this.extractData), operators_1.catchError(this.handleError));
+    };
+    ApiService.prototype.postData = function (data) {
+        return this.http.post(apiUrl, data, httpOptions)
+            .pipe(operators_1.catchError(this.handleError));
+    };
+    ApiService.prototype.updateData = function (data) {
+        return this.http.put(apiUrl, data, httpOptions)
+            .pipe(operators_1.catchError(this.handleError));
+    };
+    ApiService.prototype.deleteData = function (id) {
+        var url = apiUrl + "/" + id;
+        return this.http.delete(url, httpOptions)
+            .pipe(operators_1.catchError(this.handleError));
+    };
+    ApiService = __decorate([
+        core_1.Injectable({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [http_1.HttpClient])
+    ], ApiService);
+    return ApiService;
+}());
+exports.ApiService = ApiService;
+
+
+/***/ }),
+
 /***/ "./src/app/_services/authentication.service.ts":
 /*!*****************************************************!*\
   !*** ./src/app/_services/authentication.service.ts ***!
@@ -6538,64 +6622,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(/*! ./alert.service */ "./src/app/_services/alert.service.ts"));
 __export(__webpack_require__(/*! ./authentication.service */ "./src/app/_services/authentication.service.ts"));
 __export(__webpack_require__(/*! ./user.service */ "./src/app/_services/user.service.ts"));
-__export(__webpack_require__(/*! ./list.service */ "./src/app/_services/list.service.ts"));
-
-
-/***/ }),
-
-/***/ "./src/app/_services/list.service.ts":
-/*!*******************************************!*\
-  !*** ./src/app/_services/list.service.ts ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-var http_1 = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-var operators_1 = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-var ListService = /** @class */ (function () {
-    function ListService(http) {
-        this.http = http;
-        this.serverApi = 'http://localhost:3000';
-    }
-    ListService.prototype.getAllLists = function () {
-        var URL = this.serverApi + "/home/";
-        return this.http.get(URL)
-            .pipe(operators_1.map(function (res) { return res; }));
-    };
-    ListService.prototype.deleteList = function (listId) {
-        var URL = this.serverApi + "/home/" + listId;
-        var headers = new http_1.HttpHeaders;
-        headers.append('Content-Type', 'application/json');
-        return this.http.delete(URL, { headers: headers });
-    };
-    ListService.prototype.addList = function (list) {
-        var URL = this.serverApi + "/home/";
-        var headers = new http_1.HttpHeaders;
-        var body = JSON.stringify({ title: list.title, description: list.description, category: list.category });
-        console.log(body);
-        headers.append('Content-Type', 'application/json');
-        return this.http.post(URL, body, { headers: headers });
-    };
-    ListService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.HttpClient])
-    ], ListService);
-    return ListService;
-}());
-exports.ListService = ListService;
+__export(__webpack_require__(/*! ./api.service */ "./src/app/_services/api.service.ts"));
 
 
 /***/ }),
@@ -6865,9 +6892,9 @@ var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/c
 var platform_browser_1 = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 var forms_1 = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 var http_1 = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var material_1 = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 var app_component_1 = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 var app_routing_1 = __webpack_require__(/*! ./app.routing */ "./src/app/app.routing.ts");
-var forms_2 = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 var _directives_1 = __webpack_require__(/*! ./_directives */ "./src/app/_directives/index.ts");
 var _guards_1 = __webpack_require__(/*! ./_guards */ "./src/app/_guards/index.ts");
 var _helpers_1 = __webpack_require__(/*! ./_helpers */ "./src/app/_helpers/index.ts");
@@ -6884,6 +6911,9 @@ var dashboard_component_1 = __webpack_require__(/*! ./dashboard-page/dashboard.c
 var achievements_component_1 = __webpack_require__(/*! ./achievements/achievements.component */ "./src/app/achievements/achievements.component.ts");
 var completion_service_1 = __webpack_require__(/*! ./_services/completion.service */ "./src/app/_services/completion.service.ts");
 var data_display_component_1 = __webpack_require__(/*! ./data-display/data-display.component */ "./src/app/data-display/data-display.component.ts");
+var data_detail_display_component_1 = __webpack_require__(/*! ./data-detail-display/data-detail-display.component */ "./src/app/data-detail-display/data-detail-display.component.ts");
+var animations_1 = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+var data_add_component_1 = __webpack_require__(/*! ./data-add/data-add.component */ "./src/app/data-add/data-add.component.ts");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -6893,8 +6923,23 @@ var AppModule = /** @class */ (function () {
                 platform_browser_1.BrowserModule,
                 forms_1.ReactiveFormsModule,
                 http_1.HttpClientModule,
-                forms_2.FormsModule,
-                app_routing_1.routing
+                forms_1.FormsModule,
+                app_routing_1.routing,
+                animations_1.BrowserAnimationsModule,
+                platform_browser_1.BrowserModule,
+                forms_1.FormsModule,
+                forms_1.ReactiveFormsModule,
+                http_1.HttpClientModule,
+                animations_1.BrowserAnimationsModule,
+                material_1.MatInputModule,
+                material_1.MatTableModule,
+                material_1.MatPaginatorModule,
+                material_1.MatSortModule,
+                material_1.MatProgressSpinnerModule,
+                material_1.MatIconModule,
+                material_1.MatButtonModule,
+                material_1.MatCardModule,
+                material_1.MatFormFieldModule
             ],
             declarations: [
                 app_component_1.AppComponent,
@@ -6910,6 +6955,8 @@ var AppModule = /** @class */ (function () {
                 dashboard_component_1.DashboardComponent,
                 achievements_component_1.AchievementsComponent,
                 data_display_component_1.DataDisplayComponent,
+                data_detail_display_component_1.DataDetailDisplayComponent,
+                data_add_component_1.DataAddComponent,
             ],
             providers: [
                 _guards_1.AuthGuard,
@@ -6917,7 +6964,7 @@ var AppModule = /** @class */ (function () {
                 _services_1.AuthenticationService,
                 _services_1.UserService,
                 completion_service_1.DataService,
-                _services_1.ListService,
+                _services_1.ApiService,
                 { provide: http_1.HTTP_INTERCEPTORS, useClass: _helpers_1.JwtInterceptor, multi: true },
                 { provide: http_1.HTTP_INTERCEPTORS, useClass: _helpers_1.ErrorInterceptor, multi: true },
             ],
@@ -6954,6 +7001,8 @@ var questions_set5_component_1 = __webpack_require__(/*! ./questions-set5/questi
 var dashboard_component_1 = __webpack_require__(/*! ./dashboard-page/dashboard.component */ "./src/app/dashboard-page/dashboard.component.ts");
 var achievements_component_1 = __webpack_require__(/*! ./achievements/achievements.component */ "./src/app/achievements/achievements.component.ts");
 var data_display_component_1 = __webpack_require__(/*! ./data-display/data-display.component */ "./src/app/data-display/data-display.component.ts");
+var data_detail_display_component_1 = __webpack_require__(/*! ./data-detail-display/data-detail-display.component */ "./src/app/data-detail-display/data-detail-display.component.ts");
+var data_add_component_1 = __webpack_require__(/*! ./data-add/data-add.component */ "./src/app/data-add/data-add.component.ts");
 var appRoutes = [
     { path: '', component: home_1.HomeComponent, canActivate: [_guards_1.AuthGuard] },
     { path: 'login', component: login_1.LoginComponent },
@@ -6966,6 +7015,8 @@ var appRoutes = [
     { path: 'achievements', component: achievements_component_1.AchievementsComponent },
     { path: 'dashboard', component: dashboard_component_1.DashboardComponent },
     { path: 'data-display', component: data_display_component_1.DataDisplayComponent },
+    { path: 'data-detail-display', component: data_detail_display_component_1.DataDetailDisplayComponent },
+    { path: 'data-add', component: data_add_component_1.DataAddComponent },
     { path: '**', redirectTo: '' }
 ];
 exports.routing = router_1.RouterModule.forRoot(appRoutes);
@@ -6991,7 +7042,7 @@ module.exports = ".backdrop{\r\n  position:fixed;\r\n  top:0;\r\n  left:0;\r\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<svg class=\"scaling-svg\" id=\"Main_Layer\" viewBox=\"0 0 674.8 827.6\" preserveAspectRatio=\"xMidYMid meet\">\r\n    <g id=\"mountainBG\"><title>mountain</title>\r\n      <path style=\"fill: black\" d=\"M664.7,598.2c-5-6.9-7.5-14.6-12.4-21.4s-13.1-12.9-18-20.2-5.4-14.2-9-22.5-10.4-15.9-14.6-23.6c-6-11.1-8-23.8-14.6-34.9-2.7-4.5-8-8.5-10.1-13.5-2.9-6.8-2.8-12.7-5.6-19.1-9.4-21.1-23.3-42.4-32.6-64.1-4.8-11.2-5.9-22-11.2-32.6s-13.5-16.8-18-27c-7.8-17.7-14.1-36.9-21.4-54-2-4.7-1.9-10.4-4.5-14.6,0-10.7,6-19.4,11.2-24.7-.3-25.2-19.7-39.4-30.4-55.1s-15.5-31-24.7-46.1-21.7-32.2-31.5-48.4c-4.4-.9-13.7-.7-14.6-1.1-16.5-1.8-18.3-45.9-24.7-60.7-2.4-5.6-8.1-7.7-11.2-12.4-24,.4-23.7,30.2-30.4,48.4l-32.6,88.8-3.4,20.2a155.7,155.7,0,0,1-12.4,24.7c-8.2,13.2-31.3,36.5-27,52.9,18.5-2.7,24.7-35.7,31.5-51.7,15.1-35.6,29-75.1,43.9-111.3,2.9-7,1.6-14.9,4.5-22.5,3.5-9.2,12.1-17.1,16.9-25.9,21,2.4,15.9,46.8,25.9,61.9,6.3,9.5,20.8,4.6,32.6,9,4.2,1.5,19.6,16.3,22.5,20.2,13.8,18.3,25.1,39.7,36,60.7,4.1,7.9,5.4,20.5,11.2,27-1.1,12.5-9.7,14.8-12.4,24.7s4.8,19.5,5.6,29.2c-6.5.1-19,.7-23.6-2.2-14.7.3-15,11.7-24.7,16.9.7,8.4,3.9,15.6,2.2,23.6l-1.1,25.9c-5,19-14.2,38-23.6,54-2.8,4.8-11.2,9-15.7,12.4s-10.5,10.7-16.9,14.6c-14.2,8.8-30.7,11.3-47.2,18-26.6,10.8-50.3,22.7-72,38.2-19.5,14-36.5,32.2-47.2,55.1-3,6.4-9.8,20.7-3.4,29.2,6.4,18.2,30.3,19.7,50.6,24.7,23.3,5.8,61.6,5.1,85.5,0,5.2-1.1,13.4.4,16.9,1.1h19.1c17.8,3.9,40.9,4.6,59.6,5.6,24.7,1.4,64.4-6,79.8,5.6,2.8,2.1,3,5.3,4.5,9,8.3,20.8-11.8,37.6-23.6,46.1-27.3,19.6-56.3,36.4-84.3,55.1s-57.5,40.7-90,55.1c6.5,10,22.6,17.4,38.2,18-.1,3.7-.3,8.1,1.1,10.1,6.9,3,19.9-4.5,25.9-6.7,14.2-5.3,31.7-5.5,47.2-9,7.1-1.6,13.2.5,19.1-2.2,3.2-1.5,5.9-5.9,9-7.9,1.1-5.4,4.1-14.3,2.2-22.5s-5.5-20,0-28.1,20.8-10.4,30.4-14.6c7.5-3.3,16-9.1,23.6-12.4,19.2-8.2,40.3-12.6,61.9-18l27-1.1c19.4-.2,57.1-6.2,63,10.1h2.2V605C673.3,602.5,666.6,600.9,664.7,598.2ZM444.2,644.3c8.6-5.5,16.3-13.7,24.7-19.1-8.1-5.6-15.7-6-25.9-10.1a476.2,476.2,0,0,0-76.5-23.6c-13.8-3.1-42.6-.1-54,2.2-7.7,1.6-18.5-.2-24.7,1.1-19.2,4-44.6-.8-58.5-4.5-45.9-12.2-66.9-11.9-75.4-63-3.3-19.9,23.1-43.4,32.6-52.9C215,446.2,262.2,424,301.4,407l33.7-10.1c12-5.2,25-16.9,32.6-27,12.9-17.1,36.8-38.9,29.2-72-1.6-6.8,0-12.4-3.4-16.9v-2.2c-11.9,5.7-10.7,28.6-16.9,40.5-4.4,8.5-14.1,13.4-19.1,21.4-2.6.3-3.2.2-4.5,1.1-23.3-.2-24.8-35.8-33.7-51.7L307,277.7l-27-1.1c-3.3.9-6.9,4.7-12.4,3.4s-8.1-7.1-12.4-10.1-7.2-2.3-10.1-4.5c-6.7.7-7,3.9-11.2,6.7.6,6.1,5.5,8.6,3.4,15.7-1,3.3-5.1,7.4-6.7,10.1-10.6,17.4-20,34.1-30.4,50.6-14.8,23.6-32.7,42.9-48.4,65.2-17,24.3-32,49.2-49.5,73.1-10,13.6-23.2,25.1-32.6,39.4-7.8,11.9-14.1,23.7-22.5,34.9L23.6,581.4c-7.8,7.9-11.2,17.9-23.6,21.4V668c8.4-1.4,37.2-12.6,41.6-18,3.6,1,1.7-.6,3.4,2.2,2,5.2-4.7,12.1-6.7,16.9-3.2,7.6-2.9,14.2-5.6,22.5s-8.2,14.9-9,23.6H42.7v69.7c0,10.5-1.7,25.2,1.1,33.7H181.1a53.9,53.9,0,0,1,14.6-2.2V715.2c5.1.1,13.7,1,16.9-1.1s1.7.6,3.4-2.2c3-6.9-5.2-16.3-4.5-24.7,7.8-1.8,30.8-7.9,38.2-1.1,4.9,6.7-2.2,11.3-4.5,16.9-1.3,3.2-.5,7.6-2.2,10.1-.2,13.9.1,19.6,4.5,28.1,21.1-.1,27.8-6.8,41.6-12.4,5.1-2.1,9.8-.2,15.7-2.2s14.1-8,20.2-11.2C367.5,693.1,405,669.3,444.2,644.3Z\"/>\r\n    </g>\r\n    <g id=\"menu\" transform=\"translate(20, 20) scale(0.3)\" (click)=\"openModalMenu()\"> <title>Menu</title>\r\n      <path style=\"fill:#7f4b17\" d=\"M536,203.2c0.4-1.8,1.3-10.6,0.5-12c-1.9-3.5-6.2-4.6-11.3-5c0.1-6.3-1-12.4,0.2-18.2v-3.6\r\n          c0.4-1.7,1-8.1,0.2-9.6s-4.1-4.2-6.5-5s-2.3-0.2-3.1-0.7s-0.3-3.6-0.2-5.3c2.2-0.1,5.1-0.5,7-0.7c-0.3,0.2-0.4,0.2-1,0.2v0.2\r\n          c2.3-0.1,6.4-4,7-5.8v-8c-1.5-7.2-2.1-12.6-8.2-15.1l-2.6-12.2c-0.4-1.6,0-3.6-0.7-4.8v-2.4l2.6-1.2c2.2-1.6,5-2.9,7.2-4.6h0.2\r\n          l-0.7-0.2l1.2-0.7c0-7.9,0.1-16.4-4.8-19.9c0.4-1,1.3-1.2,1.9-1.9c1.7-1.6,2.9-3.7,3.4-6c1.8,0.1,4,0.2,4.8-0.7l0.2-0.2l-0.5-0.5\r\n          c-1.2,0-3.5,0.3-4.3-0.2s0-1.5-0.2-2.4s-0.9-2.4-1.2-3.4c-0.9-3.2,0.4-6.8-0.5-9.6s-2.2-5.4-3.8-6.7s-2-1-2.6-1.9\r\n          c7.8-3.9,8.6-11.2,5.8-20.6c-0.5-1.7-0.9-6.3-2.4-6.7l0.5-0.5c-2.8-2.4-7.7-2.2-13-2.2l-25-0.2l-99.1-1L104.8,1L33.3,0.3\r\n          c-9,0-23.2-1.7-27.8,2.6c-1.6,1.4-3.5,6-2.6,9.4c0.3,0.7,0.4,1.4,0.5,2.2c-0.7,5,2.1,15.3,3.8,19.2c0.9,2,3.2,4,3.8,5.8l0.2,4.1\r\n          c0.9,3.6,1.4,7.8,2.4,11.3c0.5,1.9,0.2,4.1,1.2,5.5s-5.9,4-7.7,5.5c-4.4,3.8-10.4,15.7-5,23c4.3,2.1,5.2,6.9,3.4,13\r\n          C5,103.5,5,105.2,4.3,106s0.7,0.8,0.7,1.7h0.7c-0.1,0.6,0,0.7-0.2,1s0.4,0.6,1.2,1c-0.1,3.7-0.6,7.4-1.4,11v4.1c0,6.5,1.2,14.7,5,17\r\n          c1,0.6,2.2,0.6,3.1,1.2c0.2,0.2,0.3,0.4,0.4,0.7h0.1l0.2,0.4c0.2,0.2,2.3,0.4,2.6,0.5c0.7,1.8,1.1,6.3,1.9,7.7c0,0.6,0,1.1-0.2,1.7\r\n          c-5.8,0-10.3,0.3-13.7,2.6c-0.7,0.5-1,1.6-1.7,2.2c-0.5,3.6,2,8.3,3.1,12.7c0.5,2.1,0,4,0.5,6.2c1.2,5.1,1.3,11.2,2.9,15.6\r\n          c0.7,2,1.5,5,3.1,6s1.9,0.6,2.6,1l-0.5,0.5c0.6,0.3,2.1,0.1,2.6,0.5l0.7,0.2l-2.2,2.2c-0.5,0.7-0.3,1.8-1,2.4\r\n          c0.4,3.9,3.8,11.6,6.2,13.4l1.2,0.2l5,2.9v0.2c-0.3,0.5,4.1,0.7,6,1.2s2.8-0.1,4.1,0.2s5.1,0.2,7.4,0.2l10.1,0.2l84.7,1.2l192,2.6\r\n          l77.5,0.7c4.2,1.1,10.4,0.2,15.1,0.2h4.1c1.9,0.5,6.3,1.1,8.9,0.5c3.5-0.6,7.1-0.6,10.6-0.2c3.6,0.8,10.7,0.2,15.6,0.2h5.1\r\n          c4.1,1.1,10.3,0.2,14.9,0.2h4.1c3.8,1,9.6,0.2,13.9,0.2c8.7,0,18.5,0.3,26.6-0.2c-0.3,0.2-0.4,0.2-1,0.2v0.2c1.7,0,1.3-0.3,1.9-1.2\r\n          c0.4-0.2,0.9-0.3,1.4-0.2c-0.4-0.6-0.3-0.4-1.2-0.5c0.4-0.2,0.9-0.3,1.4-0.2c0.9-4.3,1-9.5,2.6-13.4c0.6-1.5,2.3-3.1,2.6-4.3\r\n          S535.6,204.8,536,203.2z M12.1,165.3c-0.2-0.3-0.2-0.2-0.2-0.7h0.2V165.3z M472.7,185.9h-10.1c-1.3,0-3.5,0.3-4.3-0.2h18.5\r\n          C476,186.2,473.9,185.9,472.7,185.9z M496.2,143.4l0.5,0.2L496.2,143.4z M489.5,10.2c-1.3,0-3.5,0.3-4.3-0.2h18.2\r\n          C502.2,10.9,492.4,10.2,489.5,10.2z M10.7,142l0.5,0.2V142H10.7z M12.6,143.2l0.5,0.2v-0.2H12.6z M13.3,143.4l0.5,0.2h-0.5V143.4z\r\n           M13.5,199.8v-0.2l-0.7-0.2c0.4,0.3,0.2,0.2,0.8,0.4L13.5,199.8z M14.5,200c-0.5,0.1,0,0.4,0.2,0.5S14.6,200.1,14.5,200L14.5,200z\r\n           M27,222.6v-0.2h-0.5L27,222.6z\"/>\r\n      <text font-family=\"TimesNewRoman\" font-size=\"130\" fill=\"white\" transform=\"translate(100, 155)\">Menu</text>\r\n    </g>\r\n    <g id=\"section1\" transform=\"translate(230, 720) scale(0.2)\" (click)=\"openModalOne()\"> <title>Section 1</title>\r\n      <path style=\"fill:#7f4b17\" d=\"M536,203.2c0.4-1.8,1.3-10.6,0.5-12c-1.9-3.5-6.2-4.6-11.3-5c0.1-6.3-1-12.4,0.2-18.2v-3.6\r\n          c0.4-1.7,1-8.1,0.2-9.6s-4.1-4.2-6.5-5s-2.3-0.2-3.1-0.7s-0.3-3.6-0.2-5.3c2.2-0.1,5.1-0.5,7-0.7c-0.3,0.2-0.4,0.2-1,0.2v0.2\r\n          c2.3-0.1,6.4-4,7-5.8v-8c-1.5-7.2-2.1-12.6-8.2-15.1l-2.6-12.2c-0.4-1.6,0-3.6-0.7-4.8v-2.4l2.6-1.2c2.2-1.6,5-2.9,7.2-4.6h0.2\r\n          l-0.7-0.2l1.2-0.7c0-7.9,0.1-16.4-4.8-19.9c0.4-1,1.3-1.2,1.9-1.9c1.7-1.6,2.9-3.7,3.4-6c1.8,0.1,4,0.2,4.8-0.7l0.2-0.2l-0.5-0.5\r\n          c-1.2,0-3.5,0.3-4.3-0.2s0-1.5-0.2-2.4s-0.9-2.4-1.2-3.4c-0.9-3.2,0.4-6.8-0.5-9.6s-2.2-5.4-3.8-6.7s-2-1-2.6-1.9\r\n          c7.8-3.9,8.6-11.2,5.8-20.6c-0.5-1.7-0.9-6.3-2.4-6.7l0.5-0.5c-2.8-2.4-7.7-2.2-13-2.2l-25-0.2l-99.1-1L104.8,1L33.3,0.3\r\n          c-9,0-23.2-1.7-27.8,2.6c-1.6,1.4-3.5,6-2.6,9.4c0.3,0.7,0.4,1.4,0.5,2.2c-0.7,5,2.1,15.3,3.8,19.2c0.9,2,3.2,4,3.8,5.8l0.2,4.1\r\n          c0.9,3.6,1.4,7.8,2.4,11.3c0.5,1.9,0.2,4.1,1.2,5.5s-5.9,4-7.7,5.5c-4.4,3.8-10.4,15.7-5,23c4.3,2.1,5.2,6.9,3.4,13\r\n          C5,103.5,5,105.2,4.3,106s0.7,0.8,0.7,1.7h0.7c-0.1,0.6,0,0.7-0.2,1s0.4,0.6,1.2,1c-0.1,3.7-0.6,7.4-1.4,11v4.1c0,6.5,1.2,14.7,5,17\r\n          c1,0.6,2.2,0.6,3.1,1.2c0.2,0.2,0.3,0.4,0.4,0.7h0.1l0.2,0.4c0.2,0.2,2.3,0.4,2.6,0.5c0.7,1.8,1.1,6.3,1.9,7.7c0,0.6,0,1.1-0.2,1.7\r\n          c-5.8,0-10.3,0.3-13.7,2.6c-0.7,0.5-1,1.6-1.7,2.2c-0.5,3.6,2,8.3,3.1,12.7c0.5,2.1,0,4,0.5,6.2c1.2,5.1,1.3,11.2,2.9,15.6\r\n          c0.7,2,1.5,5,3.1,6s1.9,0.6,2.6,1l-0.5,0.5c0.6,0.3,2.1,0.1,2.6,0.5l0.7,0.2l-2.2,2.2c-0.5,0.7-0.3,1.8-1,2.4\r\n          c0.4,3.9,3.8,11.6,6.2,13.4l1.2,0.2l5,2.9v0.2c-0.3,0.5,4.1,0.7,6,1.2s2.8-0.1,4.1,0.2s5.1,0.2,7.4,0.2l10.1,0.2l84.7,1.2l192,2.6\r\n          l77.5,0.7c4.2,1.1,10.4,0.2,15.1,0.2h4.1c1.9,0.5,6.3,1.1,8.9,0.5c3.5-0.6,7.1-0.6,10.6-0.2c3.6,0.8,10.7,0.2,15.6,0.2h5.1\r\n          c4.1,1.1,10.3,0.2,14.9,0.2h4.1c3.8,1,9.6,0.2,13.9,0.2c8.7,0,18.5,0.3,26.6-0.2c-0.3,0.2-0.4,0.2-1,0.2v0.2c1.7,0,1.3-0.3,1.9-1.2\r\n          c0.4-0.2,0.9-0.3,1.4-0.2c-0.4-0.6-0.3-0.4-1.2-0.5c0.4-0.2,0.9-0.3,1.4-0.2c0.9-4.3,1-9.5,2.6-13.4c0.6-1.5,2.3-3.1,2.6-4.3\r\n          S535.6,204.8,536,203.2z M12.1,165.3c-0.2-0.3-0.2-0.2-0.2-0.7h0.2V165.3z M472.7,185.9h-10.1c-1.3,0-3.5,0.3-4.3-0.2h18.5\r\n          C476,186.2,473.9,185.9,472.7,185.9z M496.2,143.4l0.5,0.2L496.2,143.4z M489.5,10.2c-1.3,0-3.5,0.3-4.3-0.2h18.2\r\n          C502.2,10.9,492.4,10.2,489.5,10.2z M10.7,142l0.5,0.2V142H10.7z M12.6,143.2l0.5,0.2v-0.2H12.6z M13.3,143.4l0.5,0.2h-0.5V143.4z\r\n           M13.5,199.8v-0.2l-0.7-0.2c0.4,0.3,0.2,0.2,0.8,0.4L13.5,199.8z M14.5,200c-0.5,0.1,0,0.4,0.2,0.5S14.6,200.1,14.5,200L14.5,200z\r\n           M27,222.6v-0.2h-0.5L27,222.6z\"/>\r\n      <text font-family=\"TimesNewRoman\" font-size=\"130\" fill=\"white\" transform=\"translate(25, 150)\">Section 1</text>\r\n    </g>\r\n    <g id=\"section2\" transform=\"translate(440, 580) scale(0.2)\" (click)=\"openModalTwo()\"> <title>Section 2</title>\r\n      <path style=\"fill:#7f4b17\" d=\"M536,203.2c0.4-1.8,1.3-10.6,0.5-12c-1.9-3.5-6.2-4.6-11.3-5c0.1-6.3-1-12.4,0.2-18.2v-3.6\r\n          c0.4-1.7,1-8.1,0.2-9.6s-4.1-4.2-6.5-5s-2.3-0.2-3.1-0.7s-0.3-3.6-0.2-5.3c2.2-0.1,5.1-0.5,7-0.7c-0.3,0.2-0.4,0.2-1,0.2v0.2\r\n          c2.3-0.1,6.4-4,7-5.8v-8c-1.5-7.2-2.1-12.6-8.2-15.1l-2.6-12.2c-0.4-1.6,0-3.6-0.7-4.8v-2.4l2.6-1.2c2.2-1.6,5-2.9,7.2-4.6h0.2\r\n          l-0.7-0.2l1.2-0.7c0-7.9,0.1-16.4-4.8-19.9c0.4-1,1.3-1.2,1.9-1.9c1.7-1.6,2.9-3.7,3.4-6c1.8,0.1,4,0.2,4.8-0.7l0.2-0.2l-0.5-0.5\r\n          c-1.2,0-3.5,0.3-4.3-0.2s0-1.5-0.2-2.4s-0.9-2.4-1.2-3.4c-0.9-3.2,0.4-6.8-0.5-9.6s-2.2-5.4-3.8-6.7s-2-1-2.6-1.9\r\n          c7.8-3.9,8.6-11.2,5.8-20.6c-0.5-1.7-0.9-6.3-2.4-6.7l0.5-0.5c-2.8-2.4-7.7-2.2-13-2.2l-25-0.2l-99.1-1L104.8,1L33.3,0.3\r\n          c-9,0-23.2-1.7-27.8,2.6c-1.6,1.4-3.5,6-2.6,9.4c0.3,0.7,0.4,1.4,0.5,2.2c-0.7,5,2.1,15.3,3.8,19.2c0.9,2,3.2,4,3.8,5.8l0.2,4.1\r\n          c0.9,3.6,1.4,7.8,2.4,11.3c0.5,1.9,0.2,4.1,1.2,5.5s-5.9,4-7.7,5.5c-4.4,3.8-10.4,15.7-5,23c4.3,2.1,5.2,6.9,3.4,13\r\n          C5,103.5,5,105.2,4.3,106s0.7,0.8,0.7,1.7h0.7c-0.1,0.6,0,0.7-0.2,1s0.4,0.6,1.2,1c-0.1,3.7-0.6,7.4-1.4,11v4.1c0,6.5,1.2,14.7,5,17\r\n          c1,0.6,2.2,0.6,3.1,1.2c0.2,0.2,0.3,0.4,0.4,0.7h0.1l0.2,0.4c0.2,0.2,2.3,0.4,2.6,0.5c0.7,1.8,1.1,6.3,1.9,7.7c0,0.6,0,1.1-0.2,1.7\r\n          c-5.8,0-10.3,0.3-13.7,2.6c-0.7,0.5-1,1.6-1.7,2.2c-0.5,3.6,2,8.3,3.1,12.7c0.5,2.1,0,4,0.5,6.2c1.2,5.1,1.3,11.2,2.9,15.6\r\n          c0.7,2,1.5,5,3.1,6s1.9,0.6,2.6,1l-0.5,0.5c0.6,0.3,2.1,0.1,2.6,0.5l0.7,0.2l-2.2,2.2c-0.5,0.7-0.3,1.8-1,2.4\r\n          c0.4,3.9,3.8,11.6,6.2,13.4l1.2,0.2l5,2.9v0.2c-0.3,0.5,4.1,0.7,6,1.2s2.8-0.1,4.1,0.2s5.1,0.2,7.4,0.2l10.1,0.2l84.7,1.2l192,2.6\r\n          l77.5,0.7c4.2,1.1,10.4,0.2,15.1,0.2h4.1c1.9,0.5,6.3,1.1,8.9,0.5c3.5-0.6,7.1-0.6,10.6-0.2c3.6,0.8,10.7,0.2,15.6,0.2h5.1\r\n          c4.1,1.1,10.3,0.2,14.9,0.2h4.1c3.8,1,9.6,0.2,13.9,0.2c8.7,0,18.5,0.3,26.6-0.2c-0.3,0.2-0.4,0.2-1,0.2v0.2c1.7,0,1.3-0.3,1.9-1.2\r\n          c0.4-0.2,0.9-0.3,1.4-0.2c-0.4-0.6-0.3-0.4-1.2-0.5c0.4-0.2,0.9-0.3,1.4-0.2c0.9-4.3,1-9.5,2.6-13.4c0.6-1.5,2.3-3.1,2.6-4.3\r\n          S535.6,204.8,536,203.2z M12.1,165.3c-0.2-0.3-0.2-0.2-0.2-0.7h0.2V165.3z M472.7,185.9h-10.1c-1.3,0-3.5,0.3-4.3-0.2h18.5\r\n          C476,186.2,473.9,185.9,472.7,185.9z M496.2,143.4l0.5,0.2L496.2,143.4z M489.5,10.2c-1.3,0-3.5,0.3-4.3-0.2h18.2\r\n          C502.2,10.9,492.4,10.2,489.5,10.2z M10.7,142l0.5,0.2V142H10.7z M12.6,143.2l0.5,0.2v-0.2H12.6z M13.3,143.4l0.5,0.2h-0.5V143.4z\r\n           M13.5,199.8v-0.2l-0.7-0.2c0.4,0.3,0.2,0.2,0.8,0.4L13.5,199.8z M14.5,200c-0.5,0.1,0,0.4,0.2,0.5S14.6,200.1,14.5,200L14.5,200z\r\n           M27,222.6v-0.2h-0.5L27,222.6z\"/>\r\n      <text font-family=\"TimesNewRoman\" font-size=\"130\" fill=\"white\" transform=\"translate(25, 150)\">Section 2</text>\r\n    </g>\r\n    <g id=\"section3\" transform=\"translate(130, 510) scale(0.2)\" (click)=\"openModalThree()\"> <title>Section 3</title>\r\n      <path style=\"fill:#7f4b17\" d=\"M536,203.2c0.4-1.8,1.3-10.6,0.5-12c-1.9-3.5-6.2-4.6-11.3-5c0.1-6.3-1-12.4,0.2-18.2v-3.6\r\n          c0.4-1.7,1-8.1,0.2-9.6s-4.1-4.2-6.5-5s-2.3-0.2-3.1-0.7s-0.3-3.6-0.2-5.3c2.2-0.1,5.1-0.5,7-0.7c-0.3,0.2-0.4,0.2-1,0.2v0.2\r\n          c2.3-0.1,6.4-4,7-5.8v-8c-1.5-7.2-2.1-12.6-8.2-15.1l-2.6-12.2c-0.4-1.6,0-3.6-0.7-4.8v-2.4l2.6-1.2c2.2-1.6,5-2.9,7.2-4.6h0.2\r\n          l-0.7-0.2l1.2-0.7c0-7.9,0.1-16.4-4.8-19.9c0.4-1,1.3-1.2,1.9-1.9c1.7-1.6,2.9-3.7,3.4-6c1.8,0.1,4,0.2,4.8-0.7l0.2-0.2l-0.5-0.5\r\n          c-1.2,0-3.5,0.3-4.3-0.2s0-1.5-0.2-2.4s-0.9-2.4-1.2-3.4c-0.9-3.2,0.4-6.8-0.5-9.6s-2.2-5.4-3.8-6.7s-2-1-2.6-1.9\r\n          c7.8-3.9,8.6-11.2,5.8-20.6c-0.5-1.7-0.9-6.3-2.4-6.7l0.5-0.5c-2.8-2.4-7.7-2.2-13-2.2l-25-0.2l-99.1-1L104.8,1L33.3,0.3\r\n          c-9,0-23.2-1.7-27.8,2.6c-1.6,1.4-3.5,6-2.6,9.4c0.3,0.7,0.4,1.4,0.5,2.2c-0.7,5,2.1,15.3,3.8,19.2c0.9,2,3.2,4,3.8,5.8l0.2,4.1\r\n          c0.9,3.6,1.4,7.8,2.4,11.3c0.5,1.9,0.2,4.1,1.2,5.5s-5.9,4-7.7,5.5c-4.4,3.8-10.4,15.7-5,23c4.3,2.1,5.2,6.9,3.4,13\r\n          C5,103.5,5,105.2,4.3,106s0.7,0.8,0.7,1.7h0.7c-0.1,0.6,0,0.7-0.2,1s0.4,0.6,1.2,1c-0.1,3.7-0.6,7.4-1.4,11v4.1c0,6.5,1.2,14.7,5,17\r\n          c1,0.6,2.2,0.6,3.1,1.2c0.2,0.2,0.3,0.4,0.4,0.7h0.1l0.2,0.4c0.2,0.2,2.3,0.4,2.6,0.5c0.7,1.8,1.1,6.3,1.9,7.7c0,0.6,0,1.1-0.2,1.7\r\n          c-5.8,0-10.3,0.3-13.7,2.6c-0.7,0.5-1,1.6-1.7,2.2c-0.5,3.6,2,8.3,3.1,12.7c0.5,2.1,0,4,0.5,6.2c1.2,5.1,1.3,11.2,2.9,15.6\r\n          c0.7,2,1.5,5,3.1,6s1.9,0.6,2.6,1l-0.5,0.5c0.6,0.3,2.1,0.1,2.6,0.5l0.7,0.2l-2.2,2.2c-0.5,0.7-0.3,1.8-1,2.4\r\n          c0.4,3.9,3.8,11.6,6.2,13.4l1.2,0.2l5,2.9v0.2c-0.3,0.5,4.1,0.7,6,1.2s2.8-0.1,4.1,0.2s5.1,0.2,7.4,0.2l10.1,0.2l84.7,1.2l192,2.6\r\n          l77.5,0.7c4.2,1.1,10.4,0.2,15.1,0.2h4.1c1.9,0.5,6.3,1.1,8.9,0.5c3.5-0.6,7.1-0.6,10.6-0.2c3.6,0.8,10.7,0.2,15.6,0.2h5.1\r\n          c4.1,1.1,10.3,0.2,14.9,0.2h4.1c3.8,1,9.6,0.2,13.9,0.2c8.7,0,18.5,0.3,26.6-0.2c-0.3,0.2-0.4,0.2-1,0.2v0.2c1.7,0,1.3-0.3,1.9-1.2\r\n          c0.4-0.2,0.9-0.3,1.4-0.2c-0.4-0.6-0.3-0.4-1.2-0.5c0.4-0.2,0.9-0.3,1.4-0.2c0.9-4.3,1-9.5,2.6-13.4c0.6-1.5,2.3-3.1,2.6-4.3\r\n          S535.6,204.8,536,203.2z M12.1,165.3c-0.2-0.3-0.2-0.2-0.2-0.7h0.2V165.3z M472.7,185.9h-10.1c-1.3,0-3.5,0.3-4.3-0.2h18.5\r\n          C476,186.2,473.9,185.9,472.7,185.9z M496.2,143.4l0.5,0.2L496.2,143.4z M489.5,10.2c-1.3,0-3.5,0.3-4.3-0.2h18.2\r\n          C502.2,10.9,492.4,10.2,489.5,10.2z M10.7,142l0.5,0.2V142H10.7z M12.6,143.2l0.5,0.2v-0.2H12.6z M13.3,143.4l0.5,0.2h-0.5V143.4z\r\n           M13.5,199.8v-0.2l-0.7-0.2c0.4,0.3,0.2,0.2,0.8,0.4L13.5,199.8z M14.5,200c-0.5,0.1,0,0.4,0.2,0.5S14.6,200.1,14.5,200L14.5,200z\r\n           M27,222.6v-0.2h-0.5L27,222.6z\"/>\r\n      <text font-family=\"TimesNewRoman\" font-size=\"130\" fill=\"white\" transform=\"translate(25, 150)\">Section 3</text>\r\n    </g>\r\n    <g id=\"section4\" transform=\"translate(280, 380) scale(0.2)\" (click)=\"openModalFour()\"> <title>Section 4</title>\r\n      <path style=\"fill:#7f4b17\" d=\"M536,203.2c0.4-1.8,1.3-10.6,0.5-12c-1.9-3.5-6.2-4.6-11.3-5c0.1-6.3-1-12.4,0.2-18.2v-3.6\r\n          c0.4-1.7,1-8.1,0.2-9.6s-4.1-4.2-6.5-5s-2.3-0.2-3.1-0.7s-0.3-3.6-0.2-5.3c2.2-0.1,5.1-0.5,7-0.7c-0.3,0.2-0.4,0.2-1,0.2v0.2\r\n          c2.3-0.1,6.4-4,7-5.8v-8c-1.5-7.2-2.1-12.6-8.2-15.1l-2.6-12.2c-0.4-1.6,0-3.6-0.7-4.8v-2.4l2.6-1.2c2.2-1.6,5-2.9,7.2-4.6h0.2\r\n          l-0.7-0.2l1.2-0.7c0-7.9,0.1-16.4-4.8-19.9c0.4-1,1.3-1.2,1.9-1.9c1.7-1.6,2.9-3.7,3.4-6c1.8,0.1,4,0.2,4.8-0.7l0.2-0.2l-0.5-0.5\r\n          c-1.2,0-3.5,0.3-4.3-0.2s0-1.5-0.2-2.4s-0.9-2.4-1.2-3.4c-0.9-3.2,0.4-6.8-0.5-9.6s-2.2-5.4-3.8-6.7s-2-1-2.6-1.9\r\n          c7.8-3.9,8.6-11.2,5.8-20.6c-0.5-1.7-0.9-6.3-2.4-6.7l0.5-0.5c-2.8-2.4-7.7-2.2-13-2.2l-25-0.2l-99.1-1L104.8,1L33.3,0.3\r\n          c-9,0-23.2-1.7-27.8,2.6c-1.6,1.4-3.5,6-2.6,9.4c0.3,0.7,0.4,1.4,0.5,2.2c-0.7,5,2.1,15.3,3.8,19.2c0.9,2,3.2,4,3.8,5.8l0.2,4.1\r\n          c0.9,3.6,1.4,7.8,2.4,11.3c0.5,1.9,0.2,4.1,1.2,5.5s-5.9,4-7.7,5.5c-4.4,3.8-10.4,15.7-5,23c4.3,2.1,5.2,6.9,3.4,13\r\n          C5,103.5,5,105.2,4.3,106s0.7,0.8,0.7,1.7h0.7c-0.1,0.6,0,0.7-0.2,1s0.4,0.6,1.2,1c-0.1,3.7-0.6,7.4-1.4,11v4.1c0,6.5,1.2,14.7,5,17\r\n          c1,0.6,2.2,0.6,3.1,1.2c0.2,0.2,0.3,0.4,0.4,0.7h0.1l0.2,0.4c0.2,0.2,2.3,0.4,2.6,0.5c0.7,1.8,1.1,6.3,1.9,7.7c0,0.6,0,1.1-0.2,1.7\r\n          c-5.8,0-10.3,0.3-13.7,2.6c-0.7,0.5-1,1.6-1.7,2.2c-0.5,3.6,2,8.3,3.1,12.7c0.5,2.1,0,4,0.5,6.2c1.2,5.1,1.3,11.2,2.9,15.6\r\n          c0.7,2,1.5,5,3.1,6s1.9,0.6,2.6,1l-0.5,0.5c0.6,0.3,2.1,0.1,2.6,0.5l0.7,0.2l-2.2,2.2c-0.5,0.7-0.3,1.8-1,2.4\r\n          c0.4,3.9,3.8,11.6,6.2,13.4l1.2,0.2l5,2.9v0.2c-0.3,0.5,4.1,0.7,6,1.2s2.8-0.1,4.1,0.2s5.1,0.2,7.4,0.2l10.1,0.2l84.7,1.2l192,2.6\r\n          l77.5,0.7c4.2,1.1,10.4,0.2,15.1,0.2h4.1c1.9,0.5,6.3,1.1,8.9,0.5c3.5-0.6,7.1-0.6,10.6-0.2c3.6,0.8,10.7,0.2,15.6,0.2h5.1\r\n          c4.1,1.1,10.3,0.2,14.9,0.2h4.1c3.8,1,9.6,0.2,13.9,0.2c8.7,0,18.5,0.3,26.6-0.2c-0.3,0.2-0.4,0.2-1,0.2v0.2c1.7,0,1.3-0.3,1.9-1.2\r\n          c0.4-0.2,0.9-0.3,1.4-0.2c-0.4-0.6-0.3-0.4-1.2-0.5c0.4-0.2,0.9-0.3,1.4-0.2c0.9-4.3,1-9.5,2.6-13.4c0.6-1.5,2.3-3.1,2.6-4.3\r\n          S535.6,204.8,536,203.2z M12.1,165.3c-0.2-0.3-0.2-0.2-0.2-0.7h0.2V165.3z M472.7,185.9h-10.1c-1.3,0-3.5,0.3-4.3-0.2h18.5\r\n          C476,186.2,473.9,185.9,472.7,185.9z M496.2,143.4l0.5,0.2L496.2,143.4z M489.5,10.2c-1.3,0-3.5,0.3-4.3-0.2h18.2\r\n          C502.2,10.9,492.4,10.2,489.5,10.2z M10.7,142l0.5,0.2V142H10.7z M12.6,143.2l0.5,0.2v-0.2H12.6z M13.3,143.4l0.5,0.2h-0.5V143.4z\r\n           M13.5,199.8v-0.2l-0.7-0.2c0.4,0.3,0.2,0.2,0.8,0.4L13.5,199.8z M14.5,200c-0.5,0.1,0,0.4,0.2,0.5S14.6,200.1,14.5,200L14.5,200z\r\n           M27,222.6v-0.2h-0.5L27,222.6z\"/>\r\n      <text font-family=\"TimesNewRoman\" font-size=\"130\" fill=\"white\" transform=\"translate(25, 150)\">Section 4</text>\r\n    </g>\r\n    <g id=\"section5\" transform=\"translate(330, 170) scale(0.2)\" (click)=\"openModalFive()\"> <title>Section 5</title>\r\n      <path style=\"fill:#7f4b17\" d=\"M536,203.2c0.4-1.8,1.3-10.6,0.5-12c-1.9-3.5-6.2-4.6-11.3-5c0.1-6.3-1-12.4,0.2-18.2v-3.6\r\n          c0.4-1.7,1-8.1,0.2-9.6s-4.1-4.2-6.5-5s-2.3-0.2-3.1-0.7s-0.3-3.6-0.2-5.3c2.2-0.1,5.1-0.5,7-0.7c-0.3,0.2-0.4,0.2-1,0.2v0.2\r\n          c2.3-0.1,6.4-4,7-5.8v-8c-1.5-7.2-2.1-12.6-8.2-15.1l-2.6-12.2c-0.4-1.6,0-3.6-0.7-4.8v-2.4l2.6-1.2c2.2-1.6,5-2.9,7.2-4.6h0.2\r\n          l-0.7-0.2l1.2-0.7c0-7.9,0.1-16.4-4.8-19.9c0.4-1,1.3-1.2,1.9-1.9c1.7-1.6,2.9-3.7,3.4-6c1.8,0.1,4,0.2,4.8-0.7l0.2-0.2l-0.5-0.5\r\n          c-1.2,0-3.5,0.3-4.3-0.2s0-1.5-0.2-2.4s-0.9-2.4-1.2-3.4c-0.9-3.2,0.4-6.8-0.5-9.6s-2.2-5.4-3.8-6.7s-2-1-2.6-1.9\r\n          c7.8-3.9,8.6-11.2,5.8-20.6c-0.5-1.7-0.9-6.3-2.4-6.7l0.5-0.5c-2.8-2.4-7.7-2.2-13-2.2l-25-0.2l-99.1-1L104.8,1L33.3,0.3\r\n          c-9,0-23.2-1.7-27.8,2.6c-1.6,1.4-3.5,6-2.6,9.4c0.3,0.7,0.4,1.4,0.5,2.2c-0.7,5,2.1,15.3,3.8,19.2c0.9,2,3.2,4,3.8,5.8l0.2,4.1\r\n          c0.9,3.6,1.4,7.8,2.4,11.3c0.5,1.9,0.2,4.1,1.2,5.5s-5.9,4-7.7,5.5c-4.4,3.8-10.4,15.7-5,23c4.3,2.1,5.2,6.9,3.4,13\r\n          C5,103.5,5,105.2,4.3,106s0.7,0.8,0.7,1.7h0.7c-0.1,0.6,0,0.7-0.2,1s0.4,0.6,1.2,1c-0.1,3.7-0.6,7.4-1.4,11v4.1c0,6.5,1.2,14.7,5,17\r\n          c1,0.6,2.2,0.6,3.1,1.2c0.2,0.2,0.3,0.4,0.4,0.7h0.1l0.2,0.4c0.2,0.2,2.3,0.4,2.6,0.5c0.7,1.8,1.1,6.3,1.9,7.7c0,0.6,0,1.1-0.2,1.7\r\n          c-5.8,0-10.3,0.3-13.7,2.6c-0.7,0.5-1,1.6-1.7,2.2c-0.5,3.6,2,8.3,3.1,12.7c0.5,2.1,0,4,0.5,6.2c1.2,5.1,1.3,11.2,2.9,15.6\r\n          c0.7,2,1.5,5,3.1,6s1.9,0.6,2.6,1l-0.5,0.5c0.6,0.3,2.1,0.1,2.6,0.5l0.7,0.2l-2.2,2.2c-0.5,0.7-0.3,1.8-1,2.4\r\n          c0.4,3.9,3.8,11.6,6.2,13.4l1.2,0.2l5,2.9v0.2c-0.3,0.5,4.1,0.7,6,1.2s2.8-0.1,4.1,0.2s5.1,0.2,7.4,0.2l10.1,0.2l84.7,1.2l192,2.6\r\n          l77.5,0.7c4.2,1.1,10.4,0.2,15.1,0.2h4.1c1.9,0.5,6.3,1.1,8.9,0.5c3.5-0.6,7.1-0.6,10.6-0.2c3.6,0.8,10.7,0.2,15.6,0.2h5.1\r\n          c4.1,1.1,10.3,0.2,14.9,0.2h4.1c3.8,1,9.6,0.2,13.9,0.2c8.7,0,18.5,0.3,26.6-0.2c-0.3,0.2-0.4,0.2-1,0.2v0.2c1.7,0,1.3-0.3,1.9-1.2\r\n          c0.4-0.2,0.9-0.3,1.4-0.2c-0.4-0.6-0.3-0.4-1.2-0.5c0.4-0.2,0.9-0.3,1.4-0.2c0.9-4.3,1-9.5,2.6-13.4c0.6-1.5,2.3-3.1,2.6-4.3\r\n          S535.6,204.8,536,203.2z M12.1,165.3c-0.2-0.3-0.2-0.2-0.2-0.7h0.2V165.3z M472.7,185.9h-10.1c-1.3,0-3.5,0.3-4.3-0.2h18.5\r\n          C476,186.2,473.9,185.9,472.7,185.9z M496.2,143.4l0.5,0.2L496.2,143.4z M489.5,10.2c-1.3,0-3.5,0.3-4.3-0.2h18.2\r\n          C502.2,10.9,492.4,10.2,489.5,10.2z M10.7,142l0.5,0.2V142H10.7z M12.6,143.2l0.5,0.2v-0.2H12.6z M13.3,143.4l0.5,0.2h-0.5V143.4z\r\n           M13.5,199.8v-0.2l-0.7-0.2c0.4,0.3,0.2,0.2,0.8,0.4L13.5,199.8z M14.5,200c-0.5,0.1,0,0.4,0.2,0.5S14.6,200.1,14.5,200L14.5,200z\r\n           M27,222.6v-0.2h-0.5L27,222.6z\"/>\r\n      <text font-family=\"TimesNewRoman\" font-size=\"130\" fill=\"white\" transform=\"translate(25, 150)\">Section 5</text>\r\n    </g>\r\n  </svg>\r\n<div class=\"backdrop\" [ngStyle]=\"{'display':backDisplay}\"></div>\r\n<div class=\"modal\" tabindex=\"-1\" role=\"dialog\"  [ngStyle]=\"{'display':displayMenu}\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h4 class=\"modal-title\">Menu Navigation</h4>\r\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"onCloseHandledMenu()\"><span aria-hidden=\"true\">&times;</span></button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <p>Page Directory</p>\r\n        <p><a routerLink=\"/achievements\">Achievements Page</a></p>\r\n        <p><a routerLink=\"/home\">Introduction Page</a></p>\r\n        <p><a [routerLink]=\"['/login']\" class=\"button-routing\">Logout</a></p>\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"onCloseHandledMenu()\" >Close</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal\" tabindex=\"-1\" role=\"dialog\"  [ngStyle]=\"{'display':displayOne}\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h4 class=\"modal-title\">Section 1 Form Links</h4>\r\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"onCloseHandledOne()\"><span aria-hidden=\"true\">&times;</span></button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <p>Here are resources for Form Section One</p>\r\n        <a routerLink=\"/questions-set1\"> Link to Form 1 </a>\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"onCloseHandledOne()\" >Close</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal\" tabindex=\"-1\" role=\"dialog\"  [ngStyle]=\"{'display':displayTwo}\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h4 class=\"modal-title\">Section 2 Form Links</h4>\r\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"onCloseHandledTwo()\"><span aria-hidden=\"true\">&times;</span></button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <p>Here are resources for Form Section Two</p>\r\n        <a routerLink=\"/questions-set2\"> Link to Form 2</a>\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"onCloseHandledTwo()\" >Close</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal\" tabindex=\"-1\" role=\"dialog\"  [ngStyle]=\"{'display':displayThree}\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h4 class=\"modal-title\">Section 3 Form Links</h4>\r\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"onCloseHandledThree()\"><span aria-hidden=\"true\">&times;</span></button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <p>Here are resources for Form Section Three</p>\r\n        <a routerLink=\"/questions-set3\"> Link to Form 3 </a>\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"onCloseHandledThree()\" >Close</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal\" tabindex=\"-1\" role=\"dialog\"  [ngStyle]=\"{'display':displayFour}\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h4 class=\"modal-title\">Section 4 Form Links</h4>\r\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"onCloseHandledFour()\"><span aria-hidden=\"true\">&times;</span></button>\r\n\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <p>Here are resources for Form Section Four</p>\r\n        <a routerLink=\"/questions-set4\"> Link to Form 4 </a>\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"onCloseHandledFour()\" >Close</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal\" tabindex=\"-1\" role=\"dialog\"  [ngStyle]=\"{'display':displayFive}\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h4 class=\"modal-title\">Section 5 Form Links</h4>\r\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"onCloseHandledFive()\"><span aria-hidden=\"true\">&times;</span></button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <p>Here are resources for Form Section Five</p>\r\n        <a routerLink=\"/questions-set5\"> Link to Form 5 </a>\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"onCloseHandledFive()\" >Close</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<svg class=\"scaling-svg\" id=\"Main_Layer\" viewBox=\"0 0 674.8 827.6\" preserveAspectRatio=\"xMidYMid meet\">\r\n    <g id=\"mountainBG\"><title>mountain</title>\r\n      <path style=\"fill: black\" d=\"M664.7,598.2c-5-6.9-7.5-14.6-12.4-21.4s-13.1-12.9-18-20.2-5.4-14.2-9-22.5-10.4-15.9-14.6-23.6c-6-11.1-8-23.8-14.6-34.9-2.7-4.5-8-8.5-10.1-13.5-2.9-6.8-2.8-12.7-5.6-19.1-9.4-21.1-23.3-42.4-32.6-64.1-4.8-11.2-5.9-22-11.2-32.6s-13.5-16.8-18-27c-7.8-17.7-14.1-36.9-21.4-54-2-4.7-1.9-10.4-4.5-14.6,0-10.7,6-19.4,11.2-24.7-.3-25.2-19.7-39.4-30.4-55.1s-15.5-31-24.7-46.1-21.7-32.2-31.5-48.4c-4.4-.9-13.7-.7-14.6-1.1-16.5-1.8-18.3-45.9-24.7-60.7-2.4-5.6-8.1-7.7-11.2-12.4-24,.4-23.7,30.2-30.4,48.4l-32.6,88.8-3.4,20.2a155.7,155.7,0,0,1-12.4,24.7c-8.2,13.2-31.3,36.5-27,52.9,18.5-2.7,24.7-35.7,31.5-51.7,15.1-35.6,29-75.1,43.9-111.3,2.9-7,1.6-14.9,4.5-22.5,3.5-9.2,12.1-17.1,16.9-25.9,21,2.4,15.9,46.8,25.9,61.9,6.3,9.5,20.8,4.6,32.6,9,4.2,1.5,19.6,16.3,22.5,20.2,13.8,18.3,25.1,39.7,36,60.7,4.1,7.9,5.4,20.5,11.2,27-1.1,12.5-9.7,14.8-12.4,24.7s4.8,19.5,5.6,29.2c-6.5.1-19,.7-23.6-2.2-14.7.3-15,11.7-24.7,16.9.7,8.4,3.9,15.6,2.2,23.6l-1.1,25.9c-5,19-14.2,38-23.6,54-2.8,4.8-11.2,9-15.7,12.4s-10.5,10.7-16.9,14.6c-14.2,8.8-30.7,11.3-47.2,18-26.6,10.8-50.3,22.7-72,38.2-19.5,14-36.5,32.2-47.2,55.1-3,6.4-9.8,20.7-3.4,29.2,6.4,18.2,30.3,19.7,50.6,24.7,23.3,5.8,61.6,5.1,85.5,0,5.2-1.1,13.4.4,16.9,1.1h19.1c17.8,3.9,40.9,4.6,59.6,5.6,24.7,1.4,64.4-6,79.8,5.6,2.8,2.1,3,5.3,4.5,9,8.3,20.8-11.8,37.6-23.6,46.1-27.3,19.6-56.3,36.4-84.3,55.1s-57.5,40.7-90,55.1c6.5,10,22.6,17.4,38.2,18-.1,3.7-.3,8.1,1.1,10.1,6.9,3,19.9-4.5,25.9-6.7,14.2-5.3,31.7-5.5,47.2-9,7.1-1.6,13.2.5,19.1-2.2,3.2-1.5,5.9-5.9,9-7.9,1.1-5.4,4.1-14.3,2.2-22.5s-5.5-20,0-28.1,20.8-10.4,30.4-14.6c7.5-3.3,16-9.1,23.6-12.4,19.2-8.2,40.3-12.6,61.9-18l27-1.1c19.4-.2,57.1-6.2,63,10.1h2.2V605C673.3,602.5,666.6,600.9,664.7,598.2ZM444.2,644.3c8.6-5.5,16.3-13.7,24.7-19.1-8.1-5.6-15.7-6-25.9-10.1a476.2,476.2,0,0,0-76.5-23.6c-13.8-3.1-42.6-.1-54,2.2-7.7,1.6-18.5-.2-24.7,1.1-19.2,4-44.6-.8-58.5-4.5-45.9-12.2-66.9-11.9-75.4-63-3.3-19.9,23.1-43.4,32.6-52.9C215,446.2,262.2,424,301.4,407l33.7-10.1c12-5.2,25-16.9,32.6-27,12.9-17.1,36.8-38.9,29.2-72-1.6-6.8,0-12.4-3.4-16.9v-2.2c-11.9,5.7-10.7,28.6-16.9,40.5-4.4,8.5-14.1,13.4-19.1,21.4-2.6.3-3.2.2-4.5,1.1-23.3-.2-24.8-35.8-33.7-51.7L307,277.7l-27-1.1c-3.3.9-6.9,4.7-12.4,3.4s-8.1-7.1-12.4-10.1-7.2-2.3-10.1-4.5c-6.7.7-7,3.9-11.2,6.7.6,6.1,5.5,8.6,3.4,15.7-1,3.3-5.1,7.4-6.7,10.1-10.6,17.4-20,34.1-30.4,50.6-14.8,23.6-32.7,42.9-48.4,65.2-17,24.3-32,49.2-49.5,73.1-10,13.6-23.2,25.1-32.6,39.4-7.8,11.9-14.1,23.7-22.5,34.9L23.6,581.4c-7.8,7.9-11.2,17.9-23.6,21.4V668c8.4-1.4,37.2-12.6,41.6-18,3.6,1,1.7-.6,3.4,2.2,2,5.2-4.7,12.1-6.7,16.9-3.2,7.6-2.9,14.2-5.6,22.5s-8.2,14.9-9,23.6H42.7v69.7c0,10.5-1.7,25.2,1.1,33.7H181.1a53.9,53.9,0,0,1,14.6-2.2V715.2c5.1.1,13.7,1,16.9-1.1s1.7.6,3.4-2.2c3-6.9-5.2-16.3-4.5-24.7,7.8-1.8,30.8-7.9,38.2-1.1,4.9,6.7-2.2,11.3-4.5,16.9-1.3,3.2-.5,7.6-2.2,10.1-.2,13.9.1,19.6,4.5,28.1,21.1-.1,27.8-6.8,41.6-12.4,5.1-2.1,9.8-.2,15.7-2.2s14.1-8,20.2-11.2C367.5,693.1,405,669.3,444.2,644.3Z\"/>\r\n    </g>\r\n    <g id=\"menu\" transform=\"translate(20, 20) scale(0.3)\" (click)=\"openModalMenu()\"> <title>Menu</title>\r\n      <path style=\"fill:#7f4b17\" d=\"M536,203.2c0.4-1.8,1.3-10.6,0.5-12c-1.9-3.5-6.2-4.6-11.3-5c0.1-6.3-1-12.4,0.2-18.2v-3.6\r\n          c0.4-1.7,1-8.1,0.2-9.6s-4.1-4.2-6.5-5s-2.3-0.2-3.1-0.7s-0.3-3.6-0.2-5.3c2.2-0.1,5.1-0.5,7-0.7c-0.3,0.2-0.4,0.2-1,0.2v0.2\r\n          c2.3-0.1,6.4-4,7-5.8v-8c-1.5-7.2-2.1-12.6-8.2-15.1l-2.6-12.2c-0.4-1.6,0-3.6-0.7-4.8v-2.4l2.6-1.2c2.2-1.6,5-2.9,7.2-4.6h0.2\r\n          l-0.7-0.2l1.2-0.7c0-7.9,0.1-16.4-4.8-19.9c0.4-1,1.3-1.2,1.9-1.9c1.7-1.6,2.9-3.7,3.4-6c1.8,0.1,4,0.2,4.8-0.7l0.2-0.2l-0.5-0.5\r\n          c-1.2,0-3.5,0.3-4.3-0.2s0-1.5-0.2-2.4s-0.9-2.4-1.2-3.4c-0.9-3.2,0.4-6.8-0.5-9.6s-2.2-5.4-3.8-6.7s-2-1-2.6-1.9\r\n          c7.8-3.9,8.6-11.2,5.8-20.6c-0.5-1.7-0.9-6.3-2.4-6.7l0.5-0.5c-2.8-2.4-7.7-2.2-13-2.2l-25-0.2l-99.1-1L104.8,1L33.3,0.3\r\n          c-9,0-23.2-1.7-27.8,2.6c-1.6,1.4-3.5,6-2.6,9.4c0.3,0.7,0.4,1.4,0.5,2.2c-0.7,5,2.1,15.3,3.8,19.2c0.9,2,3.2,4,3.8,5.8l0.2,4.1\r\n          c0.9,3.6,1.4,7.8,2.4,11.3c0.5,1.9,0.2,4.1,1.2,5.5s-5.9,4-7.7,5.5c-4.4,3.8-10.4,15.7-5,23c4.3,2.1,5.2,6.9,3.4,13\r\n          C5,103.5,5,105.2,4.3,106s0.7,0.8,0.7,1.7h0.7c-0.1,0.6,0,0.7-0.2,1s0.4,0.6,1.2,1c-0.1,3.7-0.6,7.4-1.4,11v4.1c0,6.5,1.2,14.7,5,17\r\n          c1,0.6,2.2,0.6,3.1,1.2c0.2,0.2,0.3,0.4,0.4,0.7h0.1l0.2,0.4c0.2,0.2,2.3,0.4,2.6,0.5c0.7,1.8,1.1,6.3,1.9,7.7c0,0.6,0,1.1-0.2,1.7\r\n          c-5.8,0-10.3,0.3-13.7,2.6c-0.7,0.5-1,1.6-1.7,2.2c-0.5,3.6,2,8.3,3.1,12.7c0.5,2.1,0,4,0.5,6.2c1.2,5.1,1.3,11.2,2.9,15.6\r\n          c0.7,2,1.5,5,3.1,6s1.9,0.6,2.6,1l-0.5,0.5c0.6,0.3,2.1,0.1,2.6,0.5l0.7,0.2l-2.2,2.2c-0.5,0.7-0.3,1.8-1,2.4\r\n          c0.4,3.9,3.8,11.6,6.2,13.4l1.2,0.2l5,2.9v0.2c-0.3,0.5,4.1,0.7,6,1.2s2.8-0.1,4.1,0.2s5.1,0.2,7.4,0.2l10.1,0.2l84.7,1.2l192,2.6\r\n          l77.5,0.7c4.2,1.1,10.4,0.2,15.1,0.2h4.1c1.9,0.5,6.3,1.1,8.9,0.5c3.5-0.6,7.1-0.6,10.6-0.2c3.6,0.8,10.7,0.2,15.6,0.2h5.1\r\n          c4.1,1.1,10.3,0.2,14.9,0.2h4.1c3.8,1,9.6,0.2,13.9,0.2c8.7,0,18.5,0.3,26.6-0.2c-0.3,0.2-0.4,0.2-1,0.2v0.2c1.7,0,1.3-0.3,1.9-1.2\r\n          c0.4-0.2,0.9-0.3,1.4-0.2c-0.4-0.6-0.3-0.4-1.2-0.5c0.4-0.2,0.9-0.3,1.4-0.2c0.9-4.3,1-9.5,2.6-13.4c0.6-1.5,2.3-3.1,2.6-4.3\r\n          S535.6,204.8,536,203.2z M12.1,165.3c-0.2-0.3-0.2-0.2-0.2-0.7h0.2V165.3z M472.7,185.9h-10.1c-1.3,0-3.5,0.3-4.3-0.2h18.5\r\n          C476,186.2,473.9,185.9,472.7,185.9z M496.2,143.4l0.5,0.2L496.2,143.4z M489.5,10.2c-1.3,0-3.5,0.3-4.3-0.2h18.2\r\n          C502.2,10.9,492.4,10.2,489.5,10.2z M10.7,142l0.5,0.2V142H10.7z M12.6,143.2l0.5,0.2v-0.2H12.6z M13.3,143.4l0.5,0.2h-0.5V143.4z\r\n           M13.5,199.8v-0.2l-0.7-0.2c0.4,0.3,0.2,0.2,0.8,0.4L13.5,199.8z M14.5,200c-0.5,0.1,0,0.4,0.2,0.5S14.6,200.1,14.5,200L14.5,200z\r\n           M27,222.6v-0.2h-0.5L27,222.6z\"/>\r\n      <text font-family=\"TimesNewRoman\" font-size=\"130\" fill=\"white\" transform=\"translate(100, 155)\">Menu</text>\r\n    </g>\r\n    <g id=\"section1\" transform=\"translate(230, 720) scale(0.2)\" (click)=\"openModalOne()\"> <title>Section 1</title>\r\n      <path style=\"fill:#7f4b17\" d=\"M536,203.2c0.4-1.8,1.3-10.6,0.5-12c-1.9-3.5-6.2-4.6-11.3-5c0.1-6.3-1-12.4,0.2-18.2v-3.6\r\n          c0.4-1.7,1-8.1,0.2-9.6s-4.1-4.2-6.5-5s-2.3-0.2-3.1-0.7s-0.3-3.6-0.2-5.3c2.2-0.1,5.1-0.5,7-0.7c-0.3,0.2-0.4,0.2-1,0.2v0.2\r\n          c2.3-0.1,6.4-4,7-5.8v-8c-1.5-7.2-2.1-12.6-8.2-15.1l-2.6-12.2c-0.4-1.6,0-3.6-0.7-4.8v-2.4l2.6-1.2c2.2-1.6,5-2.9,7.2-4.6h0.2\r\n          l-0.7-0.2l1.2-0.7c0-7.9,0.1-16.4-4.8-19.9c0.4-1,1.3-1.2,1.9-1.9c1.7-1.6,2.9-3.7,3.4-6c1.8,0.1,4,0.2,4.8-0.7l0.2-0.2l-0.5-0.5\r\n          c-1.2,0-3.5,0.3-4.3-0.2s0-1.5-0.2-2.4s-0.9-2.4-1.2-3.4c-0.9-3.2,0.4-6.8-0.5-9.6s-2.2-5.4-3.8-6.7s-2-1-2.6-1.9\r\n          c7.8-3.9,8.6-11.2,5.8-20.6c-0.5-1.7-0.9-6.3-2.4-6.7l0.5-0.5c-2.8-2.4-7.7-2.2-13-2.2l-25-0.2l-99.1-1L104.8,1L33.3,0.3\r\n          c-9,0-23.2-1.7-27.8,2.6c-1.6,1.4-3.5,6-2.6,9.4c0.3,0.7,0.4,1.4,0.5,2.2c-0.7,5,2.1,15.3,3.8,19.2c0.9,2,3.2,4,3.8,5.8l0.2,4.1\r\n          c0.9,3.6,1.4,7.8,2.4,11.3c0.5,1.9,0.2,4.1,1.2,5.5s-5.9,4-7.7,5.5c-4.4,3.8-10.4,15.7-5,23c4.3,2.1,5.2,6.9,3.4,13\r\n          C5,103.5,5,105.2,4.3,106s0.7,0.8,0.7,1.7h0.7c-0.1,0.6,0,0.7-0.2,1s0.4,0.6,1.2,1c-0.1,3.7-0.6,7.4-1.4,11v4.1c0,6.5,1.2,14.7,5,17\r\n          c1,0.6,2.2,0.6,3.1,1.2c0.2,0.2,0.3,0.4,0.4,0.7h0.1l0.2,0.4c0.2,0.2,2.3,0.4,2.6,0.5c0.7,1.8,1.1,6.3,1.9,7.7c0,0.6,0,1.1-0.2,1.7\r\n          c-5.8,0-10.3,0.3-13.7,2.6c-0.7,0.5-1,1.6-1.7,2.2c-0.5,3.6,2,8.3,3.1,12.7c0.5,2.1,0,4,0.5,6.2c1.2,5.1,1.3,11.2,2.9,15.6\r\n          c0.7,2,1.5,5,3.1,6s1.9,0.6,2.6,1l-0.5,0.5c0.6,0.3,2.1,0.1,2.6,0.5l0.7,0.2l-2.2,2.2c-0.5,0.7-0.3,1.8-1,2.4\r\n          c0.4,3.9,3.8,11.6,6.2,13.4l1.2,0.2l5,2.9v0.2c-0.3,0.5,4.1,0.7,6,1.2s2.8-0.1,4.1,0.2s5.1,0.2,7.4,0.2l10.1,0.2l84.7,1.2l192,2.6\r\n          l77.5,0.7c4.2,1.1,10.4,0.2,15.1,0.2h4.1c1.9,0.5,6.3,1.1,8.9,0.5c3.5-0.6,7.1-0.6,10.6-0.2c3.6,0.8,10.7,0.2,15.6,0.2h5.1\r\n          c4.1,1.1,10.3,0.2,14.9,0.2h4.1c3.8,1,9.6,0.2,13.9,0.2c8.7,0,18.5,0.3,26.6-0.2c-0.3,0.2-0.4,0.2-1,0.2v0.2c1.7,0,1.3-0.3,1.9-1.2\r\n          c0.4-0.2,0.9-0.3,1.4-0.2c-0.4-0.6-0.3-0.4-1.2-0.5c0.4-0.2,0.9-0.3,1.4-0.2c0.9-4.3,1-9.5,2.6-13.4c0.6-1.5,2.3-3.1,2.6-4.3\r\n          S535.6,204.8,536,203.2z M12.1,165.3c-0.2-0.3-0.2-0.2-0.2-0.7h0.2V165.3z M472.7,185.9h-10.1c-1.3,0-3.5,0.3-4.3-0.2h18.5\r\n          C476,186.2,473.9,185.9,472.7,185.9z M496.2,143.4l0.5,0.2L496.2,143.4z M489.5,10.2c-1.3,0-3.5,0.3-4.3-0.2h18.2\r\n          C502.2,10.9,492.4,10.2,489.5,10.2z M10.7,142l0.5,0.2V142H10.7z M12.6,143.2l0.5,0.2v-0.2H12.6z M13.3,143.4l0.5,0.2h-0.5V143.4z\r\n           M13.5,199.8v-0.2l-0.7-0.2c0.4,0.3,0.2,0.2,0.8,0.4L13.5,199.8z M14.5,200c-0.5,0.1,0,0.4,0.2,0.5S14.6,200.1,14.5,200L14.5,200z\r\n           M27,222.6v-0.2h-0.5L27,222.6z\"/>\r\n      <text font-family=\"TimesNewRoman\" font-size=\"130\" fill=\"white\" transform=\"translate(25, 150)\">Section 1</text>\r\n    </g>\r\n    <g id=\"section2\" transform=\"translate(440, 580) scale(0.2)\" (click)=\"openModalTwo()\"> <title>Section 2</title>\r\n      <path style=\"fill:#7f4b17\" d=\"M536,203.2c0.4-1.8,1.3-10.6,0.5-12c-1.9-3.5-6.2-4.6-11.3-5c0.1-6.3-1-12.4,0.2-18.2v-3.6\r\n          c0.4-1.7,1-8.1,0.2-9.6s-4.1-4.2-6.5-5s-2.3-0.2-3.1-0.7s-0.3-3.6-0.2-5.3c2.2-0.1,5.1-0.5,7-0.7c-0.3,0.2-0.4,0.2-1,0.2v0.2\r\n          c2.3-0.1,6.4-4,7-5.8v-8c-1.5-7.2-2.1-12.6-8.2-15.1l-2.6-12.2c-0.4-1.6,0-3.6-0.7-4.8v-2.4l2.6-1.2c2.2-1.6,5-2.9,7.2-4.6h0.2\r\n          l-0.7-0.2l1.2-0.7c0-7.9,0.1-16.4-4.8-19.9c0.4-1,1.3-1.2,1.9-1.9c1.7-1.6,2.9-3.7,3.4-6c1.8,0.1,4,0.2,4.8-0.7l0.2-0.2l-0.5-0.5\r\n          c-1.2,0-3.5,0.3-4.3-0.2s0-1.5-0.2-2.4s-0.9-2.4-1.2-3.4c-0.9-3.2,0.4-6.8-0.5-9.6s-2.2-5.4-3.8-6.7s-2-1-2.6-1.9\r\n          c7.8-3.9,8.6-11.2,5.8-20.6c-0.5-1.7-0.9-6.3-2.4-6.7l0.5-0.5c-2.8-2.4-7.7-2.2-13-2.2l-25-0.2l-99.1-1L104.8,1L33.3,0.3\r\n          c-9,0-23.2-1.7-27.8,2.6c-1.6,1.4-3.5,6-2.6,9.4c0.3,0.7,0.4,1.4,0.5,2.2c-0.7,5,2.1,15.3,3.8,19.2c0.9,2,3.2,4,3.8,5.8l0.2,4.1\r\n          c0.9,3.6,1.4,7.8,2.4,11.3c0.5,1.9,0.2,4.1,1.2,5.5s-5.9,4-7.7,5.5c-4.4,3.8-10.4,15.7-5,23c4.3,2.1,5.2,6.9,3.4,13\r\n          C5,103.5,5,105.2,4.3,106s0.7,0.8,0.7,1.7h0.7c-0.1,0.6,0,0.7-0.2,1s0.4,0.6,1.2,1c-0.1,3.7-0.6,7.4-1.4,11v4.1c0,6.5,1.2,14.7,5,17\r\n          c1,0.6,2.2,0.6,3.1,1.2c0.2,0.2,0.3,0.4,0.4,0.7h0.1l0.2,0.4c0.2,0.2,2.3,0.4,2.6,0.5c0.7,1.8,1.1,6.3,1.9,7.7c0,0.6,0,1.1-0.2,1.7\r\n          c-5.8,0-10.3,0.3-13.7,2.6c-0.7,0.5-1,1.6-1.7,2.2c-0.5,3.6,2,8.3,3.1,12.7c0.5,2.1,0,4,0.5,6.2c1.2,5.1,1.3,11.2,2.9,15.6\r\n          c0.7,2,1.5,5,3.1,6s1.9,0.6,2.6,1l-0.5,0.5c0.6,0.3,2.1,0.1,2.6,0.5l0.7,0.2l-2.2,2.2c-0.5,0.7-0.3,1.8-1,2.4\r\n          c0.4,3.9,3.8,11.6,6.2,13.4l1.2,0.2l5,2.9v0.2c-0.3,0.5,4.1,0.7,6,1.2s2.8-0.1,4.1,0.2s5.1,0.2,7.4,0.2l10.1,0.2l84.7,1.2l192,2.6\r\n          l77.5,0.7c4.2,1.1,10.4,0.2,15.1,0.2h4.1c1.9,0.5,6.3,1.1,8.9,0.5c3.5-0.6,7.1-0.6,10.6-0.2c3.6,0.8,10.7,0.2,15.6,0.2h5.1\r\n          c4.1,1.1,10.3,0.2,14.9,0.2h4.1c3.8,1,9.6,0.2,13.9,0.2c8.7,0,18.5,0.3,26.6-0.2c-0.3,0.2-0.4,0.2-1,0.2v0.2c1.7,0,1.3-0.3,1.9-1.2\r\n          c0.4-0.2,0.9-0.3,1.4-0.2c-0.4-0.6-0.3-0.4-1.2-0.5c0.4-0.2,0.9-0.3,1.4-0.2c0.9-4.3,1-9.5,2.6-13.4c0.6-1.5,2.3-3.1,2.6-4.3\r\n          S535.6,204.8,536,203.2z M12.1,165.3c-0.2-0.3-0.2-0.2-0.2-0.7h0.2V165.3z M472.7,185.9h-10.1c-1.3,0-3.5,0.3-4.3-0.2h18.5\r\n          C476,186.2,473.9,185.9,472.7,185.9z M496.2,143.4l0.5,0.2L496.2,143.4z M489.5,10.2c-1.3,0-3.5,0.3-4.3-0.2h18.2\r\n          C502.2,10.9,492.4,10.2,489.5,10.2z M10.7,142l0.5,0.2V142H10.7z M12.6,143.2l0.5,0.2v-0.2H12.6z M13.3,143.4l0.5,0.2h-0.5V143.4z\r\n           M13.5,199.8v-0.2l-0.7-0.2c0.4,0.3,0.2,0.2,0.8,0.4L13.5,199.8z M14.5,200c-0.5,0.1,0,0.4,0.2,0.5S14.6,200.1,14.5,200L14.5,200z\r\n           M27,222.6v-0.2h-0.5L27,222.6z\"/>\r\n      <text font-family=\"TimesNewRoman\" font-size=\"130\" fill=\"white\" transform=\"translate(25, 150)\">Section 2</text>\r\n    </g>\r\n    <g id=\"section3\" transform=\"translate(130, 510) scale(0.2)\" (click)=\"openModalThree()\"> <title>Section 3</title>\r\n      <path style=\"fill:#7f4b17\" d=\"M536,203.2c0.4-1.8,1.3-10.6,0.5-12c-1.9-3.5-6.2-4.6-11.3-5c0.1-6.3-1-12.4,0.2-18.2v-3.6\r\n          c0.4-1.7,1-8.1,0.2-9.6s-4.1-4.2-6.5-5s-2.3-0.2-3.1-0.7s-0.3-3.6-0.2-5.3c2.2-0.1,5.1-0.5,7-0.7c-0.3,0.2-0.4,0.2-1,0.2v0.2\r\n          c2.3-0.1,6.4-4,7-5.8v-8c-1.5-7.2-2.1-12.6-8.2-15.1l-2.6-12.2c-0.4-1.6,0-3.6-0.7-4.8v-2.4l2.6-1.2c2.2-1.6,5-2.9,7.2-4.6h0.2\r\n          l-0.7-0.2l1.2-0.7c0-7.9,0.1-16.4-4.8-19.9c0.4-1,1.3-1.2,1.9-1.9c1.7-1.6,2.9-3.7,3.4-6c1.8,0.1,4,0.2,4.8-0.7l0.2-0.2l-0.5-0.5\r\n          c-1.2,0-3.5,0.3-4.3-0.2s0-1.5-0.2-2.4s-0.9-2.4-1.2-3.4c-0.9-3.2,0.4-6.8-0.5-9.6s-2.2-5.4-3.8-6.7s-2-1-2.6-1.9\r\n          c7.8-3.9,8.6-11.2,5.8-20.6c-0.5-1.7-0.9-6.3-2.4-6.7l0.5-0.5c-2.8-2.4-7.7-2.2-13-2.2l-25-0.2l-99.1-1L104.8,1L33.3,0.3\r\n          c-9,0-23.2-1.7-27.8,2.6c-1.6,1.4-3.5,6-2.6,9.4c0.3,0.7,0.4,1.4,0.5,2.2c-0.7,5,2.1,15.3,3.8,19.2c0.9,2,3.2,4,3.8,5.8l0.2,4.1\r\n          c0.9,3.6,1.4,7.8,2.4,11.3c0.5,1.9,0.2,4.1,1.2,5.5s-5.9,4-7.7,5.5c-4.4,3.8-10.4,15.7-5,23c4.3,2.1,5.2,6.9,3.4,13\r\n          C5,103.5,5,105.2,4.3,106s0.7,0.8,0.7,1.7h0.7c-0.1,0.6,0,0.7-0.2,1s0.4,0.6,1.2,1c-0.1,3.7-0.6,7.4-1.4,11v4.1c0,6.5,1.2,14.7,5,17\r\n          c1,0.6,2.2,0.6,3.1,1.2c0.2,0.2,0.3,0.4,0.4,0.7h0.1l0.2,0.4c0.2,0.2,2.3,0.4,2.6,0.5c0.7,1.8,1.1,6.3,1.9,7.7c0,0.6,0,1.1-0.2,1.7\r\n          c-5.8,0-10.3,0.3-13.7,2.6c-0.7,0.5-1,1.6-1.7,2.2c-0.5,3.6,2,8.3,3.1,12.7c0.5,2.1,0,4,0.5,6.2c1.2,5.1,1.3,11.2,2.9,15.6\r\n          c0.7,2,1.5,5,3.1,6s1.9,0.6,2.6,1l-0.5,0.5c0.6,0.3,2.1,0.1,2.6,0.5l0.7,0.2l-2.2,2.2c-0.5,0.7-0.3,1.8-1,2.4\r\n          c0.4,3.9,3.8,11.6,6.2,13.4l1.2,0.2l5,2.9v0.2c-0.3,0.5,4.1,0.7,6,1.2s2.8-0.1,4.1,0.2s5.1,0.2,7.4,0.2l10.1,0.2l84.7,1.2l192,2.6\r\n          l77.5,0.7c4.2,1.1,10.4,0.2,15.1,0.2h4.1c1.9,0.5,6.3,1.1,8.9,0.5c3.5-0.6,7.1-0.6,10.6-0.2c3.6,0.8,10.7,0.2,15.6,0.2h5.1\r\n          c4.1,1.1,10.3,0.2,14.9,0.2h4.1c3.8,1,9.6,0.2,13.9,0.2c8.7,0,18.5,0.3,26.6-0.2c-0.3,0.2-0.4,0.2-1,0.2v0.2c1.7,0,1.3-0.3,1.9-1.2\r\n          c0.4-0.2,0.9-0.3,1.4-0.2c-0.4-0.6-0.3-0.4-1.2-0.5c0.4-0.2,0.9-0.3,1.4-0.2c0.9-4.3,1-9.5,2.6-13.4c0.6-1.5,2.3-3.1,2.6-4.3\r\n          S535.6,204.8,536,203.2z M12.1,165.3c-0.2-0.3-0.2-0.2-0.2-0.7h0.2V165.3z M472.7,185.9h-10.1c-1.3,0-3.5,0.3-4.3-0.2h18.5\r\n          C476,186.2,473.9,185.9,472.7,185.9z M496.2,143.4l0.5,0.2L496.2,143.4z M489.5,10.2c-1.3,0-3.5,0.3-4.3-0.2h18.2\r\n          C502.2,10.9,492.4,10.2,489.5,10.2z M10.7,142l0.5,0.2V142H10.7z M12.6,143.2l0.5,0.2v-0.2H12.6z M13.3,143.4l0.5,0.2h-0.5V143.4z\r\n           M13.5,199.8v-0.2l-0.7-0.2c0.4,0.3,0.2,0.2,0.8,0.4L13.5,199.8z M14.5,200c-0.5,0.1,0,0.4,0.2,0.5S14.6,200.1,14.5,200L14.5,200z\r\n           M27,222.6v-0.2h-0.5L27,222.6z\"/>\r\n      <text font-family=\"TimesNewRoman\" font-size=\"130\" fill=\"white\" transform=\"translate(25, 150)\">Section 3</text>\r\n    </g>\r\n    <g id=\"section4\" transform=\"translate(280, 380) scale(0.2)\" (click)=\"openModalFour()\"> <title>Section 4</title>\r\n      <path style=\"fill:#7f4b17\" d=\"M536,203.2c0.4-1.8,1.3-10.6,0.5-12c-1.9-3.5-6.2-4.6-11.3-5c0.1-6.3-1-12.4,0.2-18.2v-3.6\r\n          c0.4-1.7,1-8.1,0.2-9.6s-4.1-4.2-6.5-5s-2.3-0.2-3.1-0.7s-0.3-3.6-0.2-5.3c2.2-0.1,5.1-0.5,7-0.7c-0.3,0.2-0.4,0.2-1,0.2v0.2\r\n          c2.3-0.1,6.4-4,7-5.8v-8c-1.5-7.2-2.1-12.6-8.2-15.1l-2.6-12.2c-0.4-1.6,0-3.6-0.7-4.8v-2.4l2.6-1.2c2.2-1.6,5-2.9,7.2-4.6h0.2\r\n          l-0.7-0.2l1.2-0.7c0-7.9,0.1-16.4-4.8-19.9c0.4-1,1.3-1.2,1.9-1.9c1.7-1.6,2.9-3.7,3.4-6c1.8,0.1,4,0.2,4.8-0.7l0.2-0.2l-0.5-0.5\r\n          c-1.2,0-3.5,0.3-4.3-0.2s0-1.5-0.2-2.4s-0.9-2.4-1.2-3.4c-0.9-3.2,0.4-6.8-0.5-9.6s-2.2-5.4-3.8-6.7s-2-1-2.6-1.9\r\n          c7.8-3.9,8.6-11.2,5.8-20.6c-0.5-1.7-0.9-6.3-2.4-6.7l0.5-0.5c-2.8-2.4-7.7-2.2-13-2.2l-25-0.2l-99.1-1L104.8,1L33.3,0.3\r\n          c-9,0-23.2-1.7-27.8,2.6c-1.6,1.4-3.5,6-2.6,9.4c0.3,0.7,0.4,1.4,0.5,2.2c-0.7,5,2.1,15.3,3.8,19.2c0.9,2,3.2,4,3.8,5.8l0.2,4.1\r\n          c0.9,3.6,1.4,7.8,2.4,11.3c0.5,1.9,0.2,4.1,1.2,5.5s-5.9,4-7.7,5.5c-4.4,3.8-10.4,15.7-5,23c4.3,2.1,5.2,6.9,3.4,13\r\n          C5,103.5,5,105.2,4.3,106s0.7,0.8,0.7,1.7h0.7c-0.1,0.6,0,0.7-0.2,1s0.4,0.6,1.2,1c-0.1,3.7-0.6,7.4-1.4,11v4.1c0,6.5,1.2,14.7,5,17\r\n          c1,0.6,2.2,0.6,3.1,1.2c0.2,0.2,0.3,0.4,0.4,0.7h0.1l0.2,0.4c0.2,0.2,2.3,0.4,2.6,0.5c0.7,1.8,1.1,6.3,1.9,7.7c0,0.6,0,1.1-0.2,1.7\r\n          c-5.8,0-10.3,0.3-13.7,2.6c-0.7,0.5-1,1.6-1.7,2.2c-0.5,3.6,2,8.3,3.1,12.7c0.5,2.1,0,4,0.5,6.2c1.2,5.1,1.3,11.2,2.9,15.6\r\n          c0.7,2,1.5,5,3.1,6s1.9,0.6,2.6,1l-0.5,0.5c0.6,0.3,2.1,0.1,2.6,0.5l0.7,0.2l-2.2,2.2c-0.5,0.7-0.3,1.8-1,2.4\r\n          c0.4,3.9,3.8,11.6,6.2,13.4l1.2,0.2l5,2.9v0.2c-0.3,0.5,4.1,0.7,6,1.2s2.8-0.1,4.1,0.2s5.1,0.2,7.4,0.2l10.1,0.2l84.7,1.2l192,2.6\r\n          l77.5,0.7c4.2,1.1,10.4,0.2,15.1,0.2h4.1c1.9,0.5,6.3,1.1,8.9,0.5c3.5-0.6,7.1-0.6,10.6-0.2c3.6,0.8,10.7,0.2,15.6,0.2h5.1\r\n          c4.1,1.1,10.3,0.2,14.9,0.2h4.1c3.8,1,9.6,0.2,13.9,0.2c8.7,0,18.5,0.3,26.6-0.2c-0.3,0.2-0.4,0.2-1,0.2v0.2c1.7,0,1.3-0.3,1.9-1.2\r\n          c0.4-0.2,0.9-0.3,1.4-0.2c-0.4-0.6-0.3-0.4-1.2-0.5c0.4-0.2,0.9-0.3,1.4-0.2c0.9-4.3,1-9.5,2.6-13.4c0.6-1.5,2.3-3.1,2.6-4.3\r\n          S535.6,204.8,536,203.2z M12.1,165.3c-0.2-0.3-0.2-0.2-0.2-0.7h0.2V165.3z M472.7,185.9h-10.1c-1.3,0-3.5,0.3-4.3-0.2h18.5\r\n          C476,186.2,473.9,185.9,472.7,185.9z M496.2,143.4l0.5,0.2L496.2,143.4z M489.5,10.2c-1.3,0-3.5,0.3-4.3-0.2h18.2\r\n          C502.2,10.9,492.4,10.2,489.5,10.2z M10.7,142l0.5,0.2V142H10.7z M12.6,143.2l0.5,0.2v-0.2H12.6z M13.3,143.4l0.5,0.2h-0.5V143.4z\r\n           M13.5,199.8v-0.2l-0.7-0.2c0.4,0.3,0.2,0.2,0.8,0.4L13.5,199.8z M14.5,200c-0.5,0.1,0,0.4,0.2,0.5S14.6,200.1,14.5,200L14.5,200z\r\n           M27,222.6v-0.2h-0.5L27,222.6z\"/>\r\n      <text font-family=\"TimesNewRoman\" font-size=\"130\" fill=\"white\" transform=\"translate(25, 150)\">Section 4</text>\r\n    </g>\r\n    <g id=\"section5\" transform=\"translate(330, 170) scale(0.2)\" (click)=\"openModalFive()\"> <title>Section 5</title>\r\n      <path style=\"fill:#7f4b17\" d=\"M536,203.2c0.4-1.8,1.3-10.6,0.5-12c-1.9-3.5-6.2-4.6-11.3-5c0.1-6.3-1-12.4,0.2-18.2v-3.6\r\n          c0.4-1.7,1-8.1,0.2-9.6s-4.1-4.2-6.5-5s-2.3-0.2-3.1-0.7s-0.3-3.6-0.2-5.3c2.2-0.1,5.1-0.5,7-0.7c-0.3,0.2-0.4,0.2-1,0.2v0.2\r\n          c2.3-0.1,6.4-4,7-5.8v-8c-1.5-7.2-2.1-12.6-8.2-15.1l-2.6-12.2c-0.4-1.6,0-3.6-0.7-4.8v-2.4l2.6-1.2c2.2-1.6,5-2.9,7.2-4.6h0.2\r\n          l-0.7-0.2l1.2-0.7c0-7.9,0.1-16.4-4.8-19.9c0.4-1,1.3-1.2,1.9-1.9c1.7-1.6,2.9-3.7,3.4-6c1.8,0.1,4,0.2,4.8-0.7l0.2-0.2l-0.5-0.5\r\n          c-1.2,0-3.5,0.3-4.3-0.2s0-1.5-0.2-2.4s-0.9-2.4-1.2-3.4c-0.9-3.2,0.4-6.8-0.5-9.6s-2.2-5.4-3.8-6.7s-2-1-2.6-1.9\r\n          c7.8-3.9,8.6-11.2,5.8-20.6c-0.5-1.7-0.9-6.3-2.4-6.7l0.5-0.5c-2.8-2.4-7.7-2.2-13-2.2l-25-0.2l-99.1-1L104.8,1L33.3,0.3\r\n          c-9,0-23.2-1.7-27.8,2.6c-1.6,1.4-3.5,6-2.6,9.4c0.3,0.7,0.4,1.4,0.5,2.2c-0.7,5,2.1,15.3,3.8,19.2c0.9,2,3.2,4,3.8,5.8l0.2,4.1\r\n          c0.9,3.6,1.4,7.8,2.4,11.3c0.5,1.9,0.2,4.1,1.2,5.5s-5.9,4-7.7,5.5c-4.4,3.8-10.4,15.7-5,23c4.3,2.1,5.2,6.9,3.4,13\r\n          C5,103.5,5,105.2,4.3,106s0.7,0.8,0.7,1.7h0.7c-0.1,0.6,0,0.7-0.2,1s0.4,0.6,1.2,1c-0.1,3.7-0.6,7.4-1.4,11v4.1c0,6.5,1.2,14.7,5,17\r\n          c1,0.6,2.2,0.6,3.1,1.2c0.2,0.2,0.3,0.4,0.4,0.7h0.1l0.2,0.4c0.2,0.2,2.3,0.4,2.6,0.5c0.7,1.8,1.1,6.3,1.9,7.7c0,0.6,0,1.1-0.2,1.7\r\n          c-5.8,0-10.3,0.3-13.7,2.6c-0.7,0.5-1,1.6-1.7,2.2c-0.5,3.6,2,8.3,3.1,12.7c0.5,2.1,0,4,0.5,6.2c1.2,5.1,1.3,11.2,2.9,15.6\r\n          c0.7,2,1.5,5,3.1,6s1.9,0.6,2.6,1l-0.5,0.5c0.6,0.3,2.1,0.1,2.6,0.5l0.7,0.2l-2.2,2.2c-0.5,0.7-0.3,1.8-1,2.4\r\n          c0.4,3.9,3.8,11.6,6.2,13.4l1.2,0.2l5,2.9v0.2c-0.3,0.5,4.1,0.7,6,1.2s2.8-0.1,4.1,0.2s5.1,0.2,7.4,0.2l10.1,0.2l84.7,1.2l192,2.6\r\n          l77.5,0.7c4.2,1.1,10.4,0.2,15.1,0.2h4.1c1.9,0.5,6.3,1.1,8.9,0.5c3.5-0.6,7.1-0.6,10.6-0.2c3.6,0.8,10.7,0.2,15.6,0.2h5.1\r\n          c4.1,1.1,10.3,0.2,14.9,0.2h4.1c3.8,1,9.6,0.2,13.9,0.2c8.7,0,18.5,0.3,26.6-0.2c-0.3,0.2-0.4,0.2-1,0.2v0.2c1.7,0,1.3-0.3,1.9-1.2\r\n          c0.4-0.2,0.9-0.3,1.4-0.2c-0.4-0.6-0.3-0.4-1.2-0.5c0.4-0.2,0.9-0.3,1.4-0.2c0.9-4.3,1-9.5,2.6-13.4c0.6-1.5,2.3-3.1,2.6-4.3\r\n          S535.6,204.8,536,203.2z M12.1,165.3c-0.2-0.3-0.2-0.2-0.2-0.7h0.2V165.3z M472.7,185.9h-10.1c-1.3,0-3.5,0.3-4.3-0.2h18.5\r\n          C476,186.2,473.9,185.9,472.7,185.9z M496.2,143.4l0.5,0.2L496.2,143.4z M489.5,10.2c-1.3,0-3.5,0.3-4.3-0.2h18.2\r\n          C502.2,10.9,492.4,10.2,489.5,10.2z M10.7,142l0.5,0.2V142H10.7z M12.6,143.2l0.5,0.2v-0.2H12.6z M13.3,143.4l0.5,0.2h-0.5V143.4z\r\n           M13.5,199.8v-0.2l-0.7-0.2c0.4,0.3,0.2,0.2,0.8,0.4L13.5,199.8z M14.5,200c-0.5,0.1,0,0.4,0.2,0.5S14.6,200.1,14.5,200L14.5,200z\r\n           M27,222.6v-0.2h-0.5L27,222.6z\"/>\r\n      <text font-family=\"TimesNewRoman\" font-size=\"130\" fill=\"white\" transform=\"translate(25, 150)\">Section 5</text>\r\n    </g>\r\n  </svg>\r\n<div class=\"backdrop\" [ngStyle]=\"{'display':backDisplay}\"></div>\r\n<div class=\"modal\" tabindex=\"-1\" role=\"dialog\"  [ngStyle]=\"{'display':displayMenu}\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h4 class=\"modal-title\">Menu Navigation</h4>\r\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"onCloseHandledMenu()\"><span aria-hidden=\"true\">&times;</span></button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <p>Page Directory</p>\r\n        <p><a routerLink=\"/achievements\">Achievements Page</a></p>\r\n        <p><a routerLink=\"/home\">Introduction Page</a></p>\r\n        <p><a routerLink=\"/data-display\">View Submitted Data and PDF</a> </p>\r\n        <p><a [routerLink]=\"['/login']\" class=\"button-routing\">Logout</a></p>\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"onCloseHandledMenu()\" >Close</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal\" tabindex=\"-1\" role=\"dialog\"  [ngStyle]=\"{'display':displayOne}\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h4 class=\"modal-title\">Section 1 Form Links</h4>\r\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"onCloseHandledOne()\"><span aria-hidden=\"true\">&times;</span></button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <p>Here are resources for Form Section One</p>\r\n        <a routerLink=\"/questions-set1\"> Link to Form 1 </a>\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"onCloseHandledOne()\" >Close</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal\" tabindex=\"-1\" role=\"dialog\"  [ngStyle]=\"{'display':displayTwo}\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h4 class=\"modal-title\">Section 2 Form Links</h4>\r\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"onCloseHandledTwo()\"><span aria-hidden=\"true\">&times;</span></button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <p>Here are resources for Form Section Two</p>\r\n        <a routerLink=\"/questions-set2\"> Link to Form 2</a>\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"onCloseHandledTwo()\" >Close</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal\" tabindex=\"-1\" role=\"dialog\"  [ngStyle]=\"{'display':displayThree}\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h4 class=\"modal-title\">Section 3 Form Links</h4>\r\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"onCloseHandledThree()\"><span aria-hidden=\"true\">&times;</span></button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <p>Here are resources for Form Section Three</p>\r\n        <a routerLink=\"/questions-set3\"> Link to Form 3 </a>\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"onCloseHandledThree()\" >Close</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal\" tabindex=\"-1\" role=\"dialog\"  [ngStyle]=\"{'display':displayFour}\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h4 class=\"modal-title\">Section 4 Form Links</h4>\r\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"onCloseHandledFour()\"><span aria-hidden=\"true\">&times;</span></button>\r\n\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <p>Here are resources for Form Section Four</p>\r\n        <a routerLink=\"/questions-set4\"> Link to Form 4 </a>\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"onCloseHandledFour()\" >Close</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal\" tabindex=\"-1\" role=\"dialog\"  [ngStyle]=\"{'display':displayFive}\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h4 class=\"modal-title\">Section 5 Form Links</h4>\r\n        <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"onCloseHandledFive()\"><span aria-hidden=\"true\">&times;</span></button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <p>Here are resources for Form Section Five</p>\r\n        <a routerLink=\"/questions-set5\"> Link to Form 5 </a>\r\n        <router-outlet></router-outlet>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default\" (click)=\"onCloseHandledFive()\" >Close</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -7103,32 +7154,126 @@ exports.DashboardComponent = DashboardComponent;
 
 /***/ }),
 
-/***/ "./src/app/data-display/data-display.component.css":
-/*!*********************************************************!*\
-  !*** ./src/app/data-display/data-display.component.css ***!
-  \*********************************************************/
+/***/ "./src/app/data-add/data-add.component.css":
+/*!*************************************************!*\
+  !*** ./src/app/data-add/data-add.component.css ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".example-form {\r\n  min-width: 150px;\r\n  max-width: 500px;\r\n  width: 100%;\r\n}\r\n\r\n.example-full-width {\r\n  width: 100%;\r\n}\r\n\r\n.container {\r\n  background-color: white;\r\n}\r\n\r\n.button-row {\r\n  margin: 10px 0;\r\n}\r\n"
 
 /***/ }),
 
-/***/ "./src/app/data-display/data-display.component.html":
-/*!**********************************************************!*\
-  !*** ./src/app/data-display/data-display.component.html ***!
-  \**********************************************************/
+/***/ "./src/app/data-add/data-add.component.html":
+/*!**************************************************!*\
+  !*** ./src/app/data-add/data-add.component.html ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2> Awesome Bucketlist App </h2>\r\n\r\n<!-- Table starts here -->\r\n<div class=\"container\">\r\n<table id=\"table\">\r\n  <thead>\r\n  <tr>\r\n    <th>Priority Level</th>\r\n    <th>Title</th>\r\n    <th>Description</th>\r\n    <th> Delete </th>\r\n\r\n  </tr>\r\n  </thead>\r\n  <tbody>\r\n  <tr *ngFor=\"let list of lists\">\r\n    <td>{{list.category}}</td>\r\n    <td>{{list.title}}</td>\r\n    <td>{{list.description}}</td>\r\n    <td> <button type=\"button\" (click)=\"deleteList(list); $event.stopPropagation();\">Delete</button></td>\r\n\r\n  </tr>\r\n  </tbody>\r\n</table>\r\n</div>\r\n"
+module.exports = "<div class=\"container\">\n  <!--<div class=\"button-row\">\n    <a mat-raised-button color=\"primary\" routerLink=\"/data-display\"><mat-icon>list</mat-icon></a>\n  </div>\n  <h1> Section 1 Form </h1>\n  <form [formGroup]=\"totalForm\" (ngSubmit)=\"onFormSubmit(totalForm.value)\">\n    <h2> Personal Information </h2>\n    <mat-form-field class=\"example-full-width\">\n      <input matInput placeholder=\"First Name\" formControlName=\"firstname\"\n             [errorStateMatcher]=\"matcher\">\n      <mat-error>\n        <span *ngIf=\"!totalForm.get('firstname').valid && totalForm.get('firstname').touched\">Please enter your first name.</span>\n      </mat-error>\n    </mat-form-field>\n    <mat-form-field class=\"example-full-width\">\n      <input matInput placeholder=\"Middle Name\" formControlName=\"middlename\"\n             [errorStateMatcher]=\"matcher\">\n      <mat-error>\n        <span *ngIf=\"!totalForm.get('middlename').valid && totalForm.get('middlename').touched\">Please enter your middle name.</span>\n      </mat-error>\n    </mat-form-field>\n    <mat-form-field class=\"example-full-width\">\n      <input matInput placeholder=\"Last Name\" formControlName=\"lastname\"\n             [errorStateMatcher]=\"matcher\">\n      <mat-error>\n        <span *ngIf=\"!totalForm.get('lastname').valid && totalForm.get('lastname').touched\">Please enter your last name.</span>\n      </mat-error>\n    </mat-form-field>\n    <h3> Address </h3>\n    <mat-form-field class=\"example-full-width\">\n      <input matInput placeholder=\"Street\" formControlName=\"street\"\n             [errorStateMatcher]=\"matcher\">\n      <mat-error>\n        <span *ngIf=\"!totalForm.get('street').valid && totalForm.get('street').touched\">Please enter your street address.</span>\n      </mat-error>\n    </mat-form-field>\n    <mat-form-field class=\"example-full-width\">\n      <input matInput placeholder=\"City\" formControlName=\"city\"\n             [errorStateMatcher]=\"matcher\">\n      <mat-error>\n        <span *ngIf=\"!totalForm.get('city').valid && totalForm.get('city').touched\">Please enter your city.</span>\n      </mat-error>\n    </mat-form-field>\n    <mat-form-field class=\"example-full-width\">\n      <option *ngFor=\"let state of states\" [value]=\"state\" formControlName=\"state\"\n             >{{state}}</option>\n      <mat-error>\n        <span *ngIf=\"!totalForm.get('state').valid && totalForm.get('state').touched\">Please enter State.</span>\n      </mat-error>\n    </mat-form-field>\n    <mat-form-field class=\"example-full-width\">\n      <input matInput placeholder=\"Zipcode\" formControlName=\"zipcode\"\n             [errorStateMatcher]=\"matcher\">\n      <mat-error>\n        <span *ngIf=\"!totalForm.get('zipcode').valid && totalForm.get('zipcode').touched\">Please enter your zipcode.</span>\n      </mat-error>\n    </mat-form-field>\n    <div class=\"button-row\">\n      <button type=\"submit\" class=\"button1\" [disabled]=\"!totalForm.valid\" mat-raised-button color=\"primary\">Submit</button>\n      <button type=\"button\" (click)=\"revert()\" class=\"button2\">Revert</button>\n    </div>\n    <div class=\"button-row\">\n      <a routerLink=\"/dashboard\" class=\"button-routing\"> Dashboard </a>\n      <a routerLink=\"/questions-set2\" class=\"button-routing\"> Next </a>\n      <router-outlet></router-outlet>\n    </div>\n  </form>\n  <div style=\"clear:both\"></div>-->\n</div>\n"
 
 /***/ }),
 
-/***/ "./src/app/data-display/data-display.component.ts":
-/*!********************************************************!*\
-  !*** ./src/app/data-display/data-display.component.ts ***!
-  \********************************************************/
+/***/ "./src/app/data-add/data-add.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/data-add/data-add.component.ts ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+var _services_1 = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+var forms_1 = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+var DataAddComponent = /** @class */ (function () {
+    function DataAddComponent(router, api, formBuilder) {
+        this.router = router;
+        this.api = api;
+        this.formBuilder = formBuilder;
+        this.firstname = '';
+        this.lastname = '';
+        this.middlename = '';
+        this.street = '';
+        this.city = '';
+        this.state = '';
+        this.zipcode = '';
+    }
+    DataAddComponent.prototype.ngOnInit = function () {
+        this.totalForm = this.formBuilder.group({
+            'firstname': [null, forms_1.Validators.required],
+            'lastname': [null, forms_1.Validators.required],
+            'middlename': [null, forms_1.Validators.required],
+            'street': [null, forms_1.Validators.required],
+            'city': [null, forms_1.Validators.required],
+            'state': [null, forms_1.Validators.required],
+            'zipcode': [null, forms_1.Validators.required]
+        });
+    };
+    DataAddComponent.prototype.onFormSubmit = function (form) {
+        var _this = this;
+        this.api.postData(form)
+            .subscribe(function (res) {
+            var id = res['_id'];
+            _this.router.navigate(['/data-detail-display', id]);
+        }, function (err) {
+            console.log(err);
+        });
+    };
+    DataAddComponent = __decorate([
+        core_1.Component({
+            selector: 'data-add',
+            template: __webpack_require__(/*! ./data-add.component.html */ "./src/app/data-add/data-add.component.html"),
+            styles: [__webpack_require__(/*! ./data-add.component.css */ "./src/app/data-add/data-add.component.css")]
+        }),
+        __metadata("design:paramtypes", [router_1.Router, _services_1.ApiService, forms_1.FormBuilder])
+    ], DataAddComponent);
+    return DataAddComponent;
+}());
+exports.DataAddComponent = DataAddComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/data-detail-display/data-detail-display.component.css":
+/*!***********************************************************************!*\
+  !*** ./src/app/data-detail-display/data-detail-display.component.css ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".example-card {\r\n  max-width: 500px;\r\n}\r\n\r\n.button-row {\r\n  margin: 10px 0;\r\n}\r\n"
+
+/***/ }),
+
+/***/ "./src/app/data-detail-display/data-detail-display.component.html":
+/*!************************************************************************!*\
+  !*** ./src/app/data-detail-display/data-detail-display.component.html ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"button-row\">\n  <a mat-raised-button color=\"primary\" routerLink=\"/data-display\"><mat-icon>list</mat-icon></a>\n</div>\n<mat-card class=\"example-card\">\n  <mat-card-header>\n    <mat-card-title><h2>{{formdata.firstname}}</h2></mat-card-title>\n    <mat-card-subtitle>{{formdata.lastname}}</mat-card-subtitle>\n  </mat-card-header>\n  <mat-card-content>\n    <dl>\n      <dt>Street:</dt>\n      <dd>{{formdata.street}}</dd>\n      <dt>City:</dt>\n      <dd>{{formdata.city}}</dd>\n      <dt>State:</dt>\n      <dd>{{formdata.state}}</dd>\n      <dt>Zipcode:</dt>\n      <dd>{{formdata.zipcode}}</dd>\n    </dl>\n  </mat-card-content>\n</mat-card>\n"
+
+/***/ }),
+
+/***/ "./src/app/data-detail-display/data-detail-display.component.ts":
+/*!**********************************************************************!*\
+  !*** ./src/app/data-detail-display/data-detail-display.component.ts ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7146,21 +7291,108 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 var _services_1 = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+var router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+var DataDetailDisplayComponent = /** @class */ (function () {
+    function DataDetailDisplayComponent(route, api) {
+        this.route = route;
+        this.api = api;
+        this.formdata = {};
+    }
+    DataDetailDisplayComponent.prototype.ngOnInit = function () {
+        this.getBookDetails(this.route.snapshot.params['id']);
+    };
+    DataDetailDisplayComponent.prototype.getBookDetails = function (id) {
+        var _this = this;
+        this.api.getData(id)
+            .subscribe(function (data) {
+            console.log(data);
+            _this.formdata = data;
+        });
+    };
+    DataDetailDisplayComponent = __decorate([
+        core_1.Component({
+            selector: 'data-detail-display',
+            template: __webpack_require__(/*! ./data-detail-display.component.html */ "./src/app/data-detail-display/data-detail-display.component.html"),
+            styles: [__webpack_require__(/*! ./data-detail-display.component.css */ "./src/app/data-detail-display/data-detail-display.component.css")]
+        }),
+        __metadata("design:paramtypes", [router_1.ActivatedRoute, _services_1.ApiService])
+    ], DataDetailDisplayComponent);
+    return DataDetailDisplayComponent;
+}());
+exports.DataDetailDisplayComponent = DataDetailDisplayComponent;
+
+
+/***/ }),
+
+/***/ "./src/app/data-display/data-display.component.css":
+/*!*********************************************************!*\
+  !*** ./src/app/data-display/data-display.component.css ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".example-container {\r\n  display: flex;\r\n  flex-direction: column;\r\n  max-height: 500px;\r\n  min-width: 300px;\r\n  overflow: auto;\r\n}\r\n\r\n.isbn-col {\r\n  flex: 0 0 100px !important;\r\n  white-space: unset !important;\r\n}\r\n\r\n.button-row {\r\n  margin: 10px 0;\r\n}\r\n"
+
+/***/ }),
+
+/***/ "./src/app/data-display/data-display.component.html":
+/*!**********************************************************!*\
+  !*** ./src/app/data-display/data-display.component.html ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"button-row\">\r\n  <a mat-raised-button color=\"primary\" routerLink=\"/data-detail-display\"><mat-icon>add</mat-icon></a>\r\n</div>\r\n<div class=\"example-container mat-elevation-z8\">\r\n  <table mat-table #table [dataSource]=\"dataSource\">\r\n\r\n    <!--- Note that these columns can be defined in any order.\r\n          The actual rendered columns are set as a property on the row definition\" -->\r\n\r\n    <!-- Title Column -->\r\n    <ng-container matColumnDef=\"firstname\">\r\n      <th mat-header-cell *matHeaderCellDef> First Name </th>\r\n      <td mat-cell *matCellDef=\"let element\" class=\"isbn-col\"> {{element.firstname}} </td>\r\n    </ng-container>\r\n\r\n    <!-- Title Column -->\r\n    <ng-container matColumnDef=\"lastname\">\r\n      <th mat-header-cell *matHeaderCellDef> Last Name </th>\r\n      <td mat-cell *matCellDef=\"let element\"> {{element.lastname}} </td>\r\n    </ng-container>\r\n\r\n    <!-- Author Column -->\r\n    <ng-container matColumnDef=\"middlename\">\r\n      <th mat-header-cell *matHeaderCellDef> Middle Name </th>\r\n      <td mat-cell *matCellDef=\"let element\"> {{element.middlename}} </td>\r\n    </ng-container>\r\n\r\n    <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\r\n    <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\" [routerLink]=\"['/book-details/', row._id]\"></tr>\r\n  </table>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/data-display/data-display.component.ts":
+/*!********************************************************!*\
+  !*** ./src/app/data-display/data-display.component.ts ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var _services_1 = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+var collections_1 = __webpack_require__(/*! @angular/cdk/collections */ "./node_modules/@angular/cdk/esm5/collections.es5.js");
 var DataDisplayComponent = /** @class */ (function () {
-    function DataDisplayComponent(listServ) {
-        this.listServ = listServ;
-        this.lists = [];
+    function DataDisplayComponent(api) {
+        this.api = api;
+        this.displayedColumns = ['firstname', 'lastname', 'middlename'];
+        this.dataSource = new FormDataSource(this.api);
     }
     DataDisplayComponent.prototype.ngOnInit = function () {
-        this.loadData();
-    };
-    DataDisplayComponent.prototype.loadData = function () {
         var _this = this;
-        this.listServ.getAllLists().subscribe(function (response) { return _this.lists = response; });
-    };
-    DataDisplayComponent.prototype.deleteList = function (list) {
-        var _this = this;
-        this.listServ.deleteList(list._id).subscribe(function (response) { return _this.lists = _this.lists.filter(function (lists) { return lists != list; }); });
+        this.api.getAllData()
+            .subscribe(function (res) {
+            console.log(res);
+            _this.formData = res;
+        }, function (err) {
+            console.log(err);
+        });
     };
     DataDisplayComponent = __decorate([
         core_1.Component({
@@ -7168,11 +7400,26 @@ var DataDisplayComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./data-display.component.html */ "./src/app/data-display/data-display.component.html"),
             styles: [__webpack_require__(/*! ./data-display.component.css */ "./src/app/data-display/data-display.component.css")]
         }),
-        __metadata("design:paramtypes", [_services_1.ListService])
+        __metadata("design:paramtypes", [_services_1.ApiService])
     ], DataDisplayComponent);
     return DataDisplayComponent;
 }());
 exports.DataDisplayComponent = DataDisplayComponent;
+var FormDataSource = /** @class */ (function (_super) {
+    __extends(FormDataSource, _super);
+    function FormDataSource(api) {
+        var _this = _super.call(this) || this;
+        _this.api = api;
+        return _this;
+    }
+    FormDataSource.prototype.connect = function () {
+        return this.api.getAllData();
+    };
+    FormDataSource.prototype.disconnect = function () {
+    };
+    return FormDataSource;
+}(collections_1.DataSource));
+exports.FormDataSource = FormDataSource;
 
 
 /***/ }),
@@ -7448,7 +7695,7 @@ exports.LoginComponent = LoginComponent;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".button1 {\r\n  background-color: #008CBA;\r\n  opacity: 0.6;\r\n  border: none;\r\n  color: white;\r\n  padding: 8px 20px;\r\n  border-radius: 4px;\r\n  text-align: center;\r\n  display: inline-block;\r\n  font-size: 20px;\r\n}\r\n.button1:hover {\r\n  opacity: 1;\r\n  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);\r\n}\r\n.button2 {\r\n  background-color: #f44336;\r\n  opacity: 0.6;\r\n  border: none;\r\n  color: white;\r\n  padding: 8px 20px;\r\n  border-radius: 4px;\r\n  text-align: center;\r\n  display: inline-block;\r\n  font-size: 20px;\r\n}\r\n.button2:hover{\r\n  opacity: 1;\r\n  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);\r\n}\r\n.button-routing{\r\n  background-color: #4CAF50;\r\n  color: white;\r\n  padding: 4px 20px;\r\n  border-radius: 4px;\r\n  text-align: center;\r\n  font-size: 16px;\r\n  border: 2px solid black;\r\n  float: left;\r\n}\r\n.button-routing:hover {\r\n  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);\r\n}\r\n.ng-invalid:not(form)  {\r\n  border-left: 5px solid #a94442; /* red */\r\n}\r\nh1 {\r\n  text-align: center;\r\n}\r\n.container{\r\n  margin: 1% auto;\r\n  width: 60%;\r\n  background-color: white;\r\n  border-style: inset;\r\n  border-width: 5px;\r\n}\r\n.formbox{\r\n  margin: 1%;\r\n}\r\n"
+module.exports = ".button1 {\r\n  background-color: #008CBA;\r\n  opacity: 0.6;\r\n  border: none;\r\n  color: white;\r\n  padding: 8px 20px;\r\n  border-radius: 4px;\r\n  text-align: center;\r\n  display: inline-block;\r\n  font-size: 20px;\r\n}\r\n.button1:hover {\r\n  opacity: 1;\r\n  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);\r\n}\r\n.button2 {\r\n  background-color: #f44336;\r\n  opacity: 0.6;\r\n  border: none;\r\n  color: white;\r\n  padding: 8px 20px;\r\n  border-radius: 4px;\r\n  text-align: center;\r\n  display: inline-block;\r\n  font-size: 20px;\r\n}\r\n.button2:hover{\r\n  opacity: 1;\r\n  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);\r\n}\r\nh2, h3 {\r\n  font-size: 25px;\r\n}\r\n.button-routing{\r\n  background-color: #4CAF50;\r\n  color: white;\r\n  padding: 4px 20px;\r\n  border-radius: 4px;\r\n  text-align: center;\r\n  font-size: 16px;\r\n  border: 2px solid black;\r\n  float: left;\r\n}\r\n.button-routing:hover {\r\n  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);\r\n}\r\nh1 {\r\n  text-align: center;\r\n}\r\n.container{\r\n  margin: 1% auto;\r\n  width: 60%;\r\n  background-color: white;\r\n  border-style: inset;\r\n  border-width: 5px;\r\n}\r\n.formbox{\r\n  margin: 1%;\r\n}\r\n.example-form {\r\n  min-width: 150px;\r\n  max-width: 500px;\r\n  width: 100%;\r\n}\r\n.example-full-width {\r\n  width: 100%;\r\n}\r\n.container {\r\n  background-color: white;\r\n}\r\n.button-row {\r\n  margin: 10px 0;\r\n}\r\n"
 
 /***/ }),
 
@@ -7459,7 +7706,7 @@ module.exports = ".button1 {\r\n  background-color: #008CBA;\r\n  opacity: 0.6;\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class = \"container\">\r\n  <h1> Section 1 Form </h1>\r\n  <div class=\"formbox\">\r\n    <h2> Personal Information </h2>\r\n    <form [formGroup]=\"formPage1\" (ngSubmit)=\"onSubmit()\">\r\n      <div class=\"form-group\">\r\n        <label class=\"center-block\">First Name:\r\n          <input class=\"form-control\" formControlName=\"first\">\r\n        </label>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <label class=\"center-block\">Middle Name:\r\n          <input class=\"form-control\" formControlName=\"middle\">\r\n        </label>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <label class=\"center-block\">Last Name:\r\n          <input class=\"form-control\" formControlName=\"last\">\r\n        </label>\r\n      </div>\r\n      <h3> Address </h3>\r\n      <div class=\"form-group\">\r\n        <label class=\"center-block\">Street:\r\n          <input class=\"form-control\" formControlName=\"street\">\r\n        </label>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <label class=\"center-block\">City:\r\n          <input class=\"form-control\" formControlName=\"city\">\r\n        </label>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <label class=\"center-block\">State:\r\n          <select class=\"form-control\" formControlName=\"state\">\r\n            <option *ngFor=\"let state of states\" [value]=\"state\">{{state}}</option>\r\n          </select>\r\n        </label>\r\n      </div>\r\n      <div class=\"form-group\">\r\n        <label class=\"center-block\">Zip Code:\r\n          <input class=\"form-control\" formControlName=\"zip\">\r\n        </label>\r\n      </div>\r\n      <button type=\"submit\" class=\"button1\">Submit</button>\r\n      <button type=\"button\" (click)=\"revert()\" class=\"button2\">Revert</button>\r\n      <br>\r\n      <br>\r\n      <a routerLink=\"/dashboard\" class=\"button-routing\"> Dashboard </a>\r\n      <a routerLink=\"/questions-set2\" class=\"button-routing\"> Next </a>\r\n      <router-outlet></router-outlet>\r\n    </form>\r\n    <div style=\"clear:both\"></div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"container\">\r\n  <!--<div class=\"button-row\">\r\n    <a mat-raised-button color=\"primary\" routerLink=\"/data-display\"><mat-icon>list</mat-icon></a>\r\n  </div>-->\r\n  <h1> Section 1 Form </h1>\r\n  <div class=\"button-row\">\r\n    <a routerLink=\"/dashboard\" class=\"button-routing\"> Dashboard </a>\r\n    <a routerLink=\"/questions-set2\" class=\"button-routing\"> Next </a>\r\n    <router-outlet></router-outlet>\r\n  </div>\r\n  <br><br>\r\n  <form [formGroup]=\"totalForm\" (ngSubmit)=\"onFormSubmit(totalForm.value)\">\r\n    <h2> Personal Information </h2>\r\n    <mat-form-field class=\"example-full-width\">\r\n      <input matInput placeholder=\"First Name\" formControlName=\"firstname\"\r\n             [errorStateMatcher]=\"matcher\">\r\n      <mat-error>\r\n        <span *ngIf=\"!totalForm.get('firstname').valid && totalForm.get('firstname').touched\">Please enter your first name.</span>\r\n      </mat-error>\r\n    </mat-form-field>\r\n    <mat-form-field class=\"example-full-width\">\r\n      <input matInput placeholder=\"Middle Name\" formControlName=\"middlename\"\r\n             [errorStateMatcher]=\"matcher\">\r\n      <mat-error>\r\n        <span *ngIf=\"!totalForm.get('middlename').valid && totalForm.get('middlename').touched\">Please enter your middle name.</span>\r\n      </mat-error>\r\n    </mat-form-field>\r\n    <mat-form-field class=\"example-full-width\">\r\n      <input matInput placeholder=\"Last Name\" formControlName=\"lastname\"\r\n             [errorStateMatcher]=\"matcher\">\r\n      <mat-error>\r\n        <span *ngIf=\"!totalForm.get('lastname').valid && totalForm.get('lastname').touched\">Please enter your last name.</span>\r\n      </mat-error>\r\n    </mat-form-field>\r\n    <h3> Address </h3>\r\n    <mat-form-field class=\"example-full-width\">\r\n      <input matInput placeholder=\"Street\" formControlName=\"street\"\r\n             [errorStateMatcher]=\"matcher\">\r\n      <mat-error>\r\n        <span *ngIf=\"!totalForm.get('street').valid && totalForm.get('street').touched\">Please enter your street address.</span>\r\n      </mat-error>\r\n    </mat-form-field>\r\n    <mat-form-field class=\"example-full-width\">\r\n      <input matInput placeholder=\"City\" formControlName=\"city\"\r\n             [errorStateMatcher]=\"matcher\">\r\n      <mat-error>\r\n        <span *ngIf=\"!totalForm.get('city').valid && totalForm.get('city').touched\">Please enter your city.</span>\r\n      </mat-error>\r\n    </mat-form-field>\r\n    <mat-form-field class=\"example-full-width\">\r\n      <input matInput placeholder=\"state\" formControlName=\"state\"\r\n             [errorStateMatcher]=\"matcher\">\r\n      <mat-error>\r\n        <span *ngIf=\"!totalForm.get('state').valid && totalForm.get('state').touched\">Please enter State.</span>\r\n      </mat-error>\r\n    </mat-form-field>\r\n    <mat-form-field class=\"example-full-width\">\r\n      <input matInput placeholder=\"Zipcode\" formControlName=\"zipcode\"\r\n             [errorStateMatcher]=\"matcher\">\r\n      <mat-error>\r\n        <span *ngIf=\"!totalForm.get('zipcode').valid && totalForm.get('zipcode').touched\">Please enter your zipcode.</span>\r\n      </mat-error>\r\n    </mat-form-field>\r\n    <div class=\"button-row\">\r\n      <button type=\"submit\" class=\"button1\" [disabled]=\"!totalForm.valid\" mat-raised-button color=\"primary\">Submit</button>\r\n    </div>\r\n  </form>\r\n  <div style=\"clear:both\"></div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -7486,42 +7733,47 @@ var core_1 = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/c
 var forms_1 = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 var data_model_1 = __webpack_require__(/*! ../data-model */ "./src/app/data-model.ts");
 var completion_service_1 = __webpack_require__(/*! ../_services/completion.service */ "./src/app/_services/completion.service.ts");
+var _services_1 = __webpack_require__(/*! ../_services */ "./src/app/_services/index.ts");
+var router_1 = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var QuestSet1Component = /** @class */ (function () {
-    function QuestSet1Component(fb, completionState) {
-        this.fb = fb;
+    function QuestSet1Component(router, api, formBuilder, completionState) {
+        this.router = router;
+        this.api = api;
+        this.formBuilder = formBuilder;
         this.completionState = completionState;
+        this.firstname = '';
+        this.lastname = '';
+        this.middlename = '';
+        this.street = '';
+        this.city = '';
+        this.state = '';
+        this.zipcode = '';
         this.states = data_model_1.states;
         this.completeOne = false;
-        this.createForm();
     }
     QuestSet1Component.prototype.getComplete = function () {
         return this.completeOne;
     };
-    QuestSet1Component.prototype.createForm = function () {
-        this.formPage1 = this.fb.group({
-            first: ['', [forms_1.Validators.required]],
-            middle: ['', forms_1.Validators.required],
-            last: ['', forms_1.Validators.required],
-            street: ['', forms_1.Validators.required],
-            city: ['', forms_1.Validators.required],
-            state: ['', forms_1.Validators.required],
-            zip: ['', forms_1.Validators.required]
+    QuestSet1Component.prototype.ngOnInit = function () {
+        this.totalForm = this.formBuilder.group({
+            'firstname': [null, forms_1.Validators.required],
+            'lastname': [null, forms_1.Validators.required],
+            'middlename': [null, forms_1.Validators.required],
+            'street': [null, forms_1.Validators.required],
+            'city': [null, forms_1.Validators.required],
+            'state': [null, forms_1.Validators.required],
+            'zipcode': [null, forms_1.Validators.required]
         });
     };
-    QuestSet1Component.prototype.ngOnChanges = function () {
-        this.rebuildForm();
-    };
-    QuestSet1Component.prototype.rebuildForm = function () {
-        this.formPage1.reset();
-    };
-    QuestSet1Component.prototype.onSubmit = function () {
-        if (this.formPage1.valid) {
-            this.completionState.changeStateOne(true);
-            this.revert();
-        }
-    };
-    QuestSet1Component.prototype.revert = function () {
-        this.rebuildForm();
+    QuestSet1Component.prototype.onFormSubmit = function (form) {
+        var _this = this;
+        this.api.postData(form)
+            .subscribe(function (res) {
+            var id = res['_id'];
+            _this.router.navigate(['/data-detail-display', id]);
+        }, function (err) {
+            console.log(err);
+        });
     };
     QuestSet1Component = __decorate([
         core_1.Component({
@@ -7529,7 +7781,7 @@ var QuestSet1Component = /** @class */ (function () {
             template: __webpack_require__(/*! ./questions-set1.component.html */ "./src/app/questions-set1/questions-set1.component.html"),
             styles: [__webpack_require__(/*! ./questions-set1.component.css */ "./src/app/questions-set1/questions-set1.component.css")]
         }),
-        __metadata("design:paramtypes", [forms_1.FormBuilder,
+        __metadata("design:paramtypes", [router_1.Router, _services_1.ApiService, forms_1.FormBuilder,
             completion_service_1.DataService])
     ], QuestSet1Component);
     return QuestSet1Component;
