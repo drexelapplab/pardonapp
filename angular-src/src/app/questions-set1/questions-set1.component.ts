@@ -43,9 +43,10 @@ export class QuestSet1Component implements  OnInit {
     this.api.postData(form)
       .subscribe(res => {
         let id = res['_id'];
-        this.router.navigate(['/data-detail-display', id]);
+        this.router.navigateByUrl('/question-set1-submit');
       }, (err) => {
         console.log(err);
       });
+    this.completionState.changeStateOne(true);
   }
 }

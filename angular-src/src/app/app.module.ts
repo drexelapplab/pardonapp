@@ -31,9 +31,9 @@ import { DashboardComponent } from './dashboard-page/dashboard.component';
 import { AchievementsComponent } from './achievements/achievements.component'
 import {DataService} from "./_services/completion.service";
 import { DataDisplayComponent } from './data-display/data-display.component';
-import { DataDetailDisplayComponent } from "./data-detail-display/data-detail-display.component";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DataAddComponent } from './data-add/data-add.component';
+import { PdfViewComponent } from './pdf-view/pdf-view.component';
+import { QuestionsSet1SubmitComponent } from './questions-set1-submit/questions-set1-submit.component';
 
 @NgModule({
     imports: [
@@ -72,8 +72,8 @@ import { DataAddComponent } from './data-add/data-add.component';
         DashboardComponent,
         AchievementsComponent,
         DataDisplayComponent,
-        DataDetailDisplayComponent,
-        DataAddComponent,
+        PdfViewComponent,
+        QuestionsSet1SubmitComponent,
     ],
     providers: [
         AuthGuard,

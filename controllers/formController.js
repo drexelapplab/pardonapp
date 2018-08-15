@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-    formdata.findById(req.params.id, function (err, post) {
+    formdata.find(req.params.id, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });

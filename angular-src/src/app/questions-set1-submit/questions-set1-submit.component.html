@@ -1,0 +1,16 @@
+<div class="container">
+  <h1>Section 1 Submission</h1>
+  <div>
+    <p>You've successfully submitted your responses to Form Page 1!</p>
+    <p>Click 'Dashboard' to go back to the dashboard.</p>
+    <p>Click 'View PDF' to see your work on the official Pardon Application PDF.</p>
+    <p>Click 'Next' to move onto the next section of the form.</p>
+    <div class="button-row">
+      <a routerLink="/dashboard" class="button-routing left"> Dashboard </a>
+      <a routerLink="/pdf-view" class="button-routing center"> View PDF </a>
+      <a routerLink="/questions-set2" class="button-routing right"> Next </a>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <div style="clear:both"></div>
+</div>
