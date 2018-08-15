@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class DataDisplayComponent implements OnInit {
   formData: any;
-  displayedColumns = ['firstname', 'lastname', 'middlename'];
+  displayedColumns = ['firstname', 'middlename', 'lastname', 'street', 'city', 'state', 'zipcode'];
   dataSource = new FormDataSource(this.api);
   constructor(private api: ApiService) { }
 
