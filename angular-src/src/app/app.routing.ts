@@ -14,7 +14,7 @@ import { AchievementsComponent } from './achievements/achievements.component'
 import {DataDisplayComponent} from "./data-display/data-display.component";
 
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent},
+    { path: '', component: HomeComponent, canActivate: [AuthGuard]},
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'questions-set1', component: QuestSet1Component},

@@ -1093,14 +1093,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _home__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./home */ "./src/app/home/index.ts");
 /* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./login */ "./src/app/login/index.ts");
 /* harmony import */ var _register__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./register */ "./src/app/register/index.ts");
-/* harmony import */ var _questions_set1_questions_set1_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./questions-set1/questions-set1.component */ "./src/app/questions-set1/questions-set1.component.ts");
-/* harmony import */ var _questions_set2_questions_set2_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./questions-set2/questions-set2.component */ "./src/app/questions-set2/questions-set2.component.ts");
-/* harmony import */ var _questions_set3_questions_set3_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./questions-set3/questions-set3.component */ "./src/app/questions-set3/questions-set3.component.ts");
-/* harmony import */ var _questions_set4_questions_set4_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./questions-set4/questions-set4.component */ "./src/app/questions-set4/questions-set4.component.ts");
-/* harmony import */ var _questions_set5_questions_set5_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./questions-set5/questions-set5.component */ "./src/app/questions-set5/questions-set5.component.ts");
-/* harmony import */ var _dashboard_page_dashboard_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./dashboard-page/dashboard.component */ "./src/app/dashboard-page/dashboard.component.ts");
-/* harmony import */ var _achievements_achievements_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./achievements/achievements.component */ "./src/app/achievements/achievements.component.ts");
-/* harmony import */ var _data_display_data_display_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./data-display/data-display.component */ "./src/app/data-display/data-display.component.ts");
+/* harmony import */ var _guards__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./_guards */ "./src/app/_guards/index.ts");
+/* harmony import */ var _questions_set1_questions_set1_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./questions-set1/questions-set1.component */ "./src/app/questions-set1/questions-set1.component.ts");
+/* harmony import */ var _questions_set2_questions_set2_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./questions-set2/questions-set2.component */ "./src/app/questions-set2/questions-set2.component.ts");
+/* harmony import */ var _questions_set3_questions_set3_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./questions-set3/questions-set3.component */ "./src/app/questions-set3/questions-set3.component.ts");
+/* harmony import */ var _questions_set4_questions_set4_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./questions-set4/questions-set4.component */ "./src/app/questions-set4/questions-set4.component.ts");
+/* harmony import */ var _questions_set5_questions_set5_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./questions-set5/questions-set5.component */ "./src/app/questions-set5/questions-set5.component.ts");
+/* harmony import */ var _dashboard_page_dashboard_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./dashboard-page/dashboard.component */ "./src/app/dashboard-page/dashboard.component.ts");
+/* harmony import */ var _achievements_achievements_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./achievements/achievements.component */ "./src/app/achievements/achievements.component.ts");
+/* harmony import */ var _data_display_data_display_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./data-display/data-display.component */ "./src/app/data-display/data-display.component.ts");
+
 
 
 
@@ -1114,17 +1116,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var appRoutes = [
-    { path: '', component: _home__WEBPACK_IMPORTED_MODULE_1__["HomeComponent"] },
+    { path: '', component: _home__WEBPACK_IMPORTED_MODULE_1__["HomeComponent"], canActivate: [_guards__WEBPACK_IMPORTED_MODULE_4__["AuthGuard"]] },
     { path: 'login', component: _login__WEBPACK_IMPORTED_MODULE_2__["LoginComponent"] },
     { path: 'register', component: _register__WEBPACK_IMPORTED_MODULE_3__["RegisterComponent"] },
-    { path: 'questions-set1', component: _questions_set1_questions_set1_component__WEBPACK_IMPORTED_MODULE_4__["QuestSet1Component"] },
-    { path: 'questions-set2', component: _questions_set2_questions_set2_component__WEBPACK_IMPORTED_MODULE_5__["QuestSet2Component"] },
-    { path: 'questions-set3', component: _questions_set3_questions_set3_component__WEBPACK_IMPORTED_MODULE_6__["QuestSet3Component"] },
-    { path: 'questions-set4', component: _questions_set4_questions_set4_component__WEBPACK_IMPORTED_MODULE_7__["QuestSet4Component"] },
-    { path: 'questions-set5', component: _questions_set5_questions_set5_component__WEBPACK_IMPORTED_MODULE_8__["QuestSet5Component"] },
-    { path: 'achievements', component: _achievements_achievements_component__WEBPACK_IMPORTED_MODULE_10__["AchievementsComponent"] },
-    { path: 'dashboard', component: _dashboard_page_dashboard_component__WEBPACK_IMPORTED_MODULE_9__["DashboardComponent"] },
-    { path: 'data-display', component: _data_display_data_display_component__WEBPACK_IMPORTED_MODULE_11__["DataDisplayComponent"] },
+    { path: 'questions-set1', component: _questions_set1_questions_set1_component__WEBPACK_IMPORTED_MODULE_5__["QuestSet1Component"] },
+    { path: 'questions-set2', component: _questions_set2_questions_set2_component__WEBPACK_IMPORTED_MODULE_6__["QuestSet2Component"] },
+    { path: 'questions-set3', component: _questions_set3_questions_set3_component__WEBPACK_IMPORTED_MODULE_7__["QuestSet3Component"] },
+    { path: 'questions-set4', component: _questions_set4_questions_set4_component__WEBPACK_IMPORTED_MODULE_8__["QuestSet4Component"] },
+    { path: 'questions-set5', component: _questions_set5_questions_set5_component__WEBPACK_IMPORTED_MODULE_9__["QuestSet5Component"] },
+    { path: 'achievements', component: _achievements_achievements_component__WEBPACK_IMPORTED_MODULE_11__["AchievementsComponent"] },
+    { path: 'dashboard', component: _dashboard_page_dashboard_component__WEBPACK_IMPORTED_MODULE_10__["DashboardComponent"] },
+    { path: 'data-display', component: _data_display_data_display_component__WEBPACK_IMPORTED_MODULE_12__["DataDisplayComponent"] },
     { path: '**', redirectTo: '' }
 ];
 var routing = _angular_router__WEBPACK_IMPORTED_MODULE_0__["RouterModule"].forRoot(appRoutes);
