@@ -593,11 +593,13 @@ var DataService = /** @class */ (function () {
         this.completeThree = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](false);
         this.completeFour = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](false);
         this.completeFive = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](false);
+        this.completeSix = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](false);
         this.currentCompleteOne = this.completeOne.asObservable();
         this.currentCompleteTwo = this.completeTwo.asObservable();
         this.currentCompleteThree = this.completeThree.asObservable();
         this.currentCompleteFour = this.completeFour.asObservable();
         this.currentCompleteFive = this.completeFive.asObservable();
+        this.currentCompleteSix = this.completeSix.asObservable();
     }
     DataService.prototype.changeStateOne = function (newState) {
         this.completeOne.next(newState);
@@ -613,6 +615,9 @@ var DataService = /** @class */ (function () {
     };
     DataService.prototype.changeStateFive = function (newState) {
         this.completeFive.next(newState);
+    };
+    DataService.prototype.changeStateSix = function (newState) {
+        this.completeSix.next(newState);
     };
     DataService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
@@ -980,11 +985,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./_helpers */ "./src/app/_helpers/index.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _app_routing__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.routing */ "./src/app/app.routing.ts");
-/* harmony import */ var _directives__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./_directives */ "./src/app/_directives/index.ts");
-/* harmony import */ var _guards__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./_guards */ "./src/app/_guards/index.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _app_routing__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.routing */ "./src/app/app.routing.ts");
+/* harmony import */ var _directives__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./_directives */ "./src/app/_directives/index.ts");
+/* harmony import */ var _guards__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./_guards */ "./src/app/_guards/index.ts");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./_helpers */ "./src/app/_helpers/index.ts");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./_services */ "./src/app/_services/index.ts");
 /* harmony import */ var _home__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./home */ "./src/app/home/index.ts");
 /* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./login */ "./src/app/login/index.ts");
@@ -1007,8 +1012,6 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-
-// used to create fake backend
 
 
 
@@ -1039,11 +1042,11 @@ var AppModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["ReactiveFormsModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"],
-                _app_routing__WEBPACK_IMPORTED_MODULE_6__["routing"]
+                _app_routing__WEBPACK_IMPORTED_MODULE_5__["routing"]
             ],
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
-                _directives__WEBPACK_IMPORTED_MODULE_7__["AlertComponent"],
+                _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
+                _directives__WEBPACK_IMPORTED_MODULE_6__["AlertComponent"],
                 _home__WEBPACK_IMPORTED_MODULE_10__["HomeComponent"],
                 _login__WEBPACK_IMPORTED_MODULE_11__["LoginComponent"],
                 _register__WEBPACK_IMPORTED_MODULE_12__["RegisterComponent"],
@@ -1057,17 +1060,16 @@ var AppModule = /** @class */ (function () {
                 _data_display_data_display_component__WEBPACK_IMPORTED_MODULE_21__["DataDisplayComponent"],
             ],
             providers: [
-                _guards__WEBPACK_IMPORTED_MODULE_8__["AuthGuard"],
+                _guards__WEBPACK_IMPORTED_MODULE_7__["AuthGuard"],
                 _services__WEBPACK_IMPORTED_MODULE_9__["AlertService"],
                 _services__WEBPACK_IMPORTED_MODULE_9__["AuthenticationService"],
                 _services__WEBPACK_IMPORTED_MODULE_9__["UserService"],
                 _services_completion_service__WEBPACK_IMPORTED_MODULE_20__["DataService"],
                 _services__WEBPACK_IMPORTED_MODULE_9__["ListService"],
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_4__["JwtInterceptor"], multi: true },
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_4__["ErrorInterceptor"], multi: true },
-                _helpers__WEBPACK_IMPORTED_MODULE_4__["fakeBackendProvider"]
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_8__["JwtInterceptor"], multi: true },
+                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HTTP_INTERCEPTORS"], useClass: _helpers__WEBPACK_IMPORTED_MODULE_8__["ErrorInterceptor"], multi: true },
             ],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -1342,7 +1344,7 @@ var DataDisplayComponent = /** @class */ (function () {
 /*!*******************************!*\
   !*** ./src/app/data-model.ts ***!
   \*******************************/
-/*! exports provided: BasicInfo, LawyerInfo, states, completeOne, completeTwo, completeThree, completeFour, completeFive */
+/*! exports provided: BasicInfo, LawyerInfo, states, completeOne, completeTwo, completeThree, completeFour, completeFive, completeSix */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1355,6 +1357,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "completeThree", function() { return completeThree; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "completeFour", function() { return completeFour; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "completeFive", function() { return completeFive; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "completeSix", function() { return completeSix; });
 var BasicInfo = /** @class */ (function () {
     function BasicInfo() {
         this.first = '';
@@ -1385,6 +1388,7 @@ var completeTwo = false;
 var completeThree = false;
 var completeFour = false;
 var completeFive = false;
+var completeSix = false;
 
 
 /***/ }),
