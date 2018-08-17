@@ -11,7 +11,14 @@
 .scaling-svg {
   display: block;
   background-color: white;
-  margin: 1vh auto;
+  margin: 0 auto;
   width: 79.5vh;
+  max-width: 100%;
 }
 
+.svg-container
+{
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
