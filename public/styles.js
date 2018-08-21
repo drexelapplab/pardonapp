@@ -89,7 +89,7 @@ module.exports = ".mat-elevation-z0{box-shadow:0 0 0 0 rgba(0,0,0,.2),0 0 0 0 rg
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "html{background-color: #182761; }\r\n\r\nhtml, body { height: 100%; }\r\n\r\nbody { margin: 0; font-family: 'Roboto', sans-serif; }\r\n"
+module.exports = "body{\r\n  background: #2c3e50;  /* fallback for old browsers */  /* Chrome 10-25, Safari 5.1-6 */\r\n  background: linear-gradient(to bottom, #3498db, #2c3e50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */\r\n  background-size: cover;\r\n  background-repeat: no-repeat;\r\n  font-family: 'Roboto', sans-serif;\r\n}\r\nhtml {\r\n  min-height: 100vh\r\n}\r\n"
 
 /***/ }),
 
