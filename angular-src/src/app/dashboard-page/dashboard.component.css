@@ -20,9 +20,9 @@
 .scaling-svg {
   display: block;
   background-color: transparent;
-  width: 98vh;
-  max-width: 95%;
-  margin: auto
+  width: 102vh;
+  margin: auto;
+  bottom:0%;
 }
 
 .svg-container

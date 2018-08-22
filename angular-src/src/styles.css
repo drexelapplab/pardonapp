@@ -5,7 +5,8 @@ body{
   background-size: cover;
   background-repeat: no-repeat;
   font-family: 'Roboto', sans-serif;
+  height: 100%
 }
 html {
-  min-height: 100vh
+  height: 100%
 }
