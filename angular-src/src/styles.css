@@ -1,4 +1,12 @@
-html{background-color: #182761; }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: 'Roboto', sans-serif; }
+body{
+  background: #2c3e50;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #3498db, #2c3e50);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #3498db, #2c3e50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: 'Roboto', sans-serif;
+  height: 100%
+}
+html {
+  height: 100%
+}

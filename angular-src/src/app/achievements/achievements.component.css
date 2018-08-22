@@ -11,6 +11,7 @@
 .container{margin: 1% auto;
     width: 80%;
     background-color: white;
+  overflow: hidden;
 }
 h1, p {
     text-align: center
