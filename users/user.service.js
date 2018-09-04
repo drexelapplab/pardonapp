@@ -1,10 +1,10 @@
 const config = require('../config.json');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const db = require('../_helpers/db');
+const jwt = require('jsonwebtoken'); //jsonwebtoken used for authorization
+const bcrypt = require('bcryptjs'); //bcrypt library used for checking passwords
+const db = require('../_helpers/db'); //the user model(which is created in user.model but exported to db.js
 const User = db.User;
 
-module.exports = {
+module.exports = { //exporting all the methods for user login
     authenticate,
     getAll,
     getById,
@@ -13,7 +13,7 @@ module.exports = {
     delete: _delete
 };
 
-async function authenticate({ username, password }) {
+async function authenticate({ username, password }) { //authentication function using the jwt authorization
     const user = await User.findOne({ username });
     if (user && bcrypt.compareSync(password, user.hash)) {
         const { hash, ...userWithoutHash } = user.toObject();
@@ -50,7 +50,7 @@ async function create(userParam) {
     await user.save();
 }
 
-async function update(id, userParam) {
+async function update(id, userParam) { //validation responses based on different scenarios
     const user = await User.findById(id);
 
     // validate

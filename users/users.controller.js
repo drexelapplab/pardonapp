@@ -14,37 +14,37 @@ router.delete('/:id', _delete);
 
 module.exports = router;
 
-function authenticate(req, res, next) {
+function authenticate(req, res, next) { //authentication function
     userService.authenticate(req.body)
         .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
         .catch(err => next(err));
 }
 
-function register(req, res, next) {
+function register(req, res, next) { //registration function
     userService.create(req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
 }
 
-function getById(req, res, next) {
+function getById(req, res, next) { //returns a reuested user by their id
     userService.getById(req.params.id)
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
 }
 
-function getAll(req, res, next) {
+function getAll(req, res, next) { //returns all
     userService.getAll()
         .then(users => res.json(users))
         .catch(err => next(err));
 }
 
-function getCurrent(req, res, next) {
+function getCurrent(req, res, next) { //allows you to get the current user
     userService.getById(req.params.sub)
         .then(user => user ? res.json(user) : res.sendStatus(404))
         .catch(err => next(err));
 }
 
-function update(req, res, next) {
+function update(req, res, next) { //update function
     userService.update(req.params.id, req.body)
         .then(() => res.json({}))
         .catch(err => next(err));

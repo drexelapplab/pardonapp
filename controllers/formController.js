@@ -2,36 +2,36 @@ const express = require('express');
 const router = express.Router();
 var mongoose = require('mongoose');
 const formdata = require('../models/formdata1')
-
-router.get('/', function(req, res, next) {
+//functions that work with the stored form information(specific to each user)
+router.get('/', function(req, res, next) {//get request function
     formdata.find(function (err, products) {
         if (err) return next(err);
         res.json(products);
     });
 });
 
-router.get('/:id', function(req, res, next) {
+router.get('/:id', function(req, res, next) {//get by id request function
     formdata.find(req.params.id, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
 });
 
-router.post('/', function(req, res, next) {
+router.post('/', function(req, res, next) {//post method function
     formdata.create(req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
 });
 
-router.put('/:id', function(req, res, next) {
+router.put('/:id', function(req, res, next) {//edit information by id
     formdata.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
 });
 
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', function(req, res, next) {//delete by id
     formdata.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);

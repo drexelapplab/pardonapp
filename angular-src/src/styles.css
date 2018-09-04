@@ -1,3 +1,4 @@
+/*global css styles*/
 body{
   background: #2c3e50;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to bottom, #3498db, #2c3e50);  /* Chrome 10-25, Safari 5.1-6 */
@@ -10,3 +11,6 @@ body{
 html {
   height: 100%
 }
+/*both html and body height are manually set to 100% so that the backgroound gradient can fill pages that have a scroll
+and so that the dashboard page with the svg can be properly centered both vertically and horizontally
+ */

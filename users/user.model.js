@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const schema = new Schema({
+const schema = new Schema({ //defining what a user requires(this is for login purposes)
     username: { type: String, unique: true, required: true },
     hash: { type: String, required: true },
     firstName: { type: String, required: true },
