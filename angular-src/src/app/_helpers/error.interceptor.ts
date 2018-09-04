@@ -1,3 +1,4 @@
+//Allows us to catch errors and output them in a readable format whie also makig sure they dont cause fatal errors
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -16,8 +17,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                 this.authenticationService.logout();
                 location.reload(true);
             }
-            
-            const error = err.error.message || err.statusText;
+
+            const error = err.error.message || err.statusText; //Display the error and relevant information
             return throwError(error);
         }))
     }

@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 
 import { User } from '../_models';
 import { BasicInfo } from '../data-model';
-
+//Methods for handling and updating users and their properties
 @Injectable()
 export class UserService {
     constructor(private http: HttpClient) { }

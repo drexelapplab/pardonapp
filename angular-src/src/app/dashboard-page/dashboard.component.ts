@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core'
-import { DataService } from "../_services/completion.service";
 
 @Component({
   selector: 'dashboard',
@@ -7,11 +6,6 @@ import { DataService } from "../_services/completion.service";
   styleUrls: [ 'dashboard.component.css' ]
 })
 export class DashboardComponent implements OnInit{
-  acompleteOne=false;
-  acompleteTwo=false;
-  acompleteThree=false;
-  acompleteFour=false;
-  acompleteFive=false;
   backDisplay='none';
   displayMenu='none';
   displayOne='none';
@@ -19,15 +13,9 @@ export class DashboardComponent implements OnInit{
   displayThree='none';
   displayFour='none';
   displayFive='none';
-    constructor(private data: DataService) {}
-  ngOnInit() {
-    this.data.currentCompleteOne.subscribe(currentCompleteOne => this.acompleteOne = currentCompleteOne);
-    this.data.currentCompleteTwo.subscribe(currentCompleteTwo => this.acompleteTwo = currentCompleteTwo);
-    this.data.currentCompleteThree.subscribe(currentCompleteThree => this.acompleteThree = currentCompleteThree);
-    this.data.currentCompleteFour.subscribe(currentCompleteFour => this.acompleteFour = currentCompleteFour);
-    this.data.currentCompleteFive.subscribe(currentCompleteFive => this.acompleteFive = currentCompleteFive);
-  }
-  openModalMenu(){
+    constructor() {}
+  ngOnInit() {}
+  openModalMenu(){//Modal and backdrop functions similar to the achievements page
     this.backDisplay='block';
     this.displayMenu='block';
   }

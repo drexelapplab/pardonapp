@@ -1,7 +1,4 @@
 <div class="container">
-  <!--<div class="button-row">
-    <a mat-raised-button color="primary" routerLink="/data-display"><mat-icon>list</mat-icon></a>
-  </div>-->
   <h1> Section 1 Form </h1>
   <div class="button-row">
     <a routerLink="/dashboard" class="button-routing"> Dashboard </a>
@@ -13,7 +10,7 @@
     <h2> Personal Information </h2>
     <mat-form-field class="example-full-width">
       <input matInput placeholder="First Name" formControlName="firstname"
-             [errorStateMatcher]="matcher">
+             [errorStateMatcher]="matcher"> <!-- this is used for required fields -->
       <mat-error>
         <span *ngIf="!totalForm.get('firstname').valid && totalForm.get('firstname').touched">Please enter your first name.</span>
       </mat-error>

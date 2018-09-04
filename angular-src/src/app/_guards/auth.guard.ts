@@ -1,3 +1,5 @@
+/*authorization guard is sued to protect the routes from unauthorized access - namely, if you are not a authorized user with
+a jwt token, then you cannot access the routes directly(through means of typing in the URL primarily)*/
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 

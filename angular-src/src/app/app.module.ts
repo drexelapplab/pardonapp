@@ -21,7 +21,6 @@ import { QuestSet5Component } from './questions-set5/questions-set5.component'
 import { DashboardComponent } from './dashboard-page/dashboard.component';
 import { AchievementsComponent } from './achievements/achievements.component'
 import {DataService} from "./_services/completion.service";
-import { DataDisplayComponent } from './data-display/data-display.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PdfViewComponent } from './pdf-view/pdf-view.component';
 import { QuestionsSet1SubmitComponent } from './questions-set1-submit/questions-set1-submit.component';
@@ -62,7 +61,6 @@ import { QuestionsSet1SubmitComponent } from './questions-set1-submit/questions-
         QuestSet5Component,
         DashboardComponent,
         AchievementsComponent,
-        DataDisplayComponent,
         PdfViewComponent,
         QuestionsSet1SubmitComponent,
     ],

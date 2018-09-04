@@ -14,7 +14,7 @@ import { DataService } from "../_services/completion.service";
 export class AchievementsComponent implements OnInit {
   currentUser: User;
   users: User[] = [];
-  acompleteOne=false;
+  acompleteOne=false;//Completion indicators automatically set to false
   acompleteTwo=false;
   acompleteThree=false;
   acompleteFour=false;
@@ -33,7 +33,7 @@ export class AchievementsComponent implements OnInit {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
   }
 
-  ngOnInit() {
+  ngOnInit() { //On page load, checks the status of the pages and updates the values accordingly
     this.loadAllUsers();
     this.data.currentCompleteOne.subscribe(currentCompleteOne => this.acompleteOne = currentCompleteOne);
     this.data.currentCompleteTwo.subscribe(currentCompleteTwo => this.acompleteTwo = currentCompleteTwo);
@@ -53,7 +53,7 @@ export class AchievementsComponent implements OnInit {
       this.users = users;
     });
   }
-  opena1MoreInfo(){
+  opena1MoreInfo(){ //toggles the modal box and backdrop
     this.backDisplay = 'block';
     this.displayMore1 = 'block';
   }

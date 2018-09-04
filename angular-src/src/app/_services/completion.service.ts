@@ -1,9 +1,10 @@
+//Service that checks the completion status of various pages.
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class DataService {
-  private completeOne = new BehaviorSubject(false)
+  private completeOne = new BehaviorSubject(false) //Currently, these are set up to check the status of respective form sections
   private completeTwo = new BehaviorSubject(false)
   private completeThree = new BehaviorSubject(false)
   private completeFour =  new BehaviorSubject(false)
@@ -19,7 +20,7 @@ export class DataService {
 
   constructor () {}
 
-  changeStateOne(newState: boolean) {
+  changeStateOne(newState: boolean) { //Allows you to change the state of the page in the service
     this.completeOne.next(newState)
   }
 
