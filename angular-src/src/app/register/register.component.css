@@ -1,5 +1,14 @@
 .container{
-  margin: 1% auto;
-  width: 80%;
-  background-color: white;
+  width: 90%;
+  height: 90%;
+}
+
+#titleDiv{
+	position: relative;
+	top: 33%;
+  	margin-right: auto;
+  	margin-left: auto;
+	text-align: left;
+  color: white;
+	/*background-color: blue;*/
 }
